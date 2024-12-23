@@ -13,9 +13,6 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <head>
-        <link rel="manifest" href="/manifest.ts" />
-      </head>
       <body>{children}</body>
     </html>
   );
