@@ -1,0 +1,14 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+  font-family: "dune";
+  src: url("/fonts/Dune_Rise.ttf") format("truetype");
+  font-weight: normal; /* Normal weight */
+  font-style: normal;
+}
+
+:root {
+  --background: #ffffff;
+}
