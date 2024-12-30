@@ -5,7 +5,7 @@ export default function Page() {
   return (
     <>
       <Head>
-        <meta name="theme-color" content={process.env.THEME_COLOR} />
+        <meta name="theme-color" content="#123524" />
       </Head>
       <div className="h-[100svh] w-[100vw] flex flex-col">
         <div className="flex items-center justify-center h-[60vw] bg-phthaloGreen">

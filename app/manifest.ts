@@ -7,7 +7,7 @@ export default function manifest(): MetadataRoute.Manifest {
     description: "Delivery App For All",
     start_url: "/",
     display: "standalone",
-    background_color: process.env.THEME_COLOR,
+    background_color: "#123524",
     theme_color: "#ffffff",
     icons: [
       {
@@ -16,8 +16,23 @@ export default function manifest(): MetadataRoute.Manifest {
         type: "image/png",
       },
       {
+        src: "/images/icon-256x256.png",
+        sizes: "256x256",
+        type: "image/png",
+      },
+      {
+        src: "/images/icon-384x384.png",
+        sizes: "384x384",
+        type: "image/png",
+      },
+      {
         src: "/images/icon-512x512.png",
         sizes: "512x512",
+        type: "image/png",
+      },
+      {
+        src: "/images/icon-1024x1024.png",
+        sizes: "1024x1024",
         type: "image/png",
       },
     ],
