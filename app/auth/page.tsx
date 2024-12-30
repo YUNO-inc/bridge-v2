@@ -10,7 +10,7 @@ export default function Page() {
     <>
       <div className="h-[100svh] w-[100vw] flex flex-col">
         <div className="flex items-center justify-center h-[60vw] bg-phthaloGreen">
-          <div className="relative top-[-18px] w-[45vw] aspect-[50.4/29]">
+          <div className="relative top-[-15px] w-[50vw] aspect-[50.4/29]">
             <Image
               src="/images/Dark-Text-Logo-Horizontal.png"
               alt="Large Bridge Logo (Green Color)"
