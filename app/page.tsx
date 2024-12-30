@@ -1,4 +1,9 @@
+import { Viewport } from "next";
 import BusinessTypes from "./_features/BusinessTypes/components/BusinessTypes";
+
+export const viewport: Viewport = {
+  themeColor: "#123524",
+};
 
 export default function Home() {
   return (

@@ -1,9 +1,4 @@
-import { Viewport } from "next";
 import Image from "next/image";
-
-export const viewport: Viewport = {
-  themeColor: "#123524", // Your custom color
-};
 
 export default function Page() {
   return (
