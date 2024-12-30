@@ -36,8 +36,8 @@ export default function manifest(): MetadataRoute.Manifest {
         type: "image/png",
       },
       {
-        src: "/images/Dark-Text-Logo-Horizontal.png",
-        sizes: "504x204",
+        src: "/images/Dark-Text-Logo-Horizontal-Square.png",
+        sizes: "1024x1024",
         type: "image/png",
         purpose: "maskable",
       },
