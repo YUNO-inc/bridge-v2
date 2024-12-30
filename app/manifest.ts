@@ -7,8 +7,8 @@ export default function manifest(): MetadataRoute.Manifest {
     description: "Delivery App For All",
     start_url: "/",
     display: "standalone",
-    background_color: "#123524",
-    theme_color: "#123524",
+    background_color: process.env.THEME_COLOR,
+    theme_color: "#ffffff",
     icons: [
       {
         src: "/images/icon-192x192.png",

@@ -1,6 +1,11 @@
+import Head from "next/head";
 import Image from "next/image";
 
 export default function Page() {
+  <Head>
+    <meta name="theme-color" content={process.env.THEME_COLOR} />
+  </Head>;
+
   return (
     <div className="h-[100svh] w-[100vw] flex flex-col">
       <div className="flex items-center justify-center h-[60vw] bg-phthaloGreen">
