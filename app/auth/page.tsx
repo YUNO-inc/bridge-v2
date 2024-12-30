@@ -1,12 +1,13 @@
-import Head from "next/head";
+import { Viewport } from "next";
 import Image from "next/image";
+
+export const viewport: Viewport = {
+  themeColor: "#123524", // Your custom color
+};
 
 export default function Page() {
   return (
     <>
-      <Head>
-        <meta name="theme-color" content="#123524" />
-      </Head>
       <div className="h-[100svh] w-[100vw] flex flex-col">
         <div className="flex items-center justify-center h-[60vw] bg-phthaloGreen">
           <div className="relative w-[45vw] aspect-[50.4/29]">
