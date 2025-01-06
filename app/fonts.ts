@@ -1,4 +1,4 @@
-import { Anonymous_Pro } from "@next/font/google";
+import { Anonymous_Pro } from "next/font/google";
 
 export const anonymousPro = Anonymous_Pro({
   subsets: ["latin"],
