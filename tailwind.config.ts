@@ -25,12 +25,16 @@ export default {
           "950": "#000804",
           DEFAULT: "#123524",
         },
-        testc: "#BFBFBF",
-        testd: "#0D0D0D",
+        grey1: "#BFBFBF",
+        grey2: "#E0E0E9",
+        dark1: "#0D0D0D",
         black: "#000000",
       },
       fontFamily: {
         dune: ["dune", "serif"], // Add your custom font here
+      },
+      boxShadow: {
+        purple: "0px 18px 30px rgba(131, 119, 198, 0.11)",
       },
     },
   },
