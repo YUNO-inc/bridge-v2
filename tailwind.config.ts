@@ -25,6 +25,9 @@ export default {
           "950": "#000804",
           DEFAULT: "#123524",
         },
+        testc: "#BFBFBF",
+        testd: "#0D0D0D",
+        black: "#000000",
       },
       fontFamily: {
         dune: ["dune", "serif"], // Add your custom font here
