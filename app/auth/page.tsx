@@ -2,10 +2,17 @@ import Image from "next/image";
 import { nunito } from "@/app/fonts";
 import PageControl from "@/app/_features/PageControl/PageControl";
 import Button from "@/app/_features/Auth/components/Button";
-import SegmentedControl from "@/app/_features/SegmentedControl/SegmentedControl";
 import Link from "next/link";
+import AuthSegmentedControl from "../_features/Auth/components/AuthSegmentedControl";
 
-export default function Page() {
+export default async function Page({
+  searchParams,
+}: {
+  searchParams: { [key: string]: string };
+}) {
+  const availablePages = ["user", "business", "rider"];
+  const page = (await searchParams)?.page || availablePages[0];
+
   return (
     <>
       <div className="h-[100svh] w-[100vw] flex flex-col bg-background md:items-center md:justify-center">
@@ -47,10 +54,7 @@ export default function Page() {
             </div>
           </div>
           <div className="grow flex justify-center items-end pb-10">
-            <SegmentedControl
-              labels={["user", "business", "rider"]}
-              color="#123524"
-            />
+            <AuthSegmentedControl availablePages={availablePages} page={page} />
           </div>
         </div>
       </div>
