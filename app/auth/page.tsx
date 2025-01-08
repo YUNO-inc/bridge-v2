@@ -49,7 +49,7 @@ export default function Page() {
           <div className="grow flex justify-center items-end pb-10">
             <SegmentedControl
               labels={["user", "business", "rider"]}
-              color="purple"
+              color="#123524"
             />
           </div>
         </div>
