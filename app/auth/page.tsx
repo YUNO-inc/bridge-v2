@@ -5,13 +5,18 @@ import Button from "@/app/_features/Auth/components/Button";
 import Link from "next/link";
 import AuthSegmentedControl from "../_features/Auth/components/AuthSegmentedControl";
 
+interface PageProps {
+  searchParams: { page: string; [key: string]: string | undefined };
+}
+
 export default async function Page({
   searchParams,
 }: {
-  searchParams: { [key: string]: string };
+  searchParams: PageProps;
 }) {
   const availablePages = ["user", "business", "rider"];
   const page = (await searchParams)?.page || availablePages[0];
+  console.log(page);
 
   return (
     <>
