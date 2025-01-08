@@ -35,8 +35,8 @@ export default function SegmentedControl({
               color: isActive ? `rgb(${rgb})` : `rgba(${rgb}, 0.37)`,
               backgroundColor: isActive ? `rgba(${rgb}, 0.37)` : ``,
             }}
-            className={`capitalize grow pt-[6.78px] pb-[5.8px] text-sm ${
-              isActive ? `rounded-full font-semibold shadow-sgc` : "font-medium"
+            className={`grow capitalize text-sm pt-[6.78px] pb-[5.8px] rounded-full transition-[background-color,_color] duration-300 ease-in-out ${
+              isActive ? `font-semibold shadow-sgc` : "font-medium"
             }`}
             onClick={() => {
               setTrueActiveIndex(i);
