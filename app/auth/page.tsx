@@ -6,14 +6,10 @@ import Link from "next/link";
 import AuthSegmentedControl from "../_features/Auth/components/AuthSegmentedControl";
 
 interface PageProps {
-  searchParams: { page: string; [key: string]: string | undefined };
+  searchParams: Promise<{ [key: string]: string | undefined }>;
 }
 
-export default async function Page({
-  searchParams,
-}: {
-  searchParams: PageProps;
-}) {
+export default async function Page({ searchParams }: PageProps) {
   const availablePages = ["user", "business", "rider"];
   const page = (await searchParams)?.page || availablePages[0];
   console.log(page);
