@@ -2,6 +2,8 @@ import Image from "next/image";
 import { nunito } from "@/app/fonts";
 import PageControl from "@/app/_features/PageControl/PageControl";
 import Button from "@/app/_features/Auth/components/Button";
+import SegmentedControl from "@/app/_features/SegmentedControl/SegmentedControl";
+import Link from "next/link";
 
 export default function Page() {
   return (
@@ -20,7 +22,7 @@ export default function Page() {
             <PageControl text="Order hot meals and shawarma" />
           </div>
         </div>
-        <div className="grow rounded-t-2xl relative top-[-16px] bg-background md:top-[0] md:grow-0">
+        <div className="grow flex flex-col rounded-t-2xl relative top-[-16px] bg-background md:top-[0] md:grow-0">
           <div
             className={`flex flex-col items-center text-center text-stone-900 pt-5 ${nunito.className}`}
           >
@@ -34,7 +36,18 @@ export default function Page() {
               <div className="flex flex-col items-center">
                 <Button type="google" />
               </div>
+              <div className="flex justify-center">
+                <Link
+                  href="/"
+                  className="mt-7 text-stone-700 font-bold underline"
+                >
+                  Continue as a guest
+                </Link>
+              </div>
             </div>
+          </div>
+          <div className="grow flex justify-center items-end pb-10">
+            <SegmentedControl labels={["user", "business", "rider"]} />
           </div>
         </div>
       </div>

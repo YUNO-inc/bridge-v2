@@ -14,7 +14,7 @@ function Button({ type }: ButtonProps) {
         alt={`logo of ${type}`}
       />
       <span className="text-lg font-medium">
-        Sign up with
+        Sign in with
         <span className="capitalize"> {type}</span>
       </span>
     </button>

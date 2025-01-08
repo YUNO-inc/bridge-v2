@@ -27,6 +27,7 @@ export default {
         },
         grey1: "#BFBFBF",
         grey2: "#E0E0E9",
+        grey3: "#FF3B30",
         dark1: "#0D0D0D",
         black: "#000000",
       },
@@ -35,6 +36,7 @@ export default {
       },
       boxShadow: {
         purple: "0px 18px 30px rgba(131, 119, 198, 0.11)",
+        sgc: "0px 3px 8px rgba(0, 0, 0, 0.12)",
       },
     },
   },

@@ -1,3 +1,5 @@
+"use client";
+
 import { anonymousPro } from "@/app/fonts";
 
 type PageControlProps = {
@@ -7,7 +9,7 @@ type PageControlProps = {
 export default function PageControl({ text }: PageControlProps) {
   if (text)
     return (
-      <div className="bg-grey1 px-3 py-2 max-h-6 opacity-[44%] rounded-full flex items-center justify-center backdrop-blur-[50px]">
+      <div className="bg-grey1 px-3 py-2 max-h-6 bg-opacity-[44%] rounded-full flex items-center justify-center backdrop-blur-[50px]">
         <span
           className={`text-black text-opacity-45 text-sm sm:text-base ${anonymousPro.className}`}
         >
@@ -17,7 +19,7 @@ export default function PageControl({ text }: PageControlProps) {
     );
 
   return (
-    <div className="bg-grey1 px-3 py-2 max-h-6 opacity-[44%] rounded-full flex items-center justify-center">
+    <div className="bg-grey1 px-3 py-2 max-h-6 bg-opacity-[44%] rounded-full flex items-center justify-center">
       dots
     </div>
   );
