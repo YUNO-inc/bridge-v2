@@ -1,58 +1,74 @@
-import type _mongoose from "mongoose";
-import { connect } from "mongoose";
+import type { Mongoose } from "mongoose";
+import { connect, connection } from "mongoose";
 
 declare global {
-  // eslint-disable-next-line
+  // Cache Mongoose connection for reuse in development
+  // eslint-disable-next-line no-var
   var mongoose: {
-    promise: ReturnType<typeof connect> | null;
-    conn: typeof _mongoose | null;
+    promise: Promise<Mongoose> | null;
+    conn: Mongoose | null;
   };
 }
 
-const MONGODB_URI = <string>process.env.MONGODB_URI;
+const MONGODB_URI = process.env.MONGODB_URI as string;
 
 if (!MONGODB_URI) {
   throw new Error(
-    "Please define the MONGODB_URI environment variable inside .env.local"
+    "Please define the MONGODB_URI environment variable in .env.local"
   );
 }
 
-/**
- * Global is used here to maintain a cached connection across hot reloads
- * in development. This prevents connections from growing exponentially
- * during API Route usage.
- */
+// Maintain a cached connection to prevent multiple reconnections in development
 let cached = global.mongoose;
 
 if (!cached) {
   global.mongoose = { conn: null, promise: null };
-  cached = { conn: null, promise: null };
+  cached = global.mongoose;
 }
 
-async function dbConnect() {
+async function dbConnect(): Promise<Mongoose> {
   if (cached.conn) {
     return cached.conn;
   }
 
   if (!cached.promise) {
     const opts = {
-      bufferCommands: false,
+      bufferCommands: false, // Prevent query buffering
     };
 
-    cached.promise = connect(MONGODB_URI, opts).then((mongoose) => {
-      console.log("DB connected successfully...");
-      return mongoose;
-    });
+    cached.promise = connect(MONGODB_URI, opts)
+      .then((mongoose) => {
+        console.log("Connected to MongoDB successfully...");
+        return mongoose;
+      })
+      .catch((error) => {
+        console.error("Error connecting to MongoDB:", error);
+        cached.promise = null; // Reset cached promise on failure
+        throw error;
+      });
   }
 
   try {
     cached.conn = await cached.promise;
-  } catch (e) {
-    cached.promise = null;
-    throw e;
+  } catch (error) {
+    cached.conn = null; // Reset cached connection on failure
+    throw error;
   }
 
   return cached.conn;
 }
+
+// Mongoose connection event handlers
+connection.on("connected", () => {
+  console.log("Mongoose event: connected");
+});
+
+connection.on("error", (err) => {
+  console.error("Mongoose event: error", err);
+});
+
+connection.on("disconnected", () => {
+  console.log("Mongoose event: disconnected");
+});
 
 export default dbConnect;
