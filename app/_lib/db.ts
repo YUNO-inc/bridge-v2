@@ -31,6 +31,7 @@ if (!cached) {
 
 async function dbConnect() {
   if (cached.conn) {
+    console.log("CONN WAS CACHED", cached.conn);
     return cached.conn;
   }
 
@@ -46,6 +47,7 @@ async function dbConnect() {
   }
 
   try {
+    console.log("TRY:", "CACHED PROMISE", cached.conn, cached.promise);
     cached.conn = await cached.promise;
   } catch (e) {
     cached.promise = null;

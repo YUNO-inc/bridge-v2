@@ -1,6 +1,7 @@
 import NextAuth from "next-auth";
 import Google from "next-auth/providers/google";
 import { createUser, getUser } from "../user/service";
+import dbConnect from "../../db";
 
 export const {
   handlers: { GET, POST },
@@ -22,6 +23,7 @@ export const {
     // },
     async signIn({ user }) {
       try {
+        await dbConnect();
         const { name, email } = user;
         if (!(email && name)) throw new Error("Invalid email or name");
         console.log(email, name);
