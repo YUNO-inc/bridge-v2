@@ -15,11 +15,11 @@ export const {
     }),
   ],
   callbacks: {
-    authorized() {
-      // console.log({ request, auth });
-      //   return !!auth?.user;
-      return true;
-    },
+    // authorized() {
+    //   // console.log({ request, auth });
+    //   //   return !!auth?.user;
+    //   return true;
+    // },
     async signIn({ user }) {
       try {
         const { name, email } = user;
