@@ -29,7 +29,8 @@ export const {
         });
         if (!existingUser) await createUser({ email: email, name: name });
         return true;
-      } catch {
+      } catch (err) {
+        console.error(err);
         return false;
       }
     },
