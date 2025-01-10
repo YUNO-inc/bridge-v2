@@ -23,7 +23,8 @@ export const {
     async signIn({ user }) {
       try {
         const { name, email } = user;
-        if (!(email && name)) throw new Error();
+        if (!(email && name)) throw new Error("Invalid email or name");
+        console.log(email, name);
         const existingUser = await getUser({
           email: email,
         });
