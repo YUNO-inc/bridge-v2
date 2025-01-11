@@ -1,6 +1,7 @@
 import NextAuth from "next-auth";
 import Google from "next-auth/providers/google";
 import { createUser, getUser } from "../user/service";
+import { connect } from "../../db";
 
 export const {
   handlers: { GET, POST },
@@ -22,16 +23,18 @@ export const {
     // },
     async signIn({ user }) {
       try {
+        await connect();
+
         const { name, email } = user;
-        if (!(email && name)) throw new Error("Invalid email or name");
-        console.log(email, name);
-        const existingUser = await getUser({
-          email: email,
-        });
-        if (!existingUser) await createUser({ email: email, name: name });
+        if (!(email && name)) throw new Error("Missing required fields");
+
+        const existingUser = await getUser({ email });
+        if (!existingUser) {
+          await createUser({ email, name });
+        }
         return true;
       } catch (err) {
-        console.error(err);
+        console.error("SignIn error:", err);
         return false;
       }
     },

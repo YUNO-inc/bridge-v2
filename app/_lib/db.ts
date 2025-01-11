@@ -1,61 +1,50 @@
-import type _mongoose from "mongoose";
-import { connect } from "mongoose";
+// db.ts
+import mongoose from "mongoose";
 
-declare global {
-  // eslint-disable-next-line
-  var mongoose: {
-    promise: ReturnType<typeof connect> | null;
-    conn: typeof _mongoose | null;
+const MONGODB_URI = process.env.MONGODB_URI!;
+
+if (!MONGODB_URI) {
+  throw new Error("Please define the MONGODB_URI environment variable");
+}
+
+interface GlobalWithMongoose {
+  mongoose: {
+    conn: typeof mongoose | null;
+    promise: Promise<typeof mongoose> | null;
   };
 }
 
-const MONGODB_URI = <string>process.env.MONGODB_URI;
+// Add mongoose to NodeJS global type
+declare const global: GlobalWithMongoose;
 
-if (!MONGODB_URI) {
-  throw new Error(
-    "Please define the MONGODB_URI environment variable inside .env.local"
-  );
-}
+// Initialize global mongoose connection state
+const globalMongoose = global as unknown as GlobalWithMongoose;
+globalMongoose.mongoose = {
+  conn: null,
+  promise: null,
+};
 
-/**
- * Global is used here to maintain a cached connection across hot reloads
- * in development. This prevents connections from growing exponentially
- * during API Route usage.
- */
-let cached = global.mongoose;
-
-if (!cached) {
-  global.mongoose = { conn: null, promise: null };
-  cached = { conn: null, promise: null };
-}
-
-async function dbConnect() {
-  if (cached.conn) {
-    console.log("CONN WAS CACHED", cached.conn);
-    return cached.conn;
-  }
-
-  if (!cached.promise) {
-    const opts = {
-      bufferCommands: false,
-    };
-
-    cached.promise = connect(MONGODB_URI, opts).then((mongoose) => {
-      console.log("DB connected successfully...");
-      return mongoose;
-    });
-  }
-
+export async function connect() {
   try {
-    console.log("TRY:", "CACHED PROMISE", cached.conn, cached.promise);
-    cached.conn = await cached.promise;
-  } catch (e) {
-    cached.promise = null;
-    console.log("MDB CONNECTION ERR", e);
-    throw e;
+    if (globalMongoose.mongoose.conn) {
+      console.log("Using existing MongoDB connection");
+      return globalMongoose.mongoose.conn;
+    }
+
+    if (!globalMongoose.mongoose.promise) {
+      const opts = {
+        bufferCommands: true, // Enable command buffering
+        maxPoolSize: 10,
+      };
+
+      globalMongoose.mongoose.promise = mongoose.connect(MONGODB_URI, opts);
+    }
+
+    globalMongoose.mongoose.conn = await globalMongoose.mongoose.promise;
+    console.log("New MongoDB connection established");
+    return globalMongoose.mongoose.conn;
+  } catch (error) {
+    console.error("MongoDB connection error:", error);
+    throw error;
   }
-
-  return cached.conn;
 }
-
-export default dbConnect;
