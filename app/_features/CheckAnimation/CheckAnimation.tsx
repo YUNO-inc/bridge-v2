@@ -125,7 +125,22 @@ const CheckAnimation = ({
           />
         </svg>
       </div>
-      <span style={{}}>{message}</span>
+      <span
+        className={`transition-all ${
+          showLoader
+            ? "opacity-0 translate-y-[-40%]"
+            : "opacity-100 translate-y-0"
+        }`}
+        style={{
+          transitionDelay: `${
+            durationPerCircleNumber - checkDelayIndex - 0.5
+          }s`,
+          transitionDuration: ".5s",
+          transitionTimingFunction: "cubic-bezier(.7,.78,.71,1.35)",
+        }}
+      >
+        {message}
+      </span>
     </>
   );
 };
