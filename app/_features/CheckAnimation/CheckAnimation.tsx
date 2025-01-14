@@ -126,7 +126,7 @@ const CheckAnimation = ({
         </svg>
       </div>
       <span
-        className={`transition-all text-stone-800 ${
+        className={`transition-all ${
           showLoader
             ? "opacity-0 translate-y-[-40%]"
             : "opacity-100 translate-y-0"
