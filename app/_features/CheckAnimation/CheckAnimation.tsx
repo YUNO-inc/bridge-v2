@@ -136,7 +136,7 @@ const CheckAnimation = ({
             durationPerCircleNumber - checkDelayIndex - 0.5
           }s`,
           transitionDuration: ".5s",
-          transitionTimingFunction: "cubic-bezier(.7,.78,.71,1.35)",
+          transitionTimingFunction: "cubic-bezier(1,1,.11,1.68)",
         }}
       >
         {message}
