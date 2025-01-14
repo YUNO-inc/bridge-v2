@@ -29,10 +29,12 @@ export const {
         if (!(email && name)) throw new Error("Missing required fields");
 
         const existingUser = await getUser({ email });
-        if (!existingUser) {
+        if (existingUser) {
+          return "/";
+        } else {
           await createUser({ email, name });
+          return "/auth"; // Redirect to dashboard
         }
-        return true;
       } catch (err) {
         console.error("SignIn error:", err);
         return false;

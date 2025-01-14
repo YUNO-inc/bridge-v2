@@ -38,6 +38,15 @@ export default {
         purple: "0px 18px 30px rgba(131, 119, 198, 0.11)",
         sgc: "0px 3px 8px rgba(0, 0, 0, 0.12)",
       },
+      keyframes: {
+        ["spin-opacity"]: {
+          "0%": { transform: "rotate(0deg)" },
+          "100%": { transform: "rotate(360deg)" },
+        },
+      },
+      animation: {
+        "spin-stroke": "dash 2s linear infinite",
+      },
     },
   },
   plugins: [],
