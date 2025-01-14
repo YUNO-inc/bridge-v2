@@ -126,7 +126,7 @@ const CheckAnimation = ({
         </svg>
       </div>
       <span
-        className={`transition-all ${
+        className={`transition-all text-stone-800 ${
           showLoader
             ? "opacity-0 translate-y-[-40%]"
             : "opacity-100 translate-y-0"
@@ -136,7 +136,7 @@ const CheckAnimation = ({
             durationPerCircleNumber - checkDelayIndex - 0.5
           }s`,
           transitionDuration: ".5s",
-          transitionTimingFunction: "cubic-bezier(1,1,.11,1.68)",
+          transitionTimingFunction: "cubic-bezier(.59,.57,.11,1.68)",
         }}
       >
         {message}
