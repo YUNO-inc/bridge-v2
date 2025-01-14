@@ -25,8 +25,8 @@ function CircleLoader({
       viewBox={`0 0 ${size} ${size}`}
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
+      className="animate-spin"
       style={{
-        animationName: "spin",
         animationIterationCount: iterationCount,
         animationDuration,
         animationTimingFunction,
