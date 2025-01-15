@@ -2,14 +2,15 @@
 
 import { useEffect, useState } from "react";
 import CircleLoader from "../Loaders/CircleLoader";
+import { CheckAnimationProps } from "./interfaces";
 
-const CheckAnimation = ({
+function CheckAnimation({
   size = 40,
   color = "#123524",
   loaderIterationCount = 2,
   durationPerCircle: durationPerCircleNumber = 1,
   message = "Short message Here 🎉",
-}) => {
+}: CheckAnimationProps) {
   const designedSize = 60;
   const scale = size / designedSize;
   const [shouldAnimate, setShouldAnimate] = useState(false);
@@ -143,7 +144,7 @@ const CheckAnimation = ({
       </span>
     </div>
   );
-};
+}
 
 // style={{
 //         animationName: "ping",

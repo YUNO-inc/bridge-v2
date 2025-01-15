@@ -1,12 +1,13 @@
 import CheckAnimation from "@/app/_features/CheckAnimation/CheckAnimation";
+import Button from "@/app/_features/Forms/Button";
 import HelperText from "@/app/_features/Forms/HelperText";
 import Inputs from "@/app/_features/Forms/inputs";
 
 function Page() {
   return (
-    <div className="flex flex-col items-center text-center text-stone-900 pt-5">
+    <div className="relative flex flex-col items-center text-center text-stone-900 pt-5">
       <CheckAnimation message="Congrats, you signed up successfully 🎉" />
-      <div className="max-w-[85vw]">
+      <div className="max-w-[85vw] mt-6">
         <div className="flex w-full gap-[6px] text-left">
           <Inputs
             type="select"
@@ -46,6 +47,7 @@ function Page() {
           className="text-left mt-1"
           helperText="This would be used to contact you when you order."
         />
+        <Button text="Save and Continue" className="mt-2" />
       </div>
     </div>
   );
