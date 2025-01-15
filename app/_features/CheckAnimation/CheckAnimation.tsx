@@ -29,7 +29,7 @@ const CheckAnimation = ({
   );
 
   return (
-    <>
+    <div className="flex flex-col items-center">
       <div className="relative inline-flex items-center justify-center">
         {showLoader && (
           <span className={`z-10 absolute ${"opacity-100"}`}>
@@ -126,7 +126,7 @@ const CheckAnimation = ({
         </svg>
       </div>
       <span
-        className={`transition-all ${
+        className={`pt-2 transition-all ${
           showLoader
             ? "opacity-0 translate-y-[-40%]"
             : "opacity-100 translate-y-0"
@@ -141,7 +141,7 @@ const CheckAnimation = ({
       >
         {message}
       </span>
-    </>
+    </div>
   );
 };
 
