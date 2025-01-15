@@ -12,7 +12,7 @@ type SegmentedControlsProps = {
 
 export default function SegmentedControl({
   labels,
-  color = "green",
+  color = "#123524",
   activeIndex = 0,
   handleClick,
 }: SegmentedControlsProps) {

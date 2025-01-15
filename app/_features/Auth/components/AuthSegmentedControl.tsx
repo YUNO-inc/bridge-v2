@@ -22,7 +22,6 @@ export default function AuthSegmentedControl({
   return (
     <SegmentedControl
       labels={availablePages}
-      color="#123524"
       activeIndex={availablePages.indexOf(page.toLocaleLowerCase())}
       handleClick={handleClick}
     />

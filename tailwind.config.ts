@@ -30,6 +30,9 @@ export default {
         grey3: "#FF3B30",
         dark1: "#0D0D0D",
         black: "#000000",
+        ["input-black-1"]: "#CFD3D4",
+        ["input-black-2"]: "#ABAFB1",
+        ["input-black-3"]: "#5E6366",
       },
       fontFamily: {
         dune: ["dune", "serif"], // Add your custom font here
@@ -46,6 +49,9 @@ export default {
       },
       animation: {
         "spin-stroke": "dash 2s linear infinite",
+      },
+      screens: {
+        sw340: "340px", // Custom breakpoint at 1440px
       },
     },
   },
