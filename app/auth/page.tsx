@@ -1,7 +1,7 @@
 import Button from "@/app/_features/Auth/components/Button";
-import Link from "next/link";
 import AuthSegmentedControl from "../_features/Auth/components/AuthSegmentedControl";
 import { SignInAction } from "../_lib/actions/auth/actions";
+import OutLink from "../_features/Forms/OutLink";
 
 interface PageProps {
   searchParams: Promise<{ [key: string]: string | undefined }>;
@@ -27,9 +27,7 @@ export default async function Page({ searchParams }: PageProps) {
             <Button type="google" />
           </form>
           <div className="flex justify-center">
-            <Link href="/" className="mt-7 text-stone-700 font-bold underline">
-              Continue as a guest
-            </Link>
+            <OutLink text="Continue as a guest" />
           </div>
         </div>
       </div>
