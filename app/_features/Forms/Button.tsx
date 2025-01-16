@@ -1,12 +1,22 @@
-"use client";
-
 import { getRGB } from "@/app/_utils/helpers";
-import { useState } from "react";
 import CircleLoader from "../Loaders/CircleLoader";
 
-function Button({ theme = "#123524", text = "", className = "" }) {
+type ButtonProps = {
+  text: string;
+  theme?: string;
+  className?: string;
+  type?: "button" | "submit" | "reset";
+  isLoading?: boolean;
+};
+
+function Button({
+  theme = "#123524",
+  text = "",
+  className = "",
+  type = "button",
+  isLoading,
+}: ButtonProps) {
   const rgb = getRGB(theme);
-  const [isLoading, setIsLoading] = useState(false);
 
   return (
     <button
@@ -15,7 +25,7 @@ function Button({ theme = "#123524", text = "", className = "" }) {
         color: `rgb(${rgb})`,
         backgroundColor: `rgba(${rgb}, 0.37)`,
       }}
-      onClick={() => setIsLoading((lo) => !lo)}
+      type={type}
     >
       {isLoading ? (
         <span className="flex justify-center">

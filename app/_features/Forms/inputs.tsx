@@ -10,6 +10,8 @@ type InputsProps = {
   selectOpt?: { value: string; text?: string; png?: string }[];
   placeHolder?: string;
   className?: string;
+  name?: string;
+  required?: boolean;
 };
 
 function Inputs({
@@ -20,6 +22,8 @@ function Inputs({
   selectOpt = [],
   placeHolder,
   className = "",
+  name = "",
+  required = true,
 }: InputsProps) {
   const rgb = getRGB(theme);
   let inputType;
@@ -28,12 +32,15 @@ function Inputs({
     inputType = (
       <input
         type="tel"
-        name=""
+        name={`${name}`}
         id=""
         placeholder={placeHolder}
         className={
           "bg-transparent leading-[0px] focus:outline-none placeholder:text-phthaloGreen placeholder:text-opacity-[0.37]"
         }
+        required={required}
+        minLength={10}
+        maxLength={11}
       />
     );
 

@@ -43,7 +43,13 @@ export const {
     async session({ session }) {
       const { email } = session.user;
       const foundUser = await getUser({ email });
-      session.user = { ...session.user, ...foundUser };
+      if (!foundUser?.id) throw new Error("user not found");
+
+      session.user = {
+        ...session.user,
+        ...foundUser?.toObject(),
+        id: foundUser?.id,
+      };
       return session;
     },
   },
