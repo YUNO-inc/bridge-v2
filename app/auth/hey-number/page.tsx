@@ -7,6 +7,7 @@ async function Page() {
   const session = await auth();
 
   if (!!session?.user?.phoneNumber) redirect("/");
+  if (!session?.user) redirect("/auth");
 
   return (
     <div className="relative grow flex flex-col items-center text-center text-stone-900 pt-5">
