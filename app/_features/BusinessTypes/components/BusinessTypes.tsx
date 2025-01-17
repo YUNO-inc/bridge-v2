@@ -7,9 +7,5 @@ export default async function BusinessTypes() {
 
   if (!user) return <Link href={"/auth"}>Bridge</Link>;
 
-  return (
-    <Link href={"/auth"}>
-      Welcome, {user.name} {user.phoneNumber}
-    </Link>
-  );
+  return <Link href={"/auth"}>Welcome, {user.name}</Link>;
 }

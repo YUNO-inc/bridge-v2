@@ -1,11 +1,15 @@
 "use server";
 
 import { redirect } from "next/navigation";
-import { auth, signIn } from "./auth";
+import { auth, signIn, signOut } from "./auth";
 import { updateUserById } from "../user/service";
 
 export async function SignInAction() {
-  await signIn("google", { redirectTo: "/" });
+  await signIn("google", { redirectTo: "/auth/hey-number" });
+}
+
+export async function SignOutAction() {
+  await signOut({ redirectTo: "/auth" });
 }
 
 export async function SignedInNumberSubmitAction(formdata: FormData) {

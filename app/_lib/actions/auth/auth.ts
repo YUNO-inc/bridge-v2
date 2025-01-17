@@ -1,7 +1,6 @@
 import NextAuth from "next-auth";
 import Google from "next-auth/providers/google";
 import { createUser, getUser } from "../user/service";
-import { connect } from "../../db";
 
 export const {
   handlers: { GET, POST },
@@ -16,25 +15,16 @@ export const {
     }),
   ],
   callbacks: {
-    // authorized() {
-    //   // console.log({ request, auth });
-    //   //   return !!auth?.user;
-    //   return true;
-    // },
     async signIn({ user }) {
       try {
-        await connect();
-
         const { name, email } = user;
         if (!(email && name)) throw new Error("Missing required fields");
 
         const existingUser = await getUser({ email });
-        if (existingUser) {
-          return "/";
-        } else {
+        if (!existingUser) {
           await createUser({ email, name });
-          return "/auth"; // Redirect to dashboard
         }
+        return true;
       } catch (err) {
         console.error("SignIn error:", err);
         return false;
@@ -55,5 +45,6 @@ export const {
   },
   pages: {
     signIn: "/auth",
+    signOut: "/auth",
   },
 });

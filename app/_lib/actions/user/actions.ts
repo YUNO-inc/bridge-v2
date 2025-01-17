@@ -3,6 +3,7 @@
 import validator from "validator";
 import { createUser } from "./service";
 
+// NOT BEING USED REMOVE COMMENT BEFORE USING OR DELETE BEFORE CREATING ANOTHER FUNCTION.
 export async function CreateUserAction(formdata: FormData) {
   const name = formdata.get("name");
   const email = formdata.get("email");
