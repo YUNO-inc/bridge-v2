@@ -11,7 +11,7 @@ interface PageProps {
 
 export default async function Page({ searchParams }: PageProps) {
   const session = await auth();
-  if (!!session?.user) redirect("/");
+  if (!!session?.user) redirect("/"); // This redirect cannot be on the layout.
 
   const availablePages = ["user", "business", "rider"];
   const page = (await searchParams)?.page || availablePages[0];
