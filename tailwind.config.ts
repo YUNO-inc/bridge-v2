@@ -11,6 +11,19 @@ export default {
       colors: {
         background: "var(--background)",
         foreground: "var(--foreground)",
+        ["app-red"]: {
+          "50": "#FFCFCD",
+          "100": "#FFA9A4",
+          "200": "#FF8680",
+          "300": "#FF5E56",
+          "400": "#ED463D",
+          "500": "#FF3A30",
+          "600": "#FF2B20",
+          "700": "#F81004",
+          "800": "#B10900",
+          "900": "#740600",
+          "950": "#490400",
+        },
         phthaloGreen: {
           "50": "#F1F2F1",
           "100": "#CCD6D1",
@@ -27,12 +40,7 @@ export default {
         },
         grey1: "#BFBFBF",
         grey2: "#E0E0E9",
-        grey3: "#FF3B30",
-        dark1: "#0D0D0D",
         black: "#000000",
-        ["input-black-1"]: "#CFD3D4",
-        ["input-black-2"]: "#ABAFB1",
-        ["input-black-3"]: "#5E6366",
       },
       fontFamily: {
         dune: ["dune", "serif"], // Add your custom font here
