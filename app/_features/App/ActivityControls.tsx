@@ -1,4 +1,4 @@
-import BusinessTypes from "../BusinessTypes/components/BusinessTypes";
+import BusinessTypes from "../BusinessTypes/BusinessTypes";
 import ActivityContainer from "./ActivityContainer/ActivityContainer";
 import ActivitySearch from "./ActivitySearch/ActivitySearch";
 
