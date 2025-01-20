@@ -1,6 +1,6 @@
 import { Viewport } from "next";
 import ActivityControls from "@/app/_features/App/ActivityControls";
-import ProfileImage from "./_features/ProfileImage/ProfileImage";
+// import ProfileImage from "./_features/ProfileImage/ProfileImage";
 
 export const viewport: Viewport = {
   themeColor: "#ffffff",
