@@ -23,6 +23,7 @@ export default {
           "800": "#B10900",
           "900": "#740600",
           "950": "#490400",
+          DEFAULT: "#FF3A30",
         },
         phthaloGreen: {
           "50": "#F1F2F1",
