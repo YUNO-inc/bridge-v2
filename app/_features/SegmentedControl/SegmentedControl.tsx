@@ -2,12 +2,14 @@
 
 import { getRGB } from "@/app/_utils/helpers";
 import { useState } from "react";
+import CircleLoader from "../Loaders/CircleLoader";
 
 type SegmentedControlsProps = {
   labels: string[];
   color?: string;
   activeIndex: number;
   handleClick: (pageName: string) => void;
+  showLoader?: boolean;
 };
 
 export default function SegmentedControl({
@@ -15,9 +17,11 @@ export default function SegmentedControl({
   color = "#123524",
   activeIndex = 0,
   handleClick,
+  showLoader = false,
 }: SegmentedControlsProps) {
   const [trueActiveIndex, setTrueActiveIndex] = useState(activeIndex);
   const rgb = getRGB(color);
+  const loaderSize = 20;
   return (
     <div
       style={{
@@ -43,7 +47,13 @@ export default function SegmentedControl({
               handleClick(label);
             }}
           >
-            {label}
+            {showLoader && isActive ? (
+              <div className="w-full flex justify-center items-center">
+                <CircleLoader color="#123524" size={loaderSize} />
+              </div>
+            ) : (
+              label
+            )}
           </button>
         );
       })}
