@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./_styles/global.css";
 import { nunito } from "./fonts";
+import { SessionProvider } from "next-auth/react";
 
 export const metadata: Metadata = {
   title: "Bridge",
@@ -14,7 +15,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${nunito.className}`}>{children}</body>
+      <SessionProvider>
+        <body className={`${nunito.className}`}>{children}</body>
+      </SessionProvider>
     </html>
   );
 }

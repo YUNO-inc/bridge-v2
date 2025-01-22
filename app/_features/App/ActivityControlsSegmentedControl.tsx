@@ -15,7 +15,7 @@ function ActivityControlsSegmentedControl() {
   }
 
   return (
-    <div>
+    <div className="flex justify-center">
       <SegmentedControl
         labels={["guest", "signin"]}
         handleClick={handleClick}
