@@ -1,7 +1,8 @@
 "use client";
 
+import { SignOutAction } from "@/app/_lib/actions/auth/actions";
 import { ArrowUpIcon, PlusIcon } from "@heroicons/react/16/solid";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 function ActivitySearch({
   businessType = "shawarma",
@@ -11,12 +12,19 @@ function ActivitySearch({
   const cartIsActive = !!inny;
   const orderSelected = !!inny;
 
+  useEffect(
+    function () {
+      if (inny.length >= 10) SignOutAction();
+    },
+    [inny.length]
+  );
+
   return (
     <div className="flex gap-1 justify-end mt-4 bg-phthaloGreen bg-opacity-[0.1] w-full h-30 rounded-[42px] p-[10px]">
       <div className=" grow flex items-center gap-1 overflow-auto rounded-full">
         <input
           type="text"
-          className="bg-transparent outline-none h-full px-[6px] rounded-[8px]"
+          className="grow bg-transparent outline-none h-full px-[6px] rounded-[8px]"
           placeholder={placeHolder}
           onChange={(e) => setInny(e.target.value)}
         />
