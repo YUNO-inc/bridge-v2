@@ -7,34 +7,12 @@ export default function BusinessTypes() {
   const carouselRef = useRef<HTMLDivElement | null>(null);
   const { scrollX } = useScroll({ container: carouselRef });
   const [currIndex, setCurrIndex] = useState(0);
-  const businessTypes = [
-    "shawarma",
-    "shawarma",
-    "shawarma",
-    "shawarma",
-    "shawarma",
-    "shawarma",
-    "shawarma",
-    "shawarma",
-    "shawarma",
-    "shawarma",
-    "shawarma",
-    "shawarma",
-    "shawarma",
-    "shawarma",
-    "shawarma",
-    "shawarma",
-    "shawarma",
-    "shawarma",
-    "shawarma",
-    "shawarma",
-    "shawarma",
-    "shawarma",
-  ];
+  const businessTypes = ["shawarma", "food4"];
   const widthOfItem = 40;
 
   useMotionValueEvent(scrollX, "change", (latest) => {
-    const currentScrollIndex = Math.round(latest / widthOfItem);
+    let currentScrollIndex = Math.round(latest / widthOfItem);
+    currentScrollIndex = currentScrollIndex < 0 ? 0 : currentScrollIndex;
     setCurrIndex(currentScrollIndex);
   });
 
@@ -53,7 +31,7 @@ export default function BusinessTypes() {
       <div className="absolute left-[50%] top-[50%] translate-x-[-50%] translate-y-[-50%] h-[90%] w-[50px] bg-transparent border-[6px] border-x-transparent border-x-0 border-y-phthaloGreen-800 border-opacity-[0.5]"></div>
       <motion.div
         ref={carouselRef}
-        className={`relative flex items-center h-6 overflow-auto scrollbar-hide px-[calc(50%-35px)] my-[14px]`}
+        className={`relative flex items-center h-7 overflow-scroll scrollbar-hide px-[calc(50%-35px)] my-[10px]`}
         style={{
           scrollSnapType: "x mandatory",
           WebkitOverflowScrolling: "touch",
@@ -86,7 +64,7 @@ function BusinessItem({
 }) {
   return (
     <div
-      className={`relative flex justify-center items-center transition-all ease-out ${
+      className={`relative flex justify-center items-center ${
         isActive ? "min-w-[70px]" : "min-w-[40px]"
       }`}
       onClick={() => handleClick(index)}
@@ -96,9 +74,13 @@ function BusinessItem({
     >
       <LocalIcons
         name={type}
-        pathClassName={[`transition-all ease-out fill-phthaloGreen-800`]}
-        className={`w-5 transition-all ease-out ${
-          isActive ? "w-6" : "opacity-[0.37]"
+        pathClassName={[
+          `transition-all fill-phthaloGreen-800 ${
+            isActive ? "opacity-1" : "opacity-[0.37]"
+          }`,
+        ]}
+        className={`w-5 transition-all duration-200 delay-150 ${
+          isActive ? "scale-[1.2]" : ""
         }`}
       />
     </div>
