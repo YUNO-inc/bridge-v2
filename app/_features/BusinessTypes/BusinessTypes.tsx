@@ -7,7 +7,7 @@ export default function BusinessTypes() {
   const carouselRef = useRef<HTMLDivElement | null>(null);
   const { scrollX } = useScroll({ container: carouselRef });
   const [currIndex, setCurrIndex] = useState(0);
-  const businessTypes = ["shawarma", "food"];
+  const businessTypes = ["shawarma", "food", "food1", "food2", "food3"];
   const widthOfItem = 40;
 
   useMotionValueEvent(scrollX, "change", (latest) => {
@@ -27,12 +27,12 @@ export default function BusinessTypes() {
   };
 
   return (
-    <div className="bg-phthaloGreen-700 bg-opacity-10 w-[70%] rounded-xl border border-phthaloGreen-700 border-opacity-[0.37]">
-      <div className="relative flex justify-center items-center overflow-hidden">
-        <div className="absolute left-[50%] top-[50%] translate-x-[-50%] translate-y-[-50%] h-[90%] w-[50px] bg-transparent border-[6px] border-x-transparent border-x-0 border-y-phthaloGreen-700 border-opacity-[0.5]"></div>
+    <div className="bg-app-red bg-opacity-10 w-[70%] rounded-xl border border-app-red border-opacity-[0.37]">
+      <div className="relative flex flex-col justify-center items-center overflow-hidden">
+        <div className="absolute left-[50%] top-[50%] translate-x-[-50%] translate-y-[-50%] h-[90%] w-[50px] bg-transparent border-[6px] border-x-transparent border-x-0 border-y-app-red border-opacity-[0.5]"></div>
         <motion.div
           ref={carouselRef}
-          className={`relative flex items-center h-7 overflow-scroll scrollbar-hide px-[calc(50%-35px)] my-[10px] w-full`}
+          className={`relative flex items-center h-7 overflow-scroll scrollbar-hide px-[calc(50%-35px)] mt-[10px] w-full`}
           style={{
             scrollSnapType: "x mandatory",
             WebkitOverflowScrolling: "touch",
@@ -48,10 +48,13 @@ export default function BusinessTypes() {
             />
           ))}
         </motion.div>
+        <p className="text-center text-sm text-app-red capitalize mb-[10px]">
+          {businessTypes[currIndex]}
+        </p>
       </div>
-      <p className="text-center text-sm text-phthaloGreen-800 text-opacity-[0.37] capitalize">
+      {/* <p className="text-center text-sm text-app-red text-opacity-[0.37] capitalize">
         {businessTypes[currIndex]}
-      </p>
+      </p> */}
     </div>
   );
 }
@@ -68,7 +71,8 @@ function BusinessItem({
   handleClick: (index: number) => void;
 }) {
   return (
-    <div
+    <button
+      type="button"
       className={`relative flex justify-center items-center ${
         isActive ? "min-w-[70px]" : "min-w-[40px]"
       }`}
@@ -80,7 +84,7 @@ function BusinessItem({
       <LocalIcons
         name={type}
         pathClassName={[
-          `transition-all fill-phthaloGreen-700 ${
+          `transition-all fill-app-red ${
             isActive ? "opacity-1" : "opacity-[0.37]"
           }`,
         ]}
@@ -88,6 +92,6 @@ function BusinessItem({
           isActive ? "scale-[1.2]" : ""
         }`}
       />
-    </div>
+    </button>
   );
 }
