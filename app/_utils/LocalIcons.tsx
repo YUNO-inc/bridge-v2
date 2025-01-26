@@ -111,7 +111,7 @@ function LocalIcons({ name = "", className = "", pathClassName = [""] }) {
         </svg>
       );
 
-    case "food4":
+    case "food":
       return (
         <svg
           viewBox="0 0 512 512"
