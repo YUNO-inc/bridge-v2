@@ -7,7 +7,7 @@ export default function BusinessTypes() {
   const carouselRef = useRef<HTMLDivElement | null>(null);
   const { scrollX } = useScroll({ container: carouselRef });
   const [currIndex, setCurrIndex] = useState(0);
-  const businessTypes = ["shawarma", "food", "food1", "food2", "food3"];
+  const businessTypes = ["shawarma", "food"];
   const widthOfItem = 40;
 
   useMotionValueEvent(scrollX, "change", (latest) => {
@@ -32,7 +32,7 @@ export default function BusinessTypes() {
         <div className="absolute left-[50%] top-[50%] translate-x-[-50%] translate-y-[-50%] h-[90%] w-[50px] bg-transparent border-[6px] border-x-transparent border-x-0 border-y-app-red border-opacity-[0.5]"></div>
         <motion.div
           ref={carouselRef}
-          className={`relative flex items-center h-7 overflow-scroll scrollbar-hide px-[calc(50%-35px)] mt-[10px] w-full`}
+          className={`relative flex h-[49px] overflow-scroll scrollbar-hide px-[calc(50%-35px)] my-[10px] w-full z-10`}
           style={{
             scrollSnapType: "x mandatory",
             WebkitOverflowScrolling: "touch",
@@ -48,7 +48,7 @@ export default function BusinessTypes() {
             />
           ))}
         </motion.div>
-        <p className="text-center text-sm text-app-red capitalize mb-[10px]">
+        <p className="absolute bottom-[10px] left-1/2 translate-x-[-50%] text-center text-sm text-app-red capitalize">
           {businessTypes[currIndex]}
         </p>
       </div>
@@ -73,7 +73,7 @@ function BusinessItem({
   return (
     <button
       type="button"
-      className={`relative flex justify-center items-center ${
+      className={`relative flex justify-center mt-[5px] ${
         isActive ? "min-w-[70px]" : "min-w-[40px]"
       }`}
       onClick={() => handleClick(index)}
