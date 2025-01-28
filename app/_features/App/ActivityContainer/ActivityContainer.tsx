@@ -45,7 +45,7 @@ function ActivityContainer({ currPageIndex = 0 }) {
             activeIndex={pageIndex}
             setActiveIndex={setPageIndex}
           />
-          <button className="bg-phthaloGreen text-phthaloGreen-50 backdrop-blur-md text-sm px-3 py-3 w-full flex items-center justify-between rounded-[16px] shadow-sgc">
+          <button className="bg-phthaloGreen text-phthaloGreen-50 backdrop-blur-md text-sm px-4 py-4 w-full flex items-center justify-between rounded-[16px] shadow-sgc">
             <span>Cart</span>
             <span className="flex items-center gap-[6px] text-[13px]">
               <span>2 items</span>
