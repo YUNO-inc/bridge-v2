@@ -33,7 +33,7 @@ export default function PageControl({
     );
 
   return (
-    <div className="bg-grey1 px-3 py-2 max-h-6 bg-opacity-[44%] rounded-full flex items-center justify-center gap-2">
+    <div className="bg-grey1 px-3 py-2 max-h-6 bg-opacity-[44%] rounded-full flex items-center justify-center gap-2 w-fit">
       {Array.from({ length: numOptions }, (_, index) => (
         <button
           key={index}

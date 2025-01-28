@@ -3,6 +3,7 @@
 import { motion, useMotionValue } from "motion/react";
 import { useState } from "react";
 import PageControl from "../../PageControl/PageControl";
+import LocalIcons from "@/app/_utils/LocalIcons";
 
 function ActivityContainer({ currPageIndex = 0 }) {
   const MAX_PAGE_INDEX = 1;
@@ -38,12 +39,32 @@ function ActivityContainer({ currPageIndex = 0 }) {
           <div className="bg-[#f2f2f2] h-full shrink-0 w-full rounded-[25px]"></div>
           <div className="bg-[#f2f2f2] h-full shrink-0 w-full rounded-[25px]"></div>
         </motion.div>
-        <div className="absolute left-1/2 translate-x-[-50%] bottom-1 z-10">
+        <div className="absolute w-full left-1/2 translate-x-[-50%] bottom-2 px-2 flex flex-col gap-1 items-center z-10">
           <PageControl
             numOptions={2}
             activeIndex={pageIndex}
             setActiveIndex={setPageIndex}
           />
+          <button className="bg-phthaloGreen text-phthaloGreen-50 backdrop-blur-md text-sm px-3 py-3 w-full flex items-center justify-between rounded-[16px] shadow-sgc">
+            <span>Cart</span>
+            <span className="flex items-center gap-[6px] text-[13px]">
+              <span>2 items</span>
+              <span className="w-1 h-1 bg-phthaloGreen-50 bg-opacity-55 rounded-full"></span>
+              <span className="flex gap-1">
+                <span>₦400</span>
+                <span className="relative bottom-[-2px]">
+                  <LocalIcons
+                    name="rider2"
+                    className="w-[14px] h-[14px] fill-transparent"
+                    pathClassName={[
+                      "fill-phthaloGreen-50",
+                      "stroke-phthaloGreen-50",
+                    ]}
+                  />
+                </span>
+              </span>
+            </span>
+          </button>
         </div>
       </div>
     </div>

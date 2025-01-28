@@ -27,9 +27,9 @@ export default function BusinessTypes() {
   };
 
   return (
-    <div className="bg-app-red bg-opacity-10 w-[70%] rounded-xl border border-app-red border-opacity-[0.37]">
+    <div className="bg-phthaloGreen bg-opacity-10 w-[70%] rounded-xl border border-phthaloGreen border-opacity-[0.37]">
       <div className="relative flex flex-col justify-center items-center overflow-hidden">
-        <div className="absolute left-[50%] top-[50%] translate-x-[-50%] translate-y-[-50%] h-[90%] w-[50px] bg-transparent border-[6px] border-x-transparent border-x-0 border-y-app-red border-opacity-[0.5]"></div>
+        <div className="absolute left-[50%] top-[50%] translate-x-[-50%] translate-y-[-50%] h-[90%] w-[50px] bg-transparent border-[6px] border-x-transparent border-x-0 border-y-phthaloGreen border-opacity-[0.5]"></div>
         <motion.div
           ref={carouselRef}
           className={`relative flex h-[49px] overflow-scroll scrollbar-hide px-[calc(50%-35px)] my-[10px] w-full z-10`}
@@ -48,11 +48,11 @@ export default function BusinessTypes() {
             />
           ))}
         </motion.div>
-        <p className="absolute bottom-[10px] left-1/2 translate-x-[-50%] text-center text-sm text-app-red capitalize">
+        <p className="absolute bottom-[10px] left-1/2 translate-x-[-50%] text-center text-sm text-phthaloGreen capitalize">
           {businessTypes[currIndex]}
         </p>
       </div>
-      {/* <p className="text-center text-sm text-app-red text-opacity-[0.37] capitalize">
+      {/* <p className="text-center text-sm text-phthaloGreen text-opacity-[0.37] capitalize">
         {businessTypes[currIndex]}
       </p> */}
     </div>
@@ -84,7 +84,7 @@ function BusinessItem({
       <LocalIcons
         name={type}
         pathClassName={[
-          `transition-all fill-app-red ${
+          `transition-all fill-phthaloGreen ${
             isActive ? "opacity-1" : "opacity-[0.37]"
           }`,
         ]}
