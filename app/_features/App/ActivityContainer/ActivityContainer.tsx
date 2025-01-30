@@ -44,7 +44,7 @@ function ActivityContainer({ currPageIndex = 0 }) {
       location: "Century, Ago",
       deliveryPrice: 300,
       profile: "witty-sha.jpg",
-      isOpen: true,
+      isOpen: false,
       recommendations: [
         { image: "witty-sha.jpg", name: "chicken shawarma", price: 2000 },
         { image: "witty-sha.jpg", name: "turkey shawarma", price: 2000 },
