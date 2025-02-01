@@ -16,6 +16,26 @@ type BusinessI = {
   recommendations: { image: string; name: string; price: number }[];
 };
 
+const cartItems: BusinessI[] = [
+  {
+    name: "witty shawarma",
+    location: "Ago Okota",
+    deliveryPrice: 200,
+    profile: "witty-sha.jpg",
+    isOpen: true,
+    recommendations: [
+      { image: "witty-sha.jpg", name: "chicken shawarma", price: 2000 },
+      { image: "witty-sha.jpg", name: "turkey shawarma", price: 2000 },
+      {
+        image: "witty-sha.jpg",
+        name: "Double Roasted shawarma",
+        price: 2000,
+      },
+      { image: "witty-sha.jpg", name: "Pork shawarma", price: 2000 },
+    ],
+  },
+];
+
 function ActivityContainer({ currPageIndex = 0 }) {
   const MAX_PAGE_INDEX = 1;
   const DRAG_BUFFER = 33;
@@ -105,32 +125,43 @@ function ActivityContainer({ currPageIndex = 0 }) {
     <div className="w-full">
       <div className="relative w-full flex justify-center items-center overflow-hidden">
         <motion.div
-          drag="x"
-          dragConstraints={{ left: 0, right: 0 }}
           animate={{
             translateX: `calc((${pageIndex} * -100%) - ${
               pageIndex > 0 ? "16px" : "0px"
             })`,
           }}
           transition={{ type: "spring", mass: 3, stiffness: 400, damping: 50 }}
-          onDragEnd={onDragEnd}
-          style={{ x: dragX }}
-          className="flex w-full gap-4 h-[400px] max-h-[63.7dvh] min-h-72 active:cursor-grabbing pointer-events-auto"
+          className="flex w-full gap-4 h-[400px] max-h-[63.7dvh] min-h-72 active:cursor-grabbing"
         >
-          <div className="bg-[#f2f2f2] h-full shrink-0 w-full rounded-[25px] overflow-x-hidden overflow-y-auto p-2 flex flex-col gap-4 pointer-events-none">
+          <motion.div
+            drag="x"
+            dragConstraints={{ left: 0, right: 0 }}
+            onDragEnd={onDragEnd}
+            style={{ x: dragX }}
+            className={`bg-[#f2f2f2] h-full shrink-0 w-full rounded-[25px] overflow-x-hidden overflow-y-auto p-2 flex flex-col gap-4 ${
+              cartItems.length && "pb-[90px]"
+            }`}
+          >
             {businesses.map((business) => (
               <DefaultActivityItem key={business.name} business={business} />
             ))}
-          </div>
-          <div className="bg-[#f2f2f2] h-full shrink-0 w-full rounded-[25px] overflow-hidden"></div>
+          </motion.div>
+          <motion.div
+            drag="x"
+            dragConstraints={{ left: 0, right: 0 }}
+            onDragEnd={onDragEnd}
+            style={{ x: dragX }}
+            className="bg-[#f2f2f2] h-full shrink-0 w-full rounded-[25px] overflow-hidden"
+          ></motion.div>
         </motion.div>
         <div className="absolute w-full left-1/2 translate-x-[-50%] bottom-2 px-2 flex flex-col gap-1 items-center z-10">
           <PageControl
             numOptions={2}
             activeIndex={pageIndex}
             setActiveIndex={setPageIndex}
+            className={!cartItems.length ? "shadow-sgc" : ""}
           />
-          <CartButton />
+          {cartItems.length && <CartButton />}
         </div>
       </div>
     </div>
@@ -173,10 +204,7 @@ function DefaultActivityItem({ business }: { business: BusinessI }) {
         </div>
       </div>
       {business.recommendations.length && (
-        <div
-          className="flex space-x-3 items-center w-full overflow-auto pointer-events-auto"
-          onPointerDown={(e) => e.stopPropagation()}
-        >
+        <div className="flex space-x-3 items-center w-full overflow-auto">
           {business.recommendations.map((rec) => (
             <div
               key={rec.name}
@@ -191,7 +219,7 @@ function DefaultActivityItem({ business }: { business: BusinessI }) {
                   alt={`Image of ${rec.name} by ${business.name}`}
                 />
                 <div className="absolute h-[30%] w-full bg-stone-800 bg-opacity-[0.1] backdrop-blur-[1px] z-10 bottom-0 left-0 rounded-b-[4px] flex items-center justify-center border-t-[1px] border-t-phthaloGreen border-opacity-[0.37]">
-                  <PlusIcon className="fill-phthaloGreen w-3.5 h-3.w-3.5" />
+                  <PlusIcon className="fill-phthaloGreen w-3.5 h-3.5" />
                 </div>
               </div>
               <div className="flex flex-col justify-between text-left">
