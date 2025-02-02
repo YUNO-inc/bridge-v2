@@ -6,6 +6,7 @@ import PageControl from "../../PageControl/PageControl";
 import LocalIcons from "@/app/_utils/LocalIcons";
 import Image from "next/image";
 import { PlusIcon } from "@heroicons/react/16/solid";
+import ActivityControlsSegmentedControl from "../ActivityControlsSegmentedControl";
 
 type BusinessI = {
   name: string;
@@ -122,7 +123,7 @@ function ActivityContainer({ currPageIndex = 0 }) {
   };
 
   return (
-    <div className="w-full">
+    <div className="w-full flex flex-col gap-2">
       <div className="relative w-full flex justify-center items-center overflow-hidden">
         <motion.div
           animate={{
@@ -131,7 +132,7 @@ function ActivityContainer({ currPageIndex = 0 }) {
             })`,
           }}
           transition={{ type: "spring", mass: 3, stiffness: 400, damping: 50 }}
-          className="flex w-full gap-4 h-[400px] max-h-[63.7dvh] min-h-72 active:cursor-grabbing"
+          className="flex w-full gap-4 sw700:h-[60dvh] h-[50dvh] max-h-[63.7dvh] min-h-[400px] active:cursor-grabbing"
         >
           <motion.div
             drag="x"
@@ -164,6 +165,7 @@ function ActivityContainer({ currPageIndex = 0 }) {
           {cartItems.length && <CartButton />}
         </div>
       </div>
+      <ActivityControlsSegmentedControl />
     </div>
   );
 }

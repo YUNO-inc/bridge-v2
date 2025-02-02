@@ -61,7 +61,11 @@ export default {
         "spin-stroke": "dash 2s linear infinite",
       },
       screens: {
-        sw340: "340px", // Custom breakpoint at 1440px
+        sw340: "340px",
+        sw700: { raw: "(min-height: 700px)" },
+        "h-sm": { raw: "(min-height: 400px)" },
+        "h-md": { raw: "(min-height: 600px)" },
+        "h-lg": { raw: "(min-height: 800px)" },
       },
     },
   },
