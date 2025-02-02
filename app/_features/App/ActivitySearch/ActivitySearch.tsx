@@ -55,14 +55,4 @@ function ActivitySearch({
   );
 }
 
-// export async function getServerSideProps(ctx) {
-//   const session = await auth(ctx);
-
-//   return {
-//     props: {
-//       session,
-//     },
-//   };
-// }
-
 export default ActivitySearch;
