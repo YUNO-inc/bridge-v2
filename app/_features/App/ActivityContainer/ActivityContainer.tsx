@@ -132,7 +132,7 @@ function ActivityContainer({ currPageIndex = 0 }) {
             })`,
           }}
           transition={{ type: "spring", mass: 3, stiffness: 400, damping: 50 }}
-          className="flex w-full gap-4 sw700:h-[52dvh] h-[50dvh] max-h-[63.7dvh] min-h-[400px] active:cursor-grabbing"
+          className="flex w-full gap-4 sw700:h-[60dvh] h-[50dvh] max-h-[63.7dvh] min-h-[400px] active:cursor-grabbing"
         >
           <motion.div
             drag="x"
@@ -162,7 +162,7 @@ function ActivityContainer({ currPageIndex = 0 }) {
             setActiveIndex={setPageIndex}
             className={!cartItems.length ? "shadow-sgc" : ""}
           />
-          {cartItems.length && <CartButton />}
+          {!cartItems.length && <CartButton />}
         </div>
       </div>
       <ActivityControlsSegmentedControl />
