@@ -218,12 +218,12 @@ function DefaultActivityItem({ business }: { business: BusinessI }) {
                   className="object-cover"
                   alt={`Image of ${rec.name} by ${business.name}`}
                 />
-                <div className="absolute h-[30%] w-full bg-stone-800 bg-opacity-[0.1] backdrop-blur-[1px] z-10 bottom-0 left-0 rounded-b-[4px] flex items-center justify-center border-t-[1px] border-t-phthaloGreen border-opacity-[0.37]">
+                <div className="absolute h-[30%] w-full bg-phthaloGreen bg-opacity-[0.1] backdrop-blur-[1px] z-10 bottom-0 left-0 rounded-b-[4px] flex items-center justify-center border-t-[1px] border-t-phthaloGreen border-opacity-[0.37]">
                   <PlusIcon className="fill-phthaloGreen w-3.5 h-3.5" />
                 </div>
               </div>
               <div className="flex flex-col justify-between text-left">
-                <p className="w-max max-w-[170px]">{rec.name}</p>
+                <p className="w-max max-w-[170px] capitalize">{rec.name}</p>
                 <p>₦{rec.price}</p>
               </div>
             </div>
