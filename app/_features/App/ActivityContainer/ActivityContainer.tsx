@@ -3,12 +3,12 @@
 import { motion, useMotionValue } from "motion/react";
 import { useState } from "react";
 import PageControl from "../../PageControl/PageControl";
-import { BusinessI } from "@/app/_lib/actions/business/interfaces";
 import ActivityControlsSegmentedControl from "../ActivityControlsSegmentedControl";
 import CartButton from "../Cart/CartButton";
 import DefaultItem from "../DefaultItem/DefaultItem";
+import { BusinessDTO, CartDTO } from "@/app/_interfaces/interfaces";
 
-const cartItems: BusinessI[] = [
+const cartItems: CartDTO = [
   {
     name: "witty shawarma",
     location: "Ago Okota",
@@ -33,7 +33,7 @@ function ActivityContainer({ currPageIndex = 0 }) {
   const DRAG_BUFFER = 33;
   const [pageIndex, setPageIndex] = useState(currPageIndex);
   const dragX = useMotionValue(0);
-  const businesses: BusinessI[] = [
+  const businesses: BusinessDTO[] = [
     {
       name: "witty shawarma",
       location: "Ago Okota",

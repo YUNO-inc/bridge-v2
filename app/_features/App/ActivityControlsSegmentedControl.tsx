@@ -3,10 +3,11 @@
 import { useRouter } from "next/navigation";
 import SegmentedControl from "../SegmentedControl/SegmentedControl";
 import { useState } from "react";
-import { useSession } from "next-auth/react";
+import { useAppSelector } from "@/app/_hooks/reduxHooks";
+import { getUser } from "../User/userSlice";
 
 function ActivityControlsSegmentedControl() {
-  const { data: session } = useSession();
+  const user = useAppSelector(getUser);
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
 
@@ -17,7 +18,7 @@ function ActivityControlsSegmentedControl() {
     } else setIsLoading(false);
   }
 
-  if (session !== null) return null;
+  if (user) return null;
 
   return (
     <div className="flex justify-center">
