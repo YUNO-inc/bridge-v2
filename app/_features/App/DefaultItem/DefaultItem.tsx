@@ -1,9 +1,9 @@
-import { BusinessI } from "@/app/_lib/actions/business/interfaces";
+import { BusinessDTO } from "@/app/_interfaces/interfaces";
 import EdibleItem from "./EdibleItem";
 
 type DefaultItemProps = {
   type?: "edible";
-  business: BusinessI;
+  business: BusinessDTO;
 };
 
 function DefaultItem({ type = "edible", business }: DefaultItemProps) {

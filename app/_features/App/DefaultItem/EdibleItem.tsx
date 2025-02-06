@@ -1,9 +1,9 @@
 import { PlusIcon } from "@heroicons/react/16/solid";
-import { BusinessI } from "@/app/_lib/actions/business/interfaces";
+import { BusinessDTO } from "@/app/_interfaces/interfaces";
 import LocalIcons from "@/app/_utils/LocalIcons";
 import Image from "next/image";
 
-type EdibleItemProps = { business: BusinessI };
+type EdibleItemProps = { business: BusinessDTO };
 
 function EdibleItem({ business }: EdibleItemProps) {
   return (

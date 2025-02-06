@@ -1,8 +1,8 @@
 import { DefaultSession } from "next-auth";
-import { UserI } from "@/app/_lib/actions/user/interfaces";
+import { UserDTO } from "./app/_interfaces/interfaces";
 
 declare module "next-auth" {
-  type User = UserI;
+  type User = UserDTO;
 
   interface Session {
     user: User & DefaultSession["user"];

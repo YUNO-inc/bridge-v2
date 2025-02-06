@@ -1,7 +1,7 @@
-import { UserI } from "../../actions/user/interfaces";
 import validator from "validator";
 import { Model, Schema, model, models } from "mongoose";
 import { cleanupModel } from "../../utils/helpers";
+import { UserDTO } from "@/app/_interfaces/interfaces";
 
 const UserSchema = new Schema({
   name: {
@@ -27,6 +27,6 @@ const UserSchema = new Schema({
 
 cleanupModel("User");
 
-const User: Model<UserI> = models.User || model<UserI>("User", UserSchema);
+const User: Model<UserDTO> = models.User || model<UserDTO>("User", UserSchema);
 
 export default User;
