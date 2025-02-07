@@ -4,102 +4,169 @@ import { motion, useMotionValue } from "motion/react";
 import { useState } from "react";
 import PageControl from "../../PageControl/PageControl";
 import ActivityControlsSegmentedControl from "../ActivityControlsSegmentedControl";
-import CartButton from "../Cart/CartButton";
+import CartButton from "../../Cart/CartButton";
 import DefaultItem from "../DefaultItem/DefaultItem";
-import { BusinessDTO, CartDTO } from "@/app/_interfaces/interfaces";
-
-const cartItems: CartDTO = [
-  {
-    name: "witty shawarma",
-    location: "Ago Okota",
-    deliveryPrice: 200,
-    profile: "witty-sha.jpg",
-    isOpen: true,
-    recommendations: [
-      { image: "witty-sha.jpg", name: "chicken shawarma", price: 2000 },
-      { image: "witty-sha.jpg", name: "turkey shawarma", price: 2000 },
-      {
-        image: "witty-sha.jpg",
-        name: "Double Roasted shawarma",
-        price: 2000,
-      },
-      { image: "witty-sha.jpg", name: "Pork shawarma", price: 2000 },
-    ],
-  },
-];
+import { BusinessDTO } from "@/app/_interfaces/interfaces";
+import { useAppSelector } from "@/app/_hooks/reduxHooks";
+import { getCart } from "../../Cart/cartSlice";
 
 function ActivityContainer({ currPageIndex = 0 }) {
+  const { cart } = useAppSelector(getCart);
   const MAX_PAGE_INDEX = 1;
   const DRAG_BUFFER = 33;
   const [pageIndex, setPageIndex] = useState(currPageIndex);
   const dragX = useMotionValue(0);
   const businesses: BusinessDTO[] = [
     {
+      id: "1",
       name: "witty shawarma",
       location: "Ago Okota",
       deliveryPrice: 200,
       profile: "witty-sha.jpg",
       isOpen: true,
       recommendations: [
-        { image: "witty-sha.jpg", name: "chicken shawarma", price: 2000 },
-        { image: "witty-sha.jpg", name: "turkey shawarma", price: 2000 },
         {
+          id: "item01",
+          ownerData: { id: "1", deliveryPrice: 200 },
+          image: "witty-sha.jpg",
+          name: "chicken shawarma",
+          price: 2000,
+        },
+        {
+          id: "item02",
+          ownerData: { id: "1", deliveryPrice: 200 },
+          image: "witty-sha.jpg",
+          name: "turkey shawarma",
+          price: 2000,
+        },
+        {
+          id: "item03",
+          ownerData: { id: "1", deliveryPrice: 200 },
           image: "witty-sha.jpg",
           name: "Double Roasted shawarma",
           price: 2000,
         },
-        { image: "witty-sha.jpg", name: "Pork shawarma", price: 2000 },
+        {
+          id: "item04",
+          ownerData: { id: "1", deliveryPrice: 200 },
+          image: "witty-sha.jpg",
+          name: "Pork shawarma",
+          price: 2000,
+        },
       ],
     },
     {
+      id: "2",
       name: "Premium shawarma",
       location: "Century, Ago",
       deliveryPrice: 300,
       profile: "witty-sha.jpg",
       isOpen: false,
       recommendations: [
-        { image: "witty-sha.jpg", name: "chicken shawarma", price: 2000 },
-        { image: "witty-sha.jpg", name: "turkey shawarma", price: 2000 },
         {
+          id: "item05",
+          ownerData: { id: "2", deliveryPrice: 300 },
+          image: "witty-sha.jpg",
+          name: "chicken shawarma",
+          price: 2000,
+        },
+        {
+          id: "item06",
+          ownerData: { id: "2", deliveryPrice: 300 },
+          image: "witty-sha.jpg",
+          name: "turkey shawarma",
+          price: 2000,
+        },
+        {
+          id: "item07",
+          ownerData: { id: "2", deliveryPrice: 300 },
           image: "witty-sha.jpg",
           name: "Double Roasted shawarma",
           price: 2000,
         },
-        { image: "witty-sha.jpg", name: "Pork shawarma", price: 2000 },
+        {
+          id: "item08",
+          ownerData: { id: "2", deliveryPrice: 300 },
+          image: "witty-sha.jpg",
+          name: "Pork shawarma",
+          price: 2000,
+        },
       ],
     },
     {
+      id: "3",
       name: "witty shawarma 2",
       location: "Ago Okota",
       deliveryPrice: 200,
       profile: "witty-sha.jpg",
       isOpen: true,
       recommendations: [
-        { image: "witty-sha.jpg", name: "chicken shawarma", price: 2000 },
-        { image: "witty-sha.jpg", name: "turkey shawarma", price: 2000 },
         {
+          id: "item09",
+          ownerData: { id: "3", deliveryPrice: 200 },
+          image: "witty-sha.jpg",
+          name: "chicken shawarma",
+          price: 2000,
+        },
+        {
+          id: "item10",
+          ownerData: { id: "3", deliveryPrice: 200 },
+          image: "witty-sha.jpg",
+          name: "turkey shawarma",
+          price: 2000,
+        },
+        {
+          id: "item11",
+          ownerData: { id: "3", deliveryPrice: 200 },
           image: "witty-sha.jpg",
           name: "Double Roasted shawarma",
           price: 2000,
         },
-        { image: "witty-sha.jpg", name: "Pork shawarma", price: 2000 },
+        {
+          id: "item12",
+          ownerData: { id: "3", deliveryPrice: 200 },
+          image: "witty-sha.jpg",
+          name: "Pork shawarma",
+          price: 2000,
+        },
       ],
     },
     {
+      id: "4",
       name: "Premium shawarma 2",
       location: "Century, Ago",
-      deliveryPrice: 300,
+      deliveryPrice: 150,
       profile: "witty-sha.jpg",
       isOpen: true,
       recommendations: [
-        { image: "witty-sha.jpg", name: "chicken shawarma", price: 2000 },
-        { image: "witty-sha.jpg", name: "turkey shawarma", price: 2000 },
         {
+          id: "item13",
+          ownerData: { id: "4", deliveryPrice: 150 },
+          image: "witty-sha.jpg",
+          name: "chicken shawarma",
+          price: 2000,
+        },
+        {
+          id: "item14",
+          ownerData: { id: "4", deliveryPrice: 150 },
+          image: "witty-sha.jpg",
+          name: "turkey shawarma",
+          price: 2000,
+        },
+        {
+          id: "item15",
+          ownerData: { id: "4", deliveryPrice: 150 },
           image: "witty-sha.jpg",
           name: "Double Roasted shawarma",
           price: 2000,
         },
-        { image: "witty-sha.jpg", name: "Pork shawarma", price: 2000 },
+        {
+          id: "item16",
+          ownerData: { id: "4", deliveryPrice: 150 },
+          image: "witty-sha.jpg",
+          name: "Pork shawarma",
+          price: 2000,
+        },
       ],
     },
   ];
@@ -131,7 +198,7 @@ function ActivityContainer({ currPageIndex = 0 }) {
             onDragEnd={onDragEnd}
             style={{ x: dragX }}
             className={`bg-[#f2f2f2] h-full shrink-0 w-full rounded-[25px] overflow-x-hidden overflow-y-auto p-2 flex flex-col gap-4 ${
-              cartItems.length && "pb-[90px]"
+              cart.length && "pb-[90px]"
             }`}
           >
             {businesses.map((business) => (
@@ -151,9 +218,9 @@ function ActivityContainer({ currPageIndex = 0 }) {
             numOptions={2}
             activeIndex={pageIndex}
             setActiveIndex={setPageIndex}
-            className={!cartItems.length ? "shadow-sgc" : ""}
+            className={!cart.length ? "shadow-sgc" : ""}
           />
-          {cartItems.length && <CartButton />}
+          {!!cart.length && <CartButton />}
         </div>
       </div>
       <ActivityControlsSegmentedControl />

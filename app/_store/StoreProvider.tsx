@@ -9,7 +9,7 @@ export default function StoreProvider({
   user,
   children,
 }: {
-  user: UserDTO | undefined;
+  user: UserDTO;
   children: React.ReactNode;
 }) {
   const storeRef = useRef<AppStore | null>(null);

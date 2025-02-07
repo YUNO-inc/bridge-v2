@@ -5,15 +5,23 @@ export interface UserDTO {
   phoneNumber?: string;
 }
 
-export type UserType = UserDTO | undefined;
+export interface ItemDTO {
+  // business?: Partial<BusinessDTO> | string;
+  id: string;
+  ownerData: { id: string; deliveryPrice: number };
+  image: string;
+  name: string;
+  price: number;
+}
 
 export interface BusinessDTO {
+  id: string;
   name: string;
   location: string;
   deliveryPrice: number;
   profile: string;
   isOpen: boolean;
-  recommendations: { image: string; name: string; price: number }[];
+  recommendations: ItemDTO[];
 }
 
-export type CartDTO = BusinessDTO[];
+export type CartDTO = ItemDTO[];

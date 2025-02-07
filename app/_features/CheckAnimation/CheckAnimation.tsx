@@ -126,22 +126,24 @@ function CheckAnimation({
           />
         </svg>
       </div>
-      <span
-        className={`pt-2 transition-all ${
-          showLoader
-            ? "opacity-0 translate-y-[-40%]"
-            : "opacity-100 translate-y-0"
-        }`}
-        style={{
-          transitionDelay: `${
-            durationPerCircleNumber - checkDelayIndex - 0.5
-          }s`,
-          transitionDuration: ".5s",
-          transitionTimingFunction: "cubic-bezier(.59,.57,.11,1.68)",
-        }}
-      >
-        {message}
-      </span>
+      {!!message && (
+        <span
+          className={`pt-2 transition-all ${
+            showLoader
+              ? "opacity-0 translate-y-[-40%]"
+              : "opacity-100 translate-y-0"
+          }`}
+          style={{
+            transitionDelay: `${
+              durationPerCircleNumber - checkDelayIndex - 0.5
+            }s`,
+            transitionDuration: ".5s",
+            transitionTimingFunction: "cubic-bezier(.59,.57,.11,1.68)",
+          }}
+        >
+          {message}
+        </span>
+      )}
     </div>
   );
 }
