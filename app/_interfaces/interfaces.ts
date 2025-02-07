@@ -5,6 +5,8 @@ export interface UserDTO {
   phoneNumber?: string;
 }
 
+export type UserType = UserDTO | undefined;
+
 export interface BusinessDTO {
   name: string;
   location: string;
