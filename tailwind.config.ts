@@ -62,10 +62,13 @@ export default {
       },
       screens: {
         sw340: "340px",
-        sw700: { raw: "(min-height: 700px)" },
+        sh700: { raw: "(min-height: 700px)" },
         "h-sm": { raw: "(min-height: 400px)" },
         "h-md": { raw: "(min-height: 600px)" },
         "h-lg": { raw: "(min-height: 800px)" },
+        "sw-home-page-sm": {
+          raw: "(min-height: 640px) and (min-width: 780px)",
+        },
       },
     },
   },
