@@ -1,6 +1,7 @@
 import { UserDTO } from "@/app/_interfaces/interfaces";
 import { connect } from "../../db";
 import User from "../../models/user/model";
+import { auth } from "../auth/auth";
 
 export async function createUser(user: UserDTO) {
   await connect();
@@ -17,5 +18,19 @@ export async function getUser(queryObj: Partial<UserDTO>) {
 export async function updateUserById(id: string, updateObj: Partial<UserDTO>) {
   await connect();
   const user = await User.findByIdAndUpdate(id, updateObj, { new: true });
+  return user;
+}
+
+export async function updateMe(updateObj: Partial<UserDTO>) {
+  const session = await auth();
+  if (!session?.user) return;
+  const id = session.user.id;
+
+  await connect();
+  const user = await User.findByIdAndUpdate(id, updateObj, { new: true });
+  if (!user)
+    throw new Error(
+      "You are logged in but your data is missing in our database."
+    );
   return user;
 }

@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { UserDTO } from "@/app/_interfaces/interfaces";
 
 type InitialState = {
@@ -13,7 +13,7 @@ const userSlice = createSlice({
   name: "user",
   initialState,
   reducers: {
-    setUser(state, action) {
+    setUser(state, action: PayloadAction<Partial<UserDTO>>) {
       state.user = action.payload;
     },
   },

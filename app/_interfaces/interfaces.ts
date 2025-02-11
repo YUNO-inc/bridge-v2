@@ -25,3 +25,17 @@ export interface BusinessDTO {
 }
 
 export type CartDTO = ItemDTO[];
+
+export type InputsProps = {
+  type: "tel" | "select" | "text" | "email";
+  theme?: string;
+  label?: string;
+  helperText?: string;
+  selectOpt?: { value: string; text?: string; png?: string }[];
+  placeHolder: string;
+  className: string;
+  name: string;
+  required: boolean;
+  value: string;
+  setValue: React.Dispatch<React.SetStateAction<string | undefined>>;
+};

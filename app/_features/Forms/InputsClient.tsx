@@ -1,18 +1,20 @@
-import { getRGB } from "@/app/_utils/helpers";
-import SelectInput from "./SelectInput";
-import HelperText from "./HelperText";
-import { InputsProps } from "@/app/_interfaces/interfaces";
+"use client";
 
-function Inputs({
+import { InputsProps } from "@/app/_interfaces/interfaces";
+import { getRGB } from "@/app/_utils/helpers";
+import HelperText from "./HelperText";
+
+function InputsClient({
   type,
   theme = "#123524",
   label,
   helperText = " ",
-  selectOpt = [],
   placeHolder,
   className = "",
   name = "",
   required = true,
+  value = "",
+  setValue,
 }: Partial<InputsProps>) {
   const rgb = getRGB(theme);
   let inputType;
@@ -30,6 +32,8 @@ function Inputs({
         required={required}
         minLength={10}
         maxLength={11}
+        value={value}
+        onChange={(e) => setValue && setValue(e.target.value)}
       />
     );
 
@@ -43,13 +47,10 @@ function Inputs({
           "bg-transparent leading-[0px] focus:outline-none placeholder:text-phthaloGreen placeholder:text-opacity-[0.37]"
         }
         required={required}
+        value={value}
+        onChange={(e) => setValue && setValue(e.target.value)}
       />
     );
-
-  if (type === "select")
-    inputType = <SelectInput options={selectOpt} className={className} />;
-
-  // focus:ring focus:ring-phthaloGreen-200 focus:ring-offset-2
 
   return (
     <label className={`flex flex-col ${className}`}>
@@ -72,4 +73,4 @@ function Inputs({
   );
 }
 
-export default Inputs;
+export default InputsClient;

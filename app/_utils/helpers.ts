@@ -9,3 +9,12 @@ export function getRGB(color: string): string {
     throw new Error(`Invalid color format: ${color}`);
   }
 }
+
+export function cleanObject(objectToClean: object) {
+  for (const key of Object.keys(objectToClean) as Array<
+    keyof typeof objectToClean
+  >) {
+    if (!objectToClean[key]) delete objectToClean[key];
+  }
+  return objectToClean;
+}
