@@ -7,8 +7,11 @@ export const viewport: Viewport = {
 
 function Page() {
   return (
-    <div className="flex flex-col min-h-[100svh] p-4 text-xl">
-      <PageBackLink text="Addresses" />
+    <div className="flex flex-col min-h-[100svh] p-4 text-xl ">
+      <PageBackLink
+        text="Address"
+        className="bg-background py-0.5 pr-2 rounded-lg shadow-sgc"
+      />
     </div>
   );
 }
