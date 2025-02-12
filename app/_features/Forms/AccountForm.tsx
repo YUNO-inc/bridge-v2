@@ -40,7 +40,11 @@ function AccountForm() {
 
   return (
     <form
-      action={handleAction}
+      onSubmit={(e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        const formData = new FormData(e.currentTarget);
+        handleAction(formData);
+      }}
       className="flex flex-col gap-6 mt-10 p-3 text-stone-700 text-sm"
     >
       <InputsClient
