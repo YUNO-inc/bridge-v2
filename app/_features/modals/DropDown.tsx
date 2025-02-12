@@ -18,6 +18,7 @@ function DropDown({ showDropDown }: { showDropDown: boolean }) {
       <MajorLink
         icon={<MapPinIcon className="stroke-current w-6 h-6" />}
         text="Addresses"
+        href="address"
       />
     </motion.div>
   );
