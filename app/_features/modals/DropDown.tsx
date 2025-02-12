@@ -6,7 +6,7 @@ function DropDown({ showDropDown }: { showDropDown: boolean }) {
   if (!showDropDown) return null;
   return (
     <motion.div
-      className="flex flex-col gap-3 backdrop-blur-[100px] rounded-[34px] p-3"
+      className="flex flex-col gap-3 backdrop-blur-[100px] rounded-[34px] p-3 text-stone-600"
       style={{
         boxShadow: `rgba(0, 0, 0, 0.2) 0px 2px 8px 0px`,
       }}
