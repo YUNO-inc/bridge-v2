@@ -6,7 +6,7 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { getUser } from "../User/userSlice";
 import { ChevronDownIcon } from "@heroicons/react/16/solid";
 import { useState } from "react";
-import DropDown from "../Modals/DropDown";
+import DropDown from "@/app/_features/Modals/DropDown";
 
 function ProfileImage() {
   const router = useRouter();
