@@ -1,8 +1,15 @@
+export interface AddressDTO {
+  name: string;
+  coords: [number, number];
+  isSelected: boolean;
+}
+
 export interface UserDTO {
   id?: Readonly<string>;
   name: string;
   email: string;
   phoneNumber?: string;
+  address?: AddressDTO[];
 }
 
 export interface ItemDTO {

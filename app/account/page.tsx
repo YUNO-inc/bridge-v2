@@ -12,7 +12,7 @@ async function Page() {
 
   return (
     <div className="flex flex-col min-h-[100svh] p-4 text-xl">
-      <PageBackLink text="Account" />
+      <PageBackLink text="Account" className="mb-10" />
       <AccountForm />
       <SignOutBtn />
     </div>

@@ -12,3 +12,7 @@
 :root {
   --background: #ffffff;
 }
+
+.rotateX-180 {
+  transform: rotate(90deg);
+}

@@ -10,6 +10,7 @@ function MajorLinkClient({
   className,
   elementType = "link",
   onClick,
+  isLink = true,
   isLoading = false,
 }: {
   icon?: React.ReactNode;
@@ -18,6 +19,7 @@ function MajorLinkClient({
   className?: string;
   elementType?: "button" | "link";
   onClick?: () => void;
+  isLink?: boolean;
   isLoading?: boolean;
 }) {
   const innerHtml = isLoading ? (
@@ -28,9 +30,9 @@ function MajorLinkClient({
     <>
       <span className="flex items-center gap-[14px]">
         {icon}
-        <span className="capitalize text-lg">{text}</span>
+        <span className="capitalize">{text}</span>
       </span>
-      <ChevronRightIcon className="fill-current w-6 h-6 ml-3" />
+      {isLink && <ChevronRightIcon className="fill-current w-6 h-6 ml-3" />}
     </>
   );
 
@@ -38,7 +40,7 @@ function MajorLinkClient({
     return (
       <button
         onClick={onClick}
-        className={`flex items-center justify-between rounded-[calc(34px-12px)] p-[10px] hover:bg-[#5E5E5E14] ${className}`}
+        className={`flex items-center justify-between rounded-[calc(34px-12px)] p-[10px] text-lg hover:bg-[#5E5E5E14] ${className}`}
       >
         {innerHtml}
       </button>
