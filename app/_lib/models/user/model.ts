@@ -1,7 +1,17 @@
 import validator from "validator";
 import { Model, Schema, model, models } from "mongoose";
 import { cleanupModel } from "../../utils/helpers";
-import { UserDTO } from "@/app/_interfaces/interfaces";
+import { AddressDTO, UserDTO } from "@/app/_interfaces/interfaces";
+
+const AddressSchema = new Schema<AddressDTO>({
+  name: { type: String, required: true },
+  coords: {
+    type: [Number],
+    required: true,
+    validate: (val: number[]) => val.length === 2,
+  },
+  isSelected: { type: Boolean, default: false },
+});
 
 const UserSchema = new Schema({
   name: {
@@ -23,6 +33,7 @@ const UserSchema = new Schema({
     maxlength: [11, `Phone Number too long. Must be less than 11 characters.`],
     minlength: [10, `Phone Number too short. Must have at least 10 character.`],
   },
+  addresses: { type: [AddressSchema], default: [] },
 });
 
 cleanupModel("User");
