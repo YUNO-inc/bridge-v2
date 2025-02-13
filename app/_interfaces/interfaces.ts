@@ -1,4 +1,5 @@
 export interface AddressDTO {
+  id: string;
   name: string;
   coords: [number, number];
   isSelected: boolean;
@@ -9,7 +10,7 @@ export interface UserDTO {
   name: string;
   email: string;
   phoneNumber?: string;
-  address?: AddressDTO[];
+  addresses: AddressDTO[];
 }
 
 export interface ItemDTO {

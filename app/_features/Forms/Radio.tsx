@@ -4,20 +4,24 @@ function Radio({
   text = "select yes",
   value = "yes",
   isChecked = false,
+  onChange,
+  className,
 }: {
   text: string;
   value: string;
   isChecked: boolean;
+  onChange: () => void;
+  className: string;
 }) {
   return (
-    <label className="flex items-center justify-between">
+    <label className={`flex items-center justify-between ${className}`}>
       <span className="flex items-center gap-2">
         <input
           type="radio"
           name="option"
           className="peer hidden"
           value={value}
-          onChange={() => {}}
+          onChange={() => isChecked || onChange()}
           checked={isChecked}
         />
         <button
@@ -25,9 +29,13 @@ function Radio({
             isChecked ? "text-blue-500" : "text-stone-500"
           }`}
         >
-          {isChecked && (
-            <span className="rounded-full w-[16px] h-[16px] bg-current"></span>
-          )}
+          <span
+            className={`rounded-full transition-all ${
+              isChecked
+                ? "w-[16px] h-[16px] bg-current"
+                : "w-0 h-0 bg-transparent"
+            }`}
+          ></span>
         </button>
         <span className="wrap hyphens-auto">{text}</span>
       </span>
