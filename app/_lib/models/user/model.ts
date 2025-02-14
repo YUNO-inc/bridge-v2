@@ -3,15 +3,18 @@ import { Model, Schema, model, models } from "mongoose";
 import { cleanupModel } from "../../utils/helpers";
 import { AddressDTO, UserDTO } from "@/app/_interfaces/interfaces";
 
-const AddressSchema = new Schema<AddressDTO>({
-  name: { type: String, required: true },
-  coords: {
-    type: [Number],
-    required: true,
-    validate: (val: number[]) => val.length === 2,
+const AddressSchema = new Schema<AddressDTO>(
+  {
+    name: { type: String, required: true },
+    coords: {
+      type: [Number],
+      required: true,
+      validate: (val: number[]) => val.length === 2,
+    },
+    isSelected: { type: Boolean, default: false },
   },
-  isSelected: { type: Boolean, default: false },
-});
+  { toObject: { virtuals: true } }
+);
 
 const UserSchema = new Schema({
   name: {

@@ -6,12 +6,14 @@ function Radio({
   isChecked = false,
   onChange,
   className,
+  onDelete,
 }: {
   text: string;
   value: string;
   isChecked: boolean;
   onChange: () => void;
   className: string;
+  onDelete?: () => void;
 }) {
   return (
     <label className={`flex items-center justify-between ${className}`}>
@@ -23,8 +25,9 @@ function Radio({
           value={value}
           onChange={() => isChecked || onChange()}
           checked={isChecked}
+          id="belu"
         />
-        <button
+        <span
           className={`flex items-center justify-center rounded-full w-[20px] h-[20px] border border-current transition-all ${
             isChecked ? "text-blue-500" : "text-stone-500"
           }`}
@@ -36,10 +39,13 @@ function Radio({
                 : "w-0 h-0 bg-transparent"
             }`}
           ></span>
-        </button>
+        </span>
         <span className="wrap hyphens-auto">{text}</span>
       </span>
-      <button className="flex items-center justify-center w-8 h-8 rounded-full bg-app-red bg-opacity-[0.1] ml-3">
+      <button
+        className="flex items-center justify-center w-8 h-8 rounded-full bg-app-red bg-opacity-[0.1] ml-3"
+        onClick={() => onDelete && onDelete()}
+      >
         <TrashIcon className="w-4 h-4 stroke-app-red" />
       </button>
     </label>

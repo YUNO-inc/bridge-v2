@@ -25,7 +25,6 @@ export async function updateMe(updateObj: Partial<UserDTO>) {
   const session = await auth();
   if (!session?.user) return;
   const id = session.user.id;
-
   await connect();
   const user = await User.findByIdAndUpdate(id, updateObj, { new: true });
   if (!user)

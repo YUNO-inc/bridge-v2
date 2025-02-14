@@ -17,21 +17,17 @@ const userSlice = createSlice({
       if (!action.payload) return;
       state.user = action.payload;
     },
-    // const isValidKey = (key: string): key is keyof UserDTO =>
-    //   key in ({} as UserDTO);
-    // updateUser(state, action: PayloadAction<Partial<UserDTO> | undefined>) {
-    //   const payload = action.payload;
-    //   if (!(payload && state.user)) return;
-    //   for (const key of Object.keys(payload)) {
-    //     console.log("key: ", key, "ISVALID: ", isValidKey(key));
-    //     if (!isValidKey(key)) continue;
-    //     // state.user[key] = payload[key as keyof UserDTO];
-    //   }
-    // },
+
     addNewAddress(state, action: PayloadAction<AddressDTO>) {
       if (!state.user) return;
       if (!state.user.addresses) state.user.addresses = [];
       state.user.addresses.push(action.payload);
+    },
+    deleteAddress(state, action: PayloadAction<AddressDTO["id"]>) {
+      if (!(state.user && state.user.addresses?.length)) return;
+      state.user.addresses = state.user.addresses.filter(
+        (address) => address.id !== action.payload
+      );
     },
     changeAddress(state, action: PayloadAction<AddressDTO["id"]>) {
       const id = action.payload;
@@ -44,7 +40,8 @@ const userSlice = createSlice({
   },
 });
 
-export const { setUser, addNewAddress, changeAddress } = userSlice.actions;
+export const { setUser, addNewAddress, changeAddress, deleteAddress } =
+  userSlice.actions;
 
 export const getUser = (state: { user: InitialState }) => state.user.user;
 
