@@ -88,7 +88,7 @@ function BusinessItem({
             isActive ? "opacity-1" : "opacity-[0.37]"
           }`,
         ]}
-        className={`w-5 transition-all ease-out duration-300 delay-[0.05s] ${
+        className={`w-5 h-5 transition-all ease-out duration-300 delay-[0.05s] ${
           isActive ? "scale-[1.2]" : ""
         }`}
       />
