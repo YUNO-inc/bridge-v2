@@ -57,7 +57,6 @@ function MapContainer() {
         const { latitude, longitude, accuracy } = geoPosition.coords;
         setCurrentCoords({ coords: [latitude, longitude], accuracy: accuracy });
         console.log(geoPosition);
-        alert(geoPosition);
       } catch (err) {
         console.log(err);
       }

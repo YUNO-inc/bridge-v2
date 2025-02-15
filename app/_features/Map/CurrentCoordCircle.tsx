@@ -8,15 +8,22 @@ function CurrentCoordCircle({
   currentCoords: AddressDTO["coords"];
   accuracyRad: number;
 }) {
+  const [MAX_RAD, MIN_RAD] = [5000, 5000];
+  function adjustRadius() {
+    if (accuracyRad <= MAX_RAD && accuracyRad >= MIN_RAD) return accuracyRad;
+    else if (accuracyRad > MAX_RAD) return MAX_RAD;
+    else return MIN_RAD;
+  }
+
   return (
     <Circle
       center={currentCoords}
-      radius={accuracyRad}
+      radius={adjustRadius()}
       pathOptions={{
-        color: "blue", // Border (stroke) color
-        fillColor: "lightblue", // Background color
-        fillOpacity: 0.5, // Transparency of background
-        weight: 2, // Border thickness
+        color: "#3b82f650",
+        fillColor: "#3b82f6",
+        fillOpacity: 0.1,
+        weight: 1,
       }}
     />
   );
