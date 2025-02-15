@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@heroicons/react": "^2.2.0",
+    "@maplibre/maplibre-gl-leaflet": "^0.0.22",
     "@phosphor-icons/react": "^2.1.7",
     "@reduxjs/toolkit": "^2.5.1",
     "@types/color": "^4.2.0",

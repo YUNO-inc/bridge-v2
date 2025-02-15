@@ -2,7 +2,9 @@
 
 import dynamic from "next/dynamic";
 
-const Container = dynamic(() => import("./MapContainer"), { ssr: false });
+const Container = dynamic(() => import("./AddressMapContainer"), {
+  ssr: false,
+});
 
 function Map() {
   return <Container />;
