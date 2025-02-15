@@ -8,7 +8,7 @@ function CurrentCoordCircle({
   currentCoords: AddressDTO["coords"];
   accuracyRad: number;
 }) {
-  const [MAX_RAD, MIN_RAD] = [5000, 5000];
+  const [MAX_RAD, MIN_RAD] = [5000, 100];
   function adjustRadius() {
     if (accuracyRad <= MAX_RAD && accuracyRad >= MIN_RAD) return accuracyRad;
     else if (accuracyRad > MAX_RAD) return MAX_RAD;

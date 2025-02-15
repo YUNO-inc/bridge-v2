@@ -56,9 +56,9 @@ function MapContainer() {
         const geoPosition = await getPosition();
         const { latitude, longitude, accuracy } = geoPosition.coords;
         setCurrentCoords({ coords: [latitude, longitude], accuracy: accuracy });
-        alert("GeoPosition Found Successfully");
-      } catch (err) {
-        alert("Unable to locate you...");
+        alert(`GeoPosition Found Successfully. Accuracy: ${accuracy}`);
+      } catch (err: any | unknown | { message: string }) {
+        alert(`Unable to locate you..., ${err.message}`);
         console.log(err);
       }
     }
@@ -113,7 +113,6 @@ function DetectClick({
 const getPosition = async (): Promise<GeolocationPosition> => {
   const options = {
     enableHighAccuracy: true,
-    timeout: 5000,
     maximumAge: 0,
   };
   return new Promise(function (resolve, reject) {
