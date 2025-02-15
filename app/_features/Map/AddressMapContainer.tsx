@@ -58,7 +58,7 @@ function MapContainer() {
         setCurrentCoords({ coords: [latitude, longitude], accuracy: accuracy });
         alert(`GeoPosition Found Successfully. Accuracy: ${accuracy}`);
       } catch (err) {
-        alert(`Unable to locate you..., ${err?.message}`);
+        alert("Unable to locate you...");
         console.log(err);
       }
     }
