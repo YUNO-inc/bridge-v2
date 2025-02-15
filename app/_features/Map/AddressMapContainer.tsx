@@ -1,36 +1,37 @@
 "use client";
 
-import {
-  MapContainer as Container,
-  TileLayer,
-  useMap,
-  useMapEvent,
-} from "react-leaflet";
-import "leaflet/dist/leaflet.css";
+import { useEffect, useState } from "react";
+import { useSearchParams } from "next/navigation";
 import L from "leaflet";
+import { MapContainer as Container, TileLayer } from "react-leaflet";
+import "leaflet/dist/leaflet.css";
 import iconUrl from "leaflet/dist/images/marker-icon.png";
 import iconRetinaUrl from "leaflet/dist/images/marker-icon-2x.png";
 import shadowUrl from "leaflet/dist/images/marker-shadow.png";
-
-import { useEffect, useState } from "react";
 import { AddressDTO } from "@/app/_interfaces/interfaces";
 import { useAppSelector } from "@/app/_hooks/reduxHooks";
 import { getUser } from "../User/userSlice";
 import CurrentCoordCircle from "./CurrentCoordCircle";
+import { ChangMapView, DetectClick } from "./Utils";
+
+const DEFAULT_POS: AddressDTO["coords"] = [
+  6.510770062610523, 3.3191478252410893,
+];
+const ZOOM_LEVEL = 16;
 
 function MapContainer() {
-  const DEFAULT_POS: AddressDTO["coords"] = [
-    6.510770062610523, 3.3191478252410893,
-  ];
-  const ZOOM_LEVEL = 16;
   const user = useAppSelector(getUser);
+  const searchParams = useSearchParams();
+  const fromCurrPosition = searchParams.get("geoposition");
+
   const selectedAddress =
     user?.addresses?.length &&
     user.addresses.find((a) => a.isSelected === true);
+
   const [currentCoords, setCurrentCoords] = useState<
     { coords: AddressDTO["coords"]; accuracy: number } | undefined
   >(undefined);
-  const [position, setPosition] = useState(
+  const [mapCenter, setMapCenter] = useState(
     selectedAddress ? selectedAddress.coords : DEFAULT_POS
   );
   const tiles = {
@@ -41,34 +42,39 @@ function MapContainer() {
   };
 
   useEffect(() => {
-    if ("_getIconUrl" in L.Icon.Default.prototype) {
-      delete (L.Icon.Default.prototype as Record<string, unknown>)._getIconUrl;
+    function setUPIcons() {
+      if ("_getIconUrl" in L.Icon.Default.prototype) {
+        delete (L.Icon.Default.prototype as Record<string, unknown>)
+          ._getIconUrl;
+      }
+      L.Icon.Default.mergeOptions({
+        iconUrl,
+        iconRetinaUrl,
+        shadowUrl,
+      });
     }
 
-    L.Icon.Default.mergeOptions({
-      iconUrl,
-      iconRetinaUrl,
-      shadowUrl,
-    });
-
-    async function getPOS() {
+    async function getCoords() {
+      if (!fromCurrPosition) return;
       try {
-        const geoPosition = await getPosition();
+        const geoPosition = await getCurrentCoords();
         const { latitude, longitude, accuracy } = geoPosition.coords;
         setCurrentCoords({ coords: [latitude, longitude], accuracy: accuracy });
-        alert(`GeoPosition Found Successfully. Accuracy: ${accuracy}`);
+        setMapCenter([latitude, longitude]);
       } catch (err) {
         alert("Unable to locate you...");
         console.log(err);
       }
     }
-    getPOS();
-  }, []);
+
+    setUPIcons();
+    getCoords();
+  }, [fromCurrPosition]);
 
   return (
     <Container
       className="w-full h-svh"
-      center={position}
+      center={mapCenter}
       zoom={ZOOM_LEVEL}
       zoomControl={false}
     >
@@ -83,34 +89,13 @@ function MapContainer() {
           accuracyRad={currentCoords.accuracy}
         />
       )}
-      <DetectClick setPosition={setPosition} />
-      <ChangMapView position={position} />
+      <DetectClick setMapCenter={setMapCenter} />
+      <ChangMapView mapCenter={mapCenter} />
     </Container>
   );
 }
 
-function ChangMapView({ position }: { position: AddressDTO["coords"] }) {
-  const map = useMap();
-  map.setView(position);
-  return null;
-}
-
-function DetectClick({
-  setPosition,
-}: {
-  setPosition: React.Dispatch<React.SetStateAction<AddressDTO["coords"]>>;
-}) {
-  useMapEvent("click", (e) => {
-    const {
-      latlng: { lat, lng },
-    } = e;
-    setPosition([lat, lng]);
-  });
-
-  return null;
-}
-
-const getPosition = async (): Promise<GeolocationPosition> => {
+const getCurrentCoords = async (): Promise<GeolocationPosition> => {
   const options = {
     enableHighAccuracy: true,
     maximumAge: 0,
@@ -121,18 +106,3 @@ const getPosition = async (): Promise<GeolocationPosition> => {
 };
 
 export default MapContainer;
-
-// const options = {
-//   enableHighAccuracy: true,
-//   timeout: 5000,
-//   maximumAge: 0,
-// };
-// navigator.geolocation.getCurrentPosition(
-//   (position) => {
-//     const { latitude, longitude } = position.coords;
-//     // setPosition([latitude, longitude]);
-//     // console.log(latitude, longitude);
-//   },
-//   (error) => console.error(error),
-//   options
-// );

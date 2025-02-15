@@ -49,10 +49,11 @@ function MajorLinkClient({
     return (
       <Link
         href={href || `/${text.toLocaleLowerCase()}`}
-        className={`flex items-center justify-between rounded-[calc(34px-12px)] p-[10px] text-stone-600 hover:bg-[#5E5E5E14] ${className}`}
+        className={`flex items-center justify-between rounded-[calc(34px-12px)] p-[10px] text-lg hover:bg-[#5E5E5E14] ${className}`}
       >
         {innerHtml}
       </Link>
+      // text-stone-600
     );
 }
 

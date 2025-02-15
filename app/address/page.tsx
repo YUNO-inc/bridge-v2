@@ -16,8 +16,8 @@ function Page() {
       <div className="flex justify-between items-center">
         <PageBackLink text="Address" />
         <MajorLinkClient
-          elementType="button"
           text="Add New Address"
+          href="/address/new"
           isLink={false}
           className="w-fit text-xs bg-blue-500 text-blue-50 hover:bg-blue-400"
           icon={<MapPinIcon className="stroke-current w-4 h-4" />}
@@ -25,7 +25,7 @@ function Page() {
       </div>
       <AddressRadios />
       <Link
-        href={"#"}
+        href={"/address/new?geoposition=true"}
         className="flex items-center gap-1 w-fit text-sm font-semibold text-blue-500  transition-all hover:underline"
       >
         <NavigationArrow weight="fill" className="rotateX-180 w-5 h-5" />
