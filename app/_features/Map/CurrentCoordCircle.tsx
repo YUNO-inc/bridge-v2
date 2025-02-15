@@ -1,5 +1,13 @@
+import L from "leaflet";
 import { AddressDTO } from "@/app/_interfaces/interfaces";
-import { Circle } from "react-leaflet";
+import { Circle, Marker } from "react-leaflet";
+
+const customIcon = new L.Icon({
+  iconUrl: "/images/leaflet/curr-position.png", // Replace with your image path
+  iconSize: [15, 15], // Icon dimensions
+  iconAnchor: [7.5, 7.5], // Centered anchor (half of width & height)
+  popupAnchor: [0, -10], // Popup above the center
+});
 
 function CurrentCoordCircle({
   currentCoords,
@@ -8,7 +16,7 @@ function CurrentCoordCircle({
   currentCoords: AddressDTO["coords"];
   accuracyRad: number;
 }) {
-  const [MAX_RAD, MIN_RAD] = [5000, 100];
+  const [MAX_RAD, MIN_RAD] = [500, 2];
   function adjustRadius() {
     if (accuracyRad <= MAX_RAD && accuracyRad >= MIN_RAD) return accuracyRad;
     else if (accuracyRad > MAX_RAD) return MAX_RAD;
@@ -16,16 +24,19 @@ function CurrentCoordCircle({
   }
 
   return (
-    <Circle
-      center={currentCoords}
-      radius={adjustRadius()}
-      pathOptions={{
-        color: "#3b82f650",
-        fillColor: "#3b82f6",
-        fillOpacity: 0.1,
-        weight: 1,
-      }}
-    />
+    <>
+      <Circle
+        center={currentCoords}
+        radius={adjustRadius()}
+        pathOptions={{
+          color: "#3b82f650",
+          fillColor: "#3b82f6",
+          fillOpacity: 0.1,
+          weight: 1,
+        }}
+      />
+      <Marker position={currentCoords} icon={customIcon} />
+    </>
   );
 }
 
