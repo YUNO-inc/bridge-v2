@@ -17,7 +17,7 @@ import { ChangMapView, DetectClick } from "./Utils";
 const DEFAULT_POS: AddressDTO["coords"] = [
   6.510770062610523, 3.3191478252410893,
 ];
-const ZOOM_LEVEL = 16;
+let ZOOM_LEVEL = 16;
 
 function MapContainer() {
   const user = useAppSelector(getUser);
@@ -55,12 +55,14 @@ function MapContainer() {
     }
 
     async function getCoords() {
-      if (!fromCurrPosition) return;
       try {
         const geoPosition = await getCurrentCoords();
         const { latitude, longitude, accuracy } = geoPosition.coords;
         setCurrentCoords({ coords: [latitude, longitude], accuracy: accuracy });
-        setMapCenter([latitude, longitude]);
+        if (fromCurrPosition) {
+          setMapCenter([latitude, longitude]);
+          ZOOM_LEVEL = 18;
+        }
       } catch (err) {
         alert("Unable to locate you...");
         console.log(err);
@@ -78,7 +80,6 @@ function MapContainer() {
       zoom={ZOOM_LEVEL}
       zoomControl={false}
     >
-      {/* altRoadmap */}
       <TileLayer
         url={tiles.stadiaDark}
         attribution="© OpenStreetMap contributors, © CARTO"
