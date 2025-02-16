@@ -42,7 +42,11 @@ export default {
         },
         grey1: "#BFBFBF",
         grey2: "#E0E0E9",
-        black: "#000000",
+        black: {
+          "50": "#5E5E5E",
+          "100": "#1e1e1e",
+          DEFAULT: "#000000",
+        },
       },
       fontFamily: {
         dune: ["dune", "serif"], // Add your custom font here
