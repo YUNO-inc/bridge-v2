@@ -9,7 +9,6 @@ function CenterMarker() {
   const map = useMap();
   const popupRef = useRef<LeafletPopup | null>(null);
   const [position, setPosition] = useState(map.getCenter());
-  console.log(map.getCenter(), "////");
 
   useEffect(
     function () {

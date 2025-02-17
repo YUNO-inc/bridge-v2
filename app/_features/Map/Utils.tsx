@@ -9,7 +9,6 @@ export function ChangMapView({
 }) {
   const map = useMap();
   useEffect(() => {
-    console.log("SETTING MAPCENTER");
     map.setView(mapCenter);
   }, [map, mapCenter]);
 
@@ -25,7 +24,6 @@ export function DetectClick({
     const {
       latlng: { lat, lng },
     } = e;
-    console.log([lat, lng]);
     setMapCenter([lat, lng]);
   });
 
