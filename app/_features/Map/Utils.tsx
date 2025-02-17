@@ -1,5 +1,6 @@
 import { useMap, useMapEvent } from "react-leaflet";
 import { AddressDTO } from "@/app/_interfaces/interfaces";
+import { useEffect } from "react";
 
 export function ChangMapView({
   mapCenter,
@@ -7,7 +8,11 @@ export function ChangMapView({
   mapCenter: AddressDTO["coords"];
 }) {
   const map = useMap();
-  map.setView(mapCenter);
+  useEffect(() => {
+    console.log("SETTING MAPCENTER");
+    map.setView(mapCenter);
+  }, [map, mapCenter]);
+
   return null;
 }
 

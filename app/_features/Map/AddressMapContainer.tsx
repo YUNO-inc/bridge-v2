@@ -13,6 +13,7 @@ import { useAppSelector } from "@/app/_hooks/reduxHooks";
 import { getUser } from "../User/userSlice";
 import CurrentCoordCircle from "./CurrentCoordCircle";
 import { ChangMapView, DetectClick } from "./Utils";
+import CenterMarker from "./CenterMarker";
 
 const DEFAULT_POS: AddressDTO["coords"] = [
   6.510770062610523, 3.3191478252410893,
@@ -92,6 +93,7 @@ function MapContainer() {
       )}
       <DetectClick setMapCenter={setMapCenter} />
       <ChangMapView mapCenter={mapCenter} />
+      <CenterMarker />
     </Container>
   );
 }

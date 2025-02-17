@@ -4,7 +4,7 @@ function FlexibleModal() {
   return (
     <div className="h-[40svh] absolute bg-black-100 z-[9999] bottom-0 right-0 rounded-t-2xl w-svw sm:h-svh sm:w-auto  sm:rounded-l-2xl sm:rounded-r-none">
       <div className="flex flex-col items-center p-3">
-        <SearchComponent placeholder="Search locations" />
+        <SearchComponent placeholder="Search places" />
       </div>
     </div>
   );
