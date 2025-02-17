@@ -18,18 +18,18 @@ import CenterMarker from "./CenterMarker";
 const DEFAULT_POS: AddressDTO["coords"] = [
   6.510770062610523, 3.3191478252410893,
 ];
-let ZOOM_LEVEL = 16;
 
 function MapContainer() {
   const user = useAppSelector(getUser);
   const searchParams = useSearchParams();
-  const fromCurrPosition = searchParams.get("geoposition");
+  const fromUserPosition = searchParams.get("geoposition");
 
+  const [zoomLevel, setZoomLevel] = useState(16);
   const selectedAddress =
     user?.addresses?.length &&
     user.addresses.find((a) => a.isSelected === true);
 
-  const [currentCoords, setCurrentCoords] = useState<
+  const [userPosition, setUserPosition] = useState<
     { coords: AddressDTO["coords"]; accuracy: number } | undefined
   >(undefined);
   const [mapCenter, setMapCenter] = useState(
@@ -42,7 +42,7 @@ function MapContainer() {
     cartoDark: "https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png",
   };
 
-  useEffect(() => {
+  useEffect(function () {
     function setUPIcons() {
       if ("_getIconUrl" in L.Icon.Default.prototype) {
         delete (L.Icon.Default.prototype as Record<string, unknown>)
@@ -54,15 +54,18 @@ function MapContainer() {
         shadowUrl,
       });
     }
+    setUPIcons();
+  }, []);
 
-    async function getCoords() {
+  useEffect(() => {
+    async function getUserGeoPosition() {
       try {
-        const geoPosition = await getCurrentCoords();
+        const geoPosition = await getUserPosition();
         const { latitude, longitude, accuracy } = geoPosition.coords;
-        setCurrentCoords({ coords: [latitude, longitude], accuracy: accuracy });
-        if (fromCurrPosition) {
+        setUserPosition({ coords: [latitude, longitude], accuracy: accuracy });
+        if (fromUserPosition) {
           setMapCenter([latitude, longitude]);
-          ZOOM_LEVEL = 18;
+          setZoomLevel(18);
         }
       } catch (err) {
         alert("Unable to locate you...");
@@ -70,25 +73,24 @@ function MapContainer() {
       }
     }
 
-    setUPIcons();
-    getCoords();
-  }, [fromCurrPosition]);
+    getUserGeoPosition();
+  }, [fromUserPosition]);
 
   return (
     <Container
       className="w-full h-svh"
       center={mapCenter}
-      zoom={ZOOM_LEVEL}
+      zoom={zoomLevel}
       zoomControl={false}
     >
       <TileLayer
         url={tiles.stadiaDark}
         attribution="© OpenStreetMap contributors, © CARTO"
       />
-      {currentCoords && (
+      {userPosition && (
         <CurrentCoordCircle
-          currentCoords={currentCoords.coords}
-          accuracyRad={currentCoords.accuracy}
+          currentCoords={userPosition.coords}
+          accuracyRad={userPosition.accuracy}
         />
       )}
       <DetectClick setMapCenter={setMapCenter} />
@@ -98,7 +100,7 @@ function MapContainer() {
   );
 }
 
-const getCurrentCoords = async (): Promise<GeolocationPosition> => {
+const getUserPosition = async (): Promise<GeolocationPosition> => {
   const options = {
     enableHighAccuracy: true,
     maximumAge: 0,

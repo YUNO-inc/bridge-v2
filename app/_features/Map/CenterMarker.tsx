@@ -8,19 +8,17 @@ const WIDTH_OF_MARKER = 40;
 function CenterMarker() {
   const map = useMap();
   const popupRef = useRef<LeafletPopup | null>(null);
-  const [popupIsOpen, setPopupIsOpen] = useState(true);
   const [position, setPosition] = useState(map.getCenter());
+  console.log(map.getCenter(), "////");
 
   useEffect(
     function () {
       function moveEnd() {
         setPosition(map.getCenter());
-        setPopupIsOpen(true);
-        if (popupRef.current) popupRef.current?.openOn(map);
+        if (popupRef.current) popupRef.current.openPopup();
       }
       function moveStart() {
-        setPopupIsOpen(false);
-        if (popupRef.current) popupRef.current?.close();
+        if (popupRef.current) popupRef.current.close();
       }
 
       map.on("moveend", moveEnd);

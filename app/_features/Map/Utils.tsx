@@ -25,6 +25,7 @@ export function DetectClick({
     const {
       latlng: { lat, lng },
     } = e;
+    console.log([lat, lng]);
     setMapCenter([lat, lng]);
   });
 
