@@ -1,4 +1,5 @@
 import { AddressDTO } from "@/app/_interfaces/interfaces";
+import { ReverseGeoCodeAction } from "@/app/_lib/actions/user/actions";
 import { Popup as LeafletPopup } from "leaflet";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
@@ -11,27 +12,44 @@ function CenterMarker() {
   const popupRef = useRef<LeafletPopup | null>(null);
   const [address, setAddress] = useState<AddressDTO["name"]>("");
   const [position, setPosition] = useState(map.getCenter());
+  const addressRequestRef = useRef(0);
 
   useEffect(
     function () {
       function moveEnd() {
         setPosition(map.getCenter());
         if (popupRef.current) popupRef.current.openPopup();
+        getPositionAddress();
       }
       function moveStart() {
         if (popupRef.current) popupRef.current.close();
       }
 
       async function getPositionAddress() {
-        const { lat, lng } = map.getCenter();
-        const address = await getAddress([lat, lng]);
-        console.log(address);
-        setAddress("found");
+        const currentRequestRef = ++addressRequestRef.current;
+        try {
+          const { lat, lng } = map.getCenter();
+          const newByAddresses = await getAddress([lat, lng]);
+          if (!newByAddresses?.length) throw new Error();
+          const address = newByAddresses[0].Place;
+          if (currentRequestRef !== addressRequestRef.current) return;
+          setAddress(
+            address?.Label ||
+              address?.Street ||
+              address?.SubMunicipality ||
+              address?.Municipality ||
+              address?.Region ||
+              "No address found"
+          );
+        } catch (error) {
+          if (currentRequestRef !== addressRequestRef.current) return;
+          setAddress("No address found");
+          console.log(error);
+        }
       }
 
       map.on("moveend", moveEnd);
       map.on("movestart", moveStart);
-      getPositionAddress();
       return () => {
         map.off("moveend", moveEnd);
         map.off("movestart", moveStart);
@@ -71,12 +89,8 @@ function CenterMarker() {
 export default CenterMarker;
 
 async function getAddress(coords: AddressDTO["coords"]) {
-  const [latitude, longitude] = coords;
-  const res = await fetch(
-    `https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${latitude}&longitude=${longitude}`
-  );
-  if (!res.ok) throw Error("Failed getting address");
+  const [lat, lng] = coords;
+  const data = await ReverseGeoCodeAction({ lat, lng });
 
-  const data = await res.json();
   return data;
 }

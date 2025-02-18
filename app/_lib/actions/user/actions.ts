@@ -1,7 +1,7 @@
 "use server";
 
 import { cleanObject } from "@/app/_utils/helpers";
-import { updateMe } from "./service";
+import { ReverseGeoCode, updateMe } from "./service";
 import { UserDTO } from "@/app/_interfaces/interfaces";
 
 export async function UpdateMeAction(
@@ -32,5 +32,27 @@ export async function UpdateMeAction(
   } catch (error: unknown) {
     const err = error as Error;
     throw new Error(err.message || "Failed to update user.");
+  }
+}
+
+export async function ReverseGeoCodeAction({
+  lat,
+  lng,
+  maxResults = 1,
+}: {
+  lat: number;
+  lng: number;
+  maxResults?: number;
+}) {
+  try {
+    return ReverseGeoCode({
+      options: {
+        IndexName: process.env.AWS_PLACE_INDEX,
+        Position: [lng, lat],
+        MaxResults: maxResults,
+      },
+    });
+  } catch (err) {
+    console.log(err);
   }
 }
