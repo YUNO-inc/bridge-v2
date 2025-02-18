@@ -1,3 +1,4 @@
+import { AddressDTO } from "@/app/_interfaces/interfaces";
 import { Popup as LeafletPopup } from "leaflet";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
@@ -8,6 +9,7 @@ const WIDTH_OF_MARKER = 40;
 function CenterMarker() {
   const map = useMap();
   const popupRef = useRef<LeafletPopup | null>(null);
+  const [address, setAddress] = useState<AddressDTO["name"]>("");
   const [position, setPosition] = useState(map.getCenter());
 
   useEffect(
@@ -20,8 +22,16 @@ function CenterMarker() {
         if (popupRef.current) popupRef.current.close();
       }
 
+      async function getPositionAddress() {
+        const { lat, lng } = map.getCenter();
+        const address = await getAddress([lat, lng]);
+        console.log(address);
+        setAddress("found");
+      }
+
       map.on("moveend", moveEnd);
       map.on("movestart", moveStart);
+      getPositionAddress();
       return () => {
         map.off("moveend", moveEnd);
         map.off("movestart", moveStart);
@@ -53,9 +63,20 @@ function CenterMarker() {
         closeButton={false}
         ref={popupRef}
       >
-        Im a popup tied to this marker!
+        {address}
       </Popup>
     </>
   );
 }
 export default CenterMarker;
+
+async function getAddress(coords: AddressDTO["coords"]) {
+  const [latitude, longitude] = coords;
+  const res = await fetch(
+    `https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${latitude}&longitude=${longitude}`
+  );
+  if (!res.ok) throw Error("Failed getting address");
+
+  const data = await res.json();
+  return data;
+}

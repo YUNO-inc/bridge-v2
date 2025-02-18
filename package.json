@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@aws-sdk/client-location": "^3.750.0",
     "@heroicons/react": "^2.2.0",
     "@maplibre/maplibre-gl-leaflet": "^0.0.22",
     "@phosphor-icons/react": "^2.1.7",
