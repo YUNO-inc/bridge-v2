@@ -2,7 +2,7 @@ import { AddressDTO } from "@/app/_interfaces/interfaces";
 import { ReverseGeoCodeAction } from "@/app/_lib/actions/user/actions";
 import { Popup as LeafletPopup } from "leaflet";
 import Image from "next/image";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { Popup, useMap } from "react-leaflet";
 
 const WIDTH_OF_MARKER = 40;
@@ -10,9 +10,48 @@ const WIDTH_OF_MARKER = 40;
 function CenterMarker() {
   const map = useMap();
   const popupRef = useRef<LeafletPopup | null>(null);
-  const [address, setAddress] = useState<AddressDTO["name"]>("");
+  const [address, setAddress] = useState<Partial<AddressDTO> | string>("");
   const [position, setPosition] = useState(map.getCenter());
   const addressRequestRef = useRef(0);
+
+  const getPositionAddress = useCallback(
+    async function () {
+      const currentRequestRef = ++addressRequestRef.current;
+      setAddress("");
+      try {
+        const { lat, lng } = map.getCenter();
+        const newByAddresses = await getAddress([lat, lng]);
+        console.log(newByAddresses);
+        if (!newByAddresses?.length) throw new Error();
+        const address = newByAddresses[0].Place;
+        if (currentRequestRef !== addressRequestRef.current) return;
+        setAddress({
+          name:
+            address?.Label ||
+            address?.Street ||
+            address?.SubMunicipality ||
+            address?.Municipality ||
+            address?.Region ||
+            "No address found",
+          coords: address?.Geometry?.Point?.length
+            ? [address.Geometry.Point[0], address.Geometry.Point[1]]
+            : undefined,
+        });
+      } catch (error) {
+        if (currentRequestRef !== addressRequestRef.current) return;
+        setAddress("No address found");
+        console.log(error);
+      }
+    },
+    [map]
+  );
+
+  useEffect(
+    function () {
+      getPositionAddress();
+    },
+    [getPositionAddress]
+  );
 
   useEffect(
     function () {
@@ -25,29 +64,6 @@ function CenterMarker() {
         if (popupRef.current) popupRef.current.close();
       }
 
-      async function getPositionAddress() {
-        const currentRequestRef = ++addressRequestRef.current;
-        try {
-          const { lat, lng } = map.getCenter();
-          const newByAddresses = await getAddress([lat, lng]);
-          if (!newByAddresses?.length) throw new Error();
-          const address = newByAddresses[0].Place;
-          if (currentRequestRef !== addressRequestRef.current) return;
-          setAddress(
-            address?.Label ||
-              address?.Street ||
-              address?.SubMunicipality ||
-              address?.Municipality ||
-              address?.Region ||
-              "No address found"
-          );
-        } catch (error) {
-          if (currentRequestRef !== addressRequestRef.current) return;
-          setAddress("No address found");
-          console.log(error);
-        }
-      }
-
       map.on("moveend", moveEnd);
       map.on("movestart", moveStart);
       return () => {
@@ -55,7 +71,7 @@ function CenterMarker() {
         map.off("movestart", moveStart);
       };
     },
-    [map]
+    [map, getPositionAddress]
   );
 
   return (
@@ -81,7 +97,7 @@ function CenterMarker() {
         closeButton={false}
         ref={popupRef}
       >
-        {address}
+        {typeof address !== "string" ? address.name : address}
       </Popup>
     </>
   );

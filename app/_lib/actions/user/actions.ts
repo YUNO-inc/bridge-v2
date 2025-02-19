@@ -38,7 +38,7 @@ export async function UpdateMeAction(
 export async function ReverseGeoCodeAction({
   lat,
   lng,
-  maxResults = 1,
+  maxResults = 5,
 }: {
   lat: number;
   lng: number;
