@@ -27,9 +27,11 @@ function AddressRadios() {
       setOptimisticAddresses((prevAddresses) => prevAddresses.map(newAddress));
     });
 
+    console.log("BEFORE", user?.addresses);
     await UpdateMeAction(undefined, {
       addresses: user?.addresses?.map(newAddress),
     });
+    console.log("AFTER");
     dispatch(changeAddress(id));
   }
 

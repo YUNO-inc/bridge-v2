@@ -8,21 +8,21 @@ export async function UpdateMeAction(
   formdata?: FormData,
   dataObj?: Partial<UserDTO>
 ): Promise<Partial<UserDTO>> {
-  let updateObject = {};
-
-  if (formdata) {
-    const name = formdata.get("name");
-    const email = formdata.get("email");
-    const phoneNumber = formdata.get("phoneNumber");
-    updateObject = cleanObject({ name, email, phoneNumber });
-  } else if (dataObj) {
-    updateObject = cleanObject(dataObj);
-  }
-
-  if (Object.keys(updateObject).length < 1)
-    throw new Error("No valid updates where sent.");
-
   try {
+    let updateObject = {};
+
+    if (formdata) {
+      const name = formdata.get("name");
+      const email = formdata.get("email");
+      const phoneNumber = formdata.get("phoneNumber");
+      updateObject = cleanObject({ name, email, phoneNumber });
+    } else if (dataObj) {
+      updateObject = cleanObject(dataObj);
+    }
+
+    if (Object.keys(updateObject).length < 1)
+      throw new Error("No valid updates where sent.");
+
     const user = await updateMe(updateObject);
     return {
       name: user?.name,

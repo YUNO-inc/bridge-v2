@@ -11,19 +11,29 @@ const WIDTH_OF_MARKER = 40;
 function CenterMarker() {
   const map = useMap();
   const popupRef = useRef<LeafletPopup | null>(null);
-  const [address, setAddress] = useState<Partial<AddressDTO> | string>("");
+  const [address, setAddress] = useState<
+    Omit<AddressDTO, "isSelected"> | undefined
+  >(undefined);
   const [position, setPosition] = useState(map.getCenter());
+  const [isLoadingAddress, setIsLoadingAddress] = useState(false);
   const addressRequestRef = useRef(0);
 
   const getPositionAddress = useCallback(
     async function () {
       const currentRequestRef = ++addressRequestRef.current;
-      setAddress("");
+      setAddress(undefined);
+      setIsLoadingAddress(true);
       try {
         const { lat, lng } = map.getCenter();
         const newByAddresses = await getAddress([lat, lng]);
         if (!newByAddresses?.length) throw new Error();
         const address = newByAddresses[0].Place;
+        if (
+          !address?.Geometry ||
+          !address.Geometry.Point ||
+          address?.Geometry?.Point?.length !== 2
+        )
+          throw new Error();
         if (currentRequestRef !== addressRequestRef.current) return;
         setAddress({
           name:
@@ -33,15 +43,14 @@ function CenterMarker() {
             address?.Municipality ||
             address?.Region ||
             "No address found",
-          coords: address?.Geometry?.Point?.length
-            ? [address.Geometry.Point[0], address.Geometry.Point[1]]
-            : undefined,
+          coords: [address.Geometry.Point[0], address.Geometry.Point[1]],
         });
       } catch (error) {
         if (currentRequestRef !== addressRequestRef.current) return;
-        setAddress("No address found");
-        console.log("No address found");
-        console.log(error, "main");
+        setAddress(undefined);
+        console.log(error);
+      } finally {
+        setIsLoadingAddress(false);
       }
     },
     [map]
@@ -95,6 +104,7 @@ function CenterMarker() {
         position={position}
         WIDTH_OF_MARKER={WIDTH_OF_MARKER}
         popupRef={popupRef}
+        isLoading={isLoadingAddress}
       />
     </>
   );
@@ -103,9 +113,7 @@ export default CenterMarker;
 
 async function getAddress(coords: AddressDTO["coords"]) {
   const [lat, lng] = coords;
-  console.log(coords);
   const data = await ReverseGeoCodeAction({ lat, lng });
-  console.log(data);
 
   return data;
 }

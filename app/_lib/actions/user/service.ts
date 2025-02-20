@@ -28,16 +28,21 @@ export async function updateUserById(id: string, updateObj: Partial<UserDTO>) {
 }
 
 export async function updateMe(updateObj: Partial<UserDTO>) {
-  const session = await auth();
-  if (!session?.user) return;
-  const id = session.user.id;
-  await connect();
-  const user = await User.findByIdAndUpdate(id, updateObj, { new: true });
-  if (!user)
-    throw new Error(
-      "You are logged in but your data is missing in our database."
-    );
-  return user;
+  try {
+    const session = await auth();
+    if (!session?.user) throw new Error();
+    const id = session.user.id;
+    await connect();
+    const user = await User.findByIdAndUpdate(id, updateObj, { new: true });
+    if (!user)
+      throw new Error(
+        "You are logged in but your data is missing in our database."
+      );
+    return user;
+  } catch (error) {
+    console.log(error);
+    throw new Error("Unable to update user");
+  }
 }
 
 export async function ReverseGeoCode({
@@ -57,11 +62,9 @@ export async function ReverseGeoCode({
       },
     });
 
-    console.log(options);
     const command = new SearchPlaceIndexForPositionCommand(options);
 
     const response = await client.send(command);
-    console.log(response);
     return response.Results || [];
   } catch (error) {
     console.error(error);
