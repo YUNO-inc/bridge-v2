@@ -28,6 +28,7 @@ export async function UpdateMeAction(
       name: user?.name,
       email: user?.email,
       phoneNumber: user?.phoneNumber,
+      addresses: user?.addresses,
     };
   } catch (error: unknown) {
     const err = error as Error;
@@ -38,7 +39,7 @@ export async function UpdateMeAction(
 export async function ReverseGeoCodeAction({
   lat,
   lng,
-  maxResults = 5,
+  maxResults = 1,
 }: {
   lat: number;
   lng: number;

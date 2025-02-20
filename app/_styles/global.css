@@ -16,3 +16,13 @@
 .rotateX-180 {
   transform: rotate(90deg);
 }
+
+.leaflet-popup-content-wrapper {
+  background-color: transparent !important;
+}
+
+.leaflet-popup-content {
+  margin: 0 !important;
+  min-height: auto !important;
+  width: auto !important;
+}

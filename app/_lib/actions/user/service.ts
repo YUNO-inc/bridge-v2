@@ -57,13 +57,13 @@ export async function ReverseGeoCode({
       },
     });
 
+    console.log(options);
     const command = new SearchPlaceIndexForPositionCommand(options);
 
     const response = await client.send(command);
-
+    console.log(response);
     return response.Results || [];
   } catch (error) {
     console.error(error);
-    console.log({ error: "Failed to reverse geocode" });
   }
 }

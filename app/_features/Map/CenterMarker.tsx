@@ -3,7 +3,8 @@ import { ReverseGeoCodeAction } from "@/app/_lib/actions/user/actions";
 import { Popup as LeafletPopup } from "leaflet";
 import Image from "next/image";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { Popup, useMap } from "react-leaflet";
+import { useMap } from "react-leaflet";
+import AddressPopup from "./AddressPopup";
 
 const WIDTH_OF_MARKER = 40;
 
@@ -21,13 +22,12 @@ function CenterMarker() {
       try {
         const { lat, lng } = map.getCenter();
         const newByAddresses = await getAddress([lat, lng]);
-        console.log(newByAddresses);
         if (!newByAddresses?.length) throw new Error();
         const address = newByAddresses[0].Place;
         if (currentRequestRef !== addressRequestRef.current) return;
         setAddress({
           name:
-            address?.Label ||
+            address?.Label?.split(",").slice(0, -1).join() ||
             address?.Street ||
             address?.SubMunicipality ||
             address?.Municipality ||
@@ -40,7 +40,8 @@ function CenterMarker() {
       } catch (error) {
         if (currentRequestRef !== addressRequestRef.current) return;
         setAddress("No address found");
-        console.log(error);
+        console.log("No address found");
+        console.log(error, "main");
       }
     },
     [map]
@@ -89,16 +90,12 @@ function CenterMarker() {
           transform: `translate(-50%, -50%)`,
         }}
       />
-      <Popup
+      <AddressPopup
+        address={address}
         position={position}
-        autoClose={false}
-        closeOnClick={false}
-        offset={[0, -WIDTH_OF_MARKER]}
-        closeButton={false}
-        ref={popupRef}
-      >
-        {typeof address !== "string" ? address.name : address}
-      </Popup>
+        WIDTH_OF_MARKER={WIDTH_OF_MARKER}
+        popupRef={popupRef}
+      />
     </>
   );
 }
@@ -106,7 +103,9 @@ export default CenterMarker;
 
 async function getAddress(coords: AddressDTO["coords"]) {
   const [lat, lng] = coords;
+  console.log(coords);
   const data = await ReverseGeoCodeAction({ lat, lng });
+  console.log(data);
 
   return data;
 }

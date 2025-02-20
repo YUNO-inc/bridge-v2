@@ -34,7 +34,7 @@ function EdibleItem({ business }: EdibleItemProps) {
           <div className="font-semibold">₦{business.deliveryPrice}</div>
           <span className="relative bottom-[1px]">
             <LocalIcons
-              name="rider2"
+              name="rider"
               className="w-[14px] h-[14px] fill-transparent"
               pathClassName={["fill-stone-800", "stroke-stone-800"]}
             />
