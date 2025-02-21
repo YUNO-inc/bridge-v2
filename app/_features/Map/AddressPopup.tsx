@@ -59,10 +59,11 @@ function AddressPopup({
     if (!address) return;
 
     const userAddresses =
-      user?.addresses?.map((address) => ({
-        ...address,
-        isSelected: false,
-      })) || [];
+      user?.addresses?.reduce<AddressDTO[]>((acc, a) => {
+        if (a.id === address.id) return acc;
+        acc.push({ ...a, isSelected: false });
+        return acc;
+      }, []) || [];
 
     const newUser = await UpdateMeAction(undefined, {
       addresses: [...userAddresses, { ...address, isSelected: true }],
