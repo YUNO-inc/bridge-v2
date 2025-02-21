@@ -43,7 +43,7 @@ function CenterMarker() {
             address?.Municipality ||
             address?.Region ||
             "No address found",
-          coords: [address.Geometry.Point[0], address.Geometry.Point[1]],
+          coords: [lat, lng],
         });
       } catch (error) {
         if (currentRequestRef !== addressRequestRef.current) return;

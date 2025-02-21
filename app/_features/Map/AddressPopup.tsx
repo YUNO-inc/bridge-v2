@@ -1,15 +1,16 @@
 "use client";
 
+import { useRouter } from "next/navigation";
+import { RefObject, useEffect, useRef, useState } from "react";
+import { Popup as LeafletPopup, LatLng } from "leaflet";
+import { Popup } from "react-leaflet";
+import { BookmarkIcon, PencilIcon } from "@heroicons/react/24/outline";
+import { UpdateMeAction } from "@/app/_lib/actions/user/actions";
 import { useAppDispatch, useAppSelector } from "@/app/_hooks/reduxHooks";
 import { AddressDTO } from "@/app/_interfaces/interfaces";
 import LocalIcons from "@/app/_utils/LocalIcons";
 import { nunito } from "@/app/fonts";
-import { BookmarkIcon, PencilIcon } from "@heroicons/react/24/outline";
-import { Popup as LeafletPopup, LatLng } from "leaflet";
-import { RefObject, useEffect, useRef, useState } from "react";
-import { Popup } from "react-leaflet";
 import { getUser, setUser } from "../User/userSlice";
-import { UpdateMeAction } from "@/app/_lib/actions/user/actions";
 import PopupLoader from "./PopupLoader";
 
 function AddressPopup({
@@ -25,6 +26,7 @@ function AddressPopup({
   popupRef: RefObject<LeafletPopup | null>;
   isLoading: boolean;
 }) {
+  const router = useRouter();
   const [address, setAddress] = useState(receivedAddress);
   const [edit, setEdit] = useState(false);
   const editInputRef = useRef<HTMLInputElement>(null);
@@ -66,6 +68,7 @@ function AddressPopup({
       addresses: [...userAddresses, { ...address, isSelected: true }],
     });
     dispatch(setUser(newUser));
+    router.push("/address");
   };
 
   return (
