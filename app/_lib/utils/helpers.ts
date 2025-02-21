@@ -6,3 +6,17 @@ export function cleanupModel(modelName: string) {
     delete models[modelName];
   }
 }
+
+export function serializeMongoDocument(doc: object) {
+  return JSON.parse(
+    JSON.stringify(doc, (key, value) => {
+      if (value instanceof Object && value._bsontype === "ObjectId") {
+        return value.toString(); // Convert ObjectId to string
+      }
+      if (value instanceof Date) {
+        return value.toISOString(); // Convert Date to string
+      }
+      return value; // Default for other fields
+    })
+  );
+}

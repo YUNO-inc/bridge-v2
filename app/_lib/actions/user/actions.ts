@@ -3,6 +3,7 @@
 import { cleanObject } from "@/app/_utils/helpers";
 import { ReverseGeoCode, updateMe } from "./service";
 import { UserDTO } from "@/app/_interfaces/interfaces";
+import { serializeMongoDocument } from "../../utils/helpers";
 
 export async function UpdateMeAction(
   formdata?: FormData,
@@ -24,12 +25,7 @@ export async function UpdateMeAction(
       throw new Error("No valid updates where sent.");
 
     const user = await updateMe(updateObject);
-    return {
-      name: user?.name,
-      email: user?.email,
-      phoneNumber: user?.phoneNumber,
-      addresses: user?.addresses,
-    };
+    return serializeMongoDocument(user);
   } catch (error: unknown) {
     const err = error as Error;
     throw new Error(err.message || "Failed to update user.");

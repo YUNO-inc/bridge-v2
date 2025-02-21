@@ -27,11 +27,9 @@ function AddressRadios() {
       setOptimisticAddresses((prevAddresses) => prevAddresses.map(newAddress));
     });
 
-    console.log("BEFORE", user?.addresses);
     await UpdateMeAction(undefined, {
       addresses: user?.addresses?.map(newAddress),
     });
-    console.log("AFTER");
     dispatch(changeAddress(id));
   }
 
@@ -85,29 +83,3 @@ function AddressRadios() {
 }
 
 export default AddressRadios;
-
-// useEffect(function () {
-//   async function addy() {
-//     await UpdateMeAction(undefined, {
-//       addresses: [
-//         { name: "Okota Police Barracks", coords: [6, 4], isSelected: true },
-//         {
-//           name: "16, Dele ashiru street. Ire-akari, Isolo.",
-//           coords: [6.4, 4.6],
-//           isSelected: true,
-//         },
-//         {
-//           name: "Chemist Bus-stop Ire-Akari",
-//           coords: [6.135, 4.835687],
-//           isSelected: false,
-//         },
-//         {
-//           name: "Kajaola Ultra-morder market Cele",
-//           coords: [6.765, 4.7563],
-//           isSelected: false,
-//         },
-//       ],
-//     });
-//   }
-//   addy();
-// }, []);

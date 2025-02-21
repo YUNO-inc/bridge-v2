@@ -50,6 +50,7 @@ function CenterMarker() {
         setAddress(undefined);
         console.log(error);
       } finally {
+        if (currentRequestRef !== addressRequestRef.current) return;
         setIsLoadingAddress(false);
       }
     },

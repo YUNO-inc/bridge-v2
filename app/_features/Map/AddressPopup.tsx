@@ -1,13 +1,16 @@
+"use client";
+
 import { useAppDispatch, useAppSelector } from "@/app/_hooks/reduxHooks";
 import { AddressDTO } from "@/app/_interfaces/interfaces";
 import LocalIcons from "@/app/_utils/LocalIcons";
 import { nunito } from "@/app/fonts";
 import { BookmarkIcon, PencilIcon } from "@heroicons/react/24/outline";
 import { Popup as LeafletPopup, LatLng } from "leaflet";
-import { RefObject, useCallback, useEffect, useRef, useState } from "react";
+import { RefObject, useEffect, useRef, useState } from "react";
 import { Popup } from "react-leaflet";
 import { getUser, setUser } from "../User/userSlice";
 import { UpdateMeAction } from "@/app/_lib/actions/user/actions";
+import PopupLoader from "./PopupLoader";
 
 function AddressPopup({
   address: receivedAddress,
@@ -50,24 +53,20 @@ function AddressPopup({
     [edit]
   );
 
-  const handleUsePoint = useCallback(
-    async function () {
-      if (!address) return;
+  const handleUsePoint = async function () {
+    if (!address) return;
 
-      const userAddresses =
-        user?.addresses?.map((address) => ({
-          ...address,
-          isSelected: false,
-        })) || [];
+    const userAddresses =
+      user?.addresses?.map((address) => ({
+        ...address,
+        isSelected: false,
+      })) || [];
 
-      console.log({ address, userAddresses });
-      const newUser = await UpdateMeAction(undefined, {
-        addresses: [...userAddresses, { ...address, isSelected: true }],
-      });
-      dispatch(setUser(newUser));
-    },
-    [address, user, dispatch]
-  );
+    const newUser = await UpdateMeAction(undefined, {
+      addresses: [...userAddresses, { ...address, isSelected: true }],
+    });
+    dispatch(setUser(newUser));
+  };
 
   return (
     <Popup
@@ -154,18 +153,3 @@ function AddressPopup({
 }
 
 export default AddressPopup;
-
-function PopupLoader() {
-  return (
-    <div className="bg-background flex items-center justify-between rounded-xl p-2 gap-2 max-w-[90vw]">
-      <div className="w-52 h-10 animate-[pulse_1s_ease-in-out_infinite] duration-1000 flex items-center justify-between gap-3">
-        <div className="bg-stone-800 bg-opacity-10 rounded w-5 h-5"></div>
-        <div className="grow flex flex-col gap-1">
-          <div className="bg-stone-800 bg-opacity-10 rounded w-[90%] h-3"></div>
-          <div className="bg-stone-800 bg-opacity-10 rounded w-[50%] h-2"></div>
-        </div>
-        <div className="bg-stone-800 bg-opacity-10 rounded w-5 h-5"></div>
-      </div>
-    </div>
-  );
-}
