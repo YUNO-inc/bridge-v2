@@ -19,7 +19,7 @@ const DEFAULT_POS: AddressDTO["coords"] = [
   6.510770062610523, 3.3191478252410893,
 ];
 
-function MapContainer() {
+function MapContainer({ className }: { className?: string }) {
   const selectedAddress = useAppSelector(getSelectedAddress);
   const searchParams = useSearchParams();
   const fromUserPosition = searchParams.get("geoposition");
@@ -75,7 +75,7 @@ function MapContainer() {
 
   return (
     <Container
-      className="w-full h-svh"
+      className={className}
       center={mapCenter}
       zoom={zoomLevel}
       zoomControl={false}
