@@ -26,18 +26,3 @@
   min-height: auto !important;
   width: auto !important;
 }
-
-.full-viewport {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  height: 100vh; /* Fallback */
-  height: 100dvh; /* Dynamic viewport height - better on mobile */
-  /* Handle the safe areas (notch, home indicator) */
-  padding-top: env(safe-area-inset-top);
-  padding-bottom: env(safe-area-inset-bottom);
-  padding-left: env(safe-area-inset-left);
-  padding-right: env(safe-area-inset-right);
-}

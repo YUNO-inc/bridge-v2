@@ -1,14 +1,5 @@
 import PageBackLink from "@/app/_features/Button/PageBackLink";
 import Map from "@/app/_features/Map/AddressMap";
-import { Metadata } from "next";
-
-export const metadata: Metadata = {
-  viewport: {
-    width: "device-width",
-    initialScale: 1,
-    viewportFit: "cover",
-  },
-};
 
 function Page() {
   return (
