@@ -44,6 +44,10 @@ export const { setUser, addNewAddress, changeAddress, deleteAddress } =
   userSlice.actions;
 
 export const getUser = (state: { user: InitialState }) => state.user.user;
+export const getSelectedAddress = (state: { user: InitialState }) => {
+  if (!state.user.user?.addresses?.length) return undefined;
+  else return state.user.user.addresses.find((a) => a.isSelected === true);
+};
 
 const userSliceReducer = userSlice.reducer;
 export default userSliceReducer;

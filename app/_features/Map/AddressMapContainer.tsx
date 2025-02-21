@@ -10,7 +10,7 @@ import iconRetinaUrl from "leaflet/dist/images/marker-icon-2x.png";
 import shadowUrl from "leaflet/dist/images/marker-shadow.png";
 import { AddressDTO } from "@/app/_interfaces/interfaces";
 import { useAppSelector } from "@/app/_hooks/reduxHooks";
-import { getUser } from "../User/userSlice";
+import { getSelectedAddress } from "../User/userSlice";
 import CurrentCoordCircle from "./CurrentCoordCircle";
 import { ChangMapView, DetectClick } from "./Utils";
 import CenterMarker from "./CenterMarker";
@@ -20,14 +20,11 @@ const DEFAULT_POS: AddressDTO["coords"] = [
 ];
 
 function MapContainer() {
-  const user = useAppSelector(getUser);
+  const selectedAddress = useAppSelector(getSelectedAddress);
   const searchParams = useSearchParams();
   const fromUserPosition = searchParams.get("geoposition");
 
   const [zoomLevel, setZoomLevel] = useState(16);
-  const selectedAddress =
-    user?.addresses?.length &&
-    user.addresses.find((a) => a.isSelected === true);
 
   const [userPosition, setUserPosition] = useState<
     { coords: AddressDTO["coords"]; accuracy: number } | undefined

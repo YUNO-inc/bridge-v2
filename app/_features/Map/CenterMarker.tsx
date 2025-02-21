@@ -5,17 +5,21 @@ import Image from "next/image";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useMap } from "react-leaflet";
 import AddressPopup from "./AddressPopup";
+import { useAppSelector } from "@/app/_hooks/reduxHooks";
+import { getSelectedAddress } from "../User/userSlice";
 
 const WIDTH_OF_MARKER = 40;
 
 function CenterMarker() {
+  const selectedAddress = useAppSelector(getSelectedAddress);
   const map = useMap();
   const popupRef = useRef<LeafletPopup | null>(null);
   const [address, setAddress] = useState<
     Omit<AddressDTO, "isSelected"> | undefined
-  >(undefined);
+  >(selectedAddress);
   const [position, setPosition] = useState(map.getCenter());
   const [isLoadingAddress, setIsLoadingAddress] = useState(false);
+  const isFirstRender = useRef<boolean>(!!address && true);
   const addressRequestRef = useRef(0);
 
   const getPositionAddress = useCallback(
@@ -57,9 +61,10 @@ function CenterMarker() {
     [map]
   );
 
+  // This use effectonly runs on initial render
   useEffect(
     function () {
-      getPositionAddress();
+      if (!isFirstRender.current) getPositionAddress();
     },
     [getPositionAddress]
   );
