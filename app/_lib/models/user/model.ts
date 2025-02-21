@@ -13,8 +13,12 @@ const AddressSchema = new Schema<AddressDTO>(
     },
     isSelected: { type: Boolean, default: false },
   },
-  { toObject: { virtuals: true } }
+  { toJSON: { virtuals: true }, toObject: { virtuals: true } }
 );
+
+AddressSchema.virtual("id").get(function () {
+  return this._id.toString();
+});
 
 const UserSchema = new Schema({
   name: {
