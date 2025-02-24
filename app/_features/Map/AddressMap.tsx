@@ -6,15 +6,20 @@ import SearchComponent from "../Forms/SearchComponent";
 import { NavigationArrow } from "@phosphor-icons/react";
 import CircleLoader from "../Loaders/CircleLoader";
 import { useState } from "react";
+import { usePathname, useRouter } from "next/navigation";
 
 const Container = dynamic(() => import("./AddressMapContainer"), {
   ssr: false,
 });
 
 function Map() {
+  const router = useRouter();
+  const pathname = usePathname();
   const [isLoadingGeoPosition, setIsLoadingGeoPosition] = useState(false);
 
-  console.log(isLoadingGeoPosition);
+  function handleToGeoPosition() {
+    router.push(`${pathname}?geoposition=true`);
+  }
 
   return (
     <div className="full-viewport">
@@ -28,6 +33,9 @@ function Map() {
           <button
             type="button"
             className="flex items-center justify-center gap-1 py-3 px-5 max-w-full text-sm font-semibold text-blue-500  transition-all hover:underline  bg-opacity-10 rounded-full mt-auto"
+            onClick={() => {
+              if (!isLoadingGeoPosition) handleToGeoPosition();
+            }}
           >
             {isLoadingGeoPosition ? (
               <>
