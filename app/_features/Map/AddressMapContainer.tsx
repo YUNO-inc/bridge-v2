@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import L from "leaflet";
 import { MapContainer as Container, TileLayer } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
@@ -28,7 +28,6 @@ function MapContainer({
 }) {
   const selectedAddress = useAppSelector(getSelectedAddress);
   const searchParams = useSearchParams();
-  const router = useRouter();
   const fromUserPosition = searchParams.get("geoposition");
 
   const [zoomLevel, setZoomLevel] = useState(16);
@@ -65,18 +64,13 @@ function MapContainer({
     async function getUserGeoPosition() {
       try {
         setIsLoadingGeoPosition(true);
-        console.log(true);
         const geoPosition = await getUserPosition();
-        console.log(false);
         setIsLoadingGeoPosition(false);
         const { latitude, longitude, accuracy } = geoPosition.coords;
         setUserPosition({ coords: [latitude, longitude], accuracy: accuracy });
         if (fromUserPosition) {
           setMapCenter([latitude, longitude]);
           setZoomLevel(18);
-          const params = new URLSearchParams(searchParams);
-          params.delete("geoposition"); // Remove 'id' from params
-          router.replace(`?${params.toString()}`, { scroll: false });
         }
       } catch (err) {
         alert("Unable to locate you...");
@@ -85,7 +79,7 @@ function MapContainer({
     }
 
     getUserGeoPosition();
-  }, [fromUserPosition, setIsLoadingGeoPosition, searchParams, router]);
+  }, [fromUserPosition, setIsLoadingGeoPosition]);
 
   return (
     <Container

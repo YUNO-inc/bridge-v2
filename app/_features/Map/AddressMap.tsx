@@ -28,7 +28,10 @@ function Map() {
         setIsLoadingGeoPosition={setIsLoadingGeoPosition}
       />
       <FlexibleModal className="h-[40dvh] w-svw min-w-min sm:h-dvh sm:w-[20vw] sm:rounded-l-2xl sm:rounded-r-none">
-        <div className="flex flex-col items-center p-3 h-full">
+        <div
+          className="flex flex-col items-center p-3 h-full"
+          onFocus={() => console.log("focus")}
+        >
           <SearchComponent placeholder="Search places" />
           <button
             type="button"
