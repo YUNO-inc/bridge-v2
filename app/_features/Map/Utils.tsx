@@ -31,7 +31,10 @@ export function DetectClick({
     } = e;
     setMapCenter([lat, lng]);
 
+    console.log("Clicked");
+    console.log("fromUserPosition exits: ", fromUserPosition);
     if (fromUserPosition) {
+      console.log();
       const params = new URLSearchParams(searchParams);
       params.delete("geoposition");
       router.replace(`?${params.toString()}`, { scroll: false });
