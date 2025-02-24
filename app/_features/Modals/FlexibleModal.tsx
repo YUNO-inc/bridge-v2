@@ -1,29 +1,16 @@
-import { MagnifyingGlass } from "@phosphor-icons/react";
-
-function FlexibleModal({ className }: { className?: string }) {
+function FlexibleModal({
+  className,
+  children,
+}: {
+  className?: string;
+  children: React.ReactNode;
+}) {
   return (
     <div
       className={`absolute bg-black-100 z-[9999] bottom-0 right-0 rounded-t-2xl ${className}`}
     >
-      <div className="flex flex-col items-center p-3">
-        <SearchComponent placeholder="Search places" />
-      </div>
+      {children}
     </div>
-  );
-}
-
-function SearchComponent({ placeholder = "" }: { placeholder: string }) {
-  return (
-    <label className="flex items-center gap-2 text-[#ffffff] text-opacity-60 bg-[#787880] bg-opacity-[0.24] py-[7px] px-2 rounded-[10px]">
-      <button className="flex items-center justify-center">
-        <MagnifyingGlass className="w-5 h-5 fill-current" />
-      </button>
-      <input
-        type="text"
-        placeholder={placeholder}
-        className="bg-transparent placeholder:text-current placeholder:text-opacity-60 outline-none leading-none"
-      />
-    </label>
   );
 }
 

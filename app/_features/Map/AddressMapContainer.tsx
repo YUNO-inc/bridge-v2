@@ -19,7 +19,13 @@ const DEFAULT_POS: AddressDTO["coords"] = [
   6.510770062610523, 3.3191478252410893,
 ];
 
-function MapContainer({ className }: { className?: string }) {
+function MapContainer({
+  className,
+  setIsLoadingGeoPosition,
+}: {
+  className?: string;
+  setIsLoadingGeoPosition: React.Dispatch<React.SetStateAction<boolean>>;
+}) {
   const selectedAddress = useAppSelector(getSelectedAddress);
   const searchParams = useSearchParams();
   const fromUserPosition = searchParams.get("geoposition");
@@ -57,7 +63,9 @@ function MapContainer({ className }: { className?: string }) {
   useEffect(() => {
     async function getUserGeoPosition() {
       try {
+        setIsLoadingGeoPosition(true);
         const geoPosition = await getUserPosition();
+        setIsLoadingGeoPosition(false);
         const { latitude, longitude, accuracy } = geoPosition.coords;
         setUserPosition({ coords: [latitude, longitude], accuracy: accuracy });
         if (fromUserPosition) {
@@ -71,7 +79,7 @@ function MapContainer({ className }: { className?: string }) {
     }
 
     getUserGeoPosition();
-  }, [fromUserPosition]);
+  }, [fromUserPosition, setIsLoadingGeoPosition]);
 
   return (
     <Container
@@ -82,7 +90,7 @@ function MapContainer({ className }: { className?: string }) {
     >
       <TileLayer
         url={tiles.stadiaDark}
-        attribution="© OpenStreetMap contributors, © CARTO"
+        attribution="© OpenStreetMap contributors, © Stadia Maps"
       />
       {userPosition && (
         <CurrentCoordCircle
