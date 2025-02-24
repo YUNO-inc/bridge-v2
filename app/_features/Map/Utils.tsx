@@ -1,6 +1,7 @@
 import { useMap, useMapEvent } from "react-leaflet";
 import { AddressDTO } from "@/app/_interfaces/interfaces";
 import { useEffect } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 
 export function ChangMapView({
   mapCenter,
@@ -20,11 +21,21 @@ export function DetectClick({
 }: {
   setMapCenter: React.Dispatch<React.SetStateAction<AddressDTO["coords"]>>;
 }) {
+  const searchParams = useSearchParams();
+  const fromUserPosition = searchParams.get("geoposition");
+  const router = useRouter();
+
   useMapEvent("click", (e) => {
     const {
       latlng: { lat, lng },
     } = e;
     setMapCenter([lat, lng]);
+
+    if (fromUserPosition) {
+      const params = new URLSearchParams(searchParams);
+      params.delete("geoposition");
+      router.replace(`?${params.toString()}`, { scroll: false });
+    }
   });
 
   return null;

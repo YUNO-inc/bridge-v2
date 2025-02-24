@@ -63,7 +63,7 @@ function MapContainer({
   useEffect(() => {
     async function getUserGeoPosition() {
       try {
-        setIsLoadingGeoPosition(true);
+        setIsLoadingGeoPosition(!!fromUserPosition && true);
         const geoPosition = await getUserPosition();
         setIsLoadingGeoPosition(false);
         const { latitude, longitude, accuracy } = geoPosition.coords;

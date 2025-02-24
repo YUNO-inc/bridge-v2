@@ -6,28 +6,19 @@ import SearchComponent from "../Forms/SearchComponent";
 import { NavigationArrow } from "@phosphor-icons/react";
 import CircleLoader from "../Loaders/CircleLoader";
 import { useState } from "react";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 
 const Container = dynamic(() => import("./AddressMapContainer"), {
   ssr: false,
 });
 
 function Map() {
-  const searchParams = useSearchParams();
-  const fromUserPosition = searchParams.get("geoposition");
   const router = useRouter();
   const pathname = usePathname();
   const [isLoadingGeoPosition, setIsLoadingGeoPosition] = useState(false);
 
   function handleToGeoPosition() {
-    if (fromUserPosition) {
-      const params = new URLSearchParams(searchParams);
-      params.delete("geoposition");
-      router.replace(`?${params.toString()}`, { scroll: false });
-    }
-    setTimeout(() => {
-      router.push(`${pathname}?geoposition=true`);
-    }, 10);
+    router.push(`${pathname}?geoposition=true`);
   }
 
   return (
@@ -36,7 +27,7 @@ function Map() {
         className="w-full h-[78dvh] sm:h-dvh sm:w-[83vw]"
         setIsLoadingGeoPosition={setIsLoadingGeoPosition}
       />
-      <FlexibleModal className="h-[40dvh] w-svw min-w-min sm:h-dvh sm:w-[20vw] sm:rounded-l-2xl sm:rounded-r-none group focus-within:h-[100dvh]">
+      <FlexibleModal className="h-[40dvh] w-svw min-w-min sm:h-dvh sm:w-[20vw] sm:rounded-l-2xl sm:rounded-r-none">
         <div className="flex flex-col items-center p-3 h-full">
           <SearchComponent placeholder="Search places" />
           <button
