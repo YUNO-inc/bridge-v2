@@ -85,7 +85,7 @@ function MapContainer({
     }
 
     getUserGeoPosition();
-  }, [fromUserPosition, setIsLoadingGeoPosition]);
+  }, [fromUserPosition, setIsLoadingGeoPosition, searchParams, router]);
 
   return (
     <Container
