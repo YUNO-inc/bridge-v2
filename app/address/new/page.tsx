@@ -1,5 +1,10 @@
 import PageBackLink from "@/app/_features/Button/PageBackLink";
 import Map from "@/app/_features/Map/AddressMap";
+import { Viewport } from "next";
+
+export const viewport: Viewport = {
+  themeColor: "#333333",
+};
 
 function Page() {
   return (
