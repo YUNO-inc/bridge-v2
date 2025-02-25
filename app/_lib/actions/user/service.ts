@@ -2,12 +2,6 @@ import { UserDTO } from "@/app/_interfaces/interfaces";
 import { connect } from "../../db";
 import User from "../../models/user/model";
 import { auth } from "../auth/auth";
-import {
-  LocationClient,
-  SearchForPositionResult,
-  SearchPlaceIndexForPositionCommand,
-  SearchPlaceIndexForPositionCommandInput,
-} from "@aws-sdk/client-location";
 
 export async function createUser(user: UserDTO) {
   await connect();
@@ -42,31 +36,5 @@ export async function updateMe(updateObj: Partial<UserDTO>) {
   } catch (error) {
     console.log(error);
     throw new Error("Unable to update user");
-  }
-}
-
-export async function ReverseGeoCode({
-  options,
-}: {
-  options: SearchPlaceIndexForPositionCommandInput;
-}): Promise<SearchForPositionResult[] | undefined> {
-  try {
-    if (!options.Position || options.Position.length < 2)
-      throw new Error("Latitude and longitude are required");
-
-    const client = new LocationClient({
-      region: process.env.AWS_REGION,
-      credentials: {
-        accessKeyId: process.env.AWS_ACCESS_KEY_ID!,
-        secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY!,
-      },
-    });
-
-    const command = new SearchPlaceIndexForPositionCommand(options);
-
-    const response = await client.send(command);
-    return response.Results || [];
-  } catch (error) {
-    console.error(error);
   }
 }
