@@ -1,9 +1,10 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { NavigationArrow } from "@phosphor-icons/react";
 import SearchComponent from "../Forms/SearchComponent";
 import FlexibleModal from "./FlexibleModal";
 import { usePathname, useRouter } from "next/navigation";
 import CircleLoader from "../Loaders/CircleLoader";
+import { SearchForTextResult } from "@aws-sdk/client-location";
 
 function NewAddressModal({
   isLoadingGeoPosition,
@@ -12,12 +13,48 @@ function NewAddressModal({
 }) {
   const router = useRouter();
   const pathname = usePathname();
+  const [isLoadingPlaces, setIsLoadingPlaces] = useState(false);
   const [isSearching, setIsSearching] = useState(false);
   const [searchText, setSearchText] = useState("");
+  const [queryResults, setQueryResults] = useState<SearchForTextResult[]>([]);
 
   function handleToGeoPosition() {
     router.push(`${pathname}?geoposition=true`);
   }
+
+  function handleQueryChange(text: string) {
+    setSearchText(text);
+  }
+
+  useEffect(
+    function () {
+      const controller = new AbortController();
+      const signal = controller.signal;
+
+      async function getLocations() {
+        if (searchText.length < 5) return;
+        try {
+          setIsLoadingPlaces(true);
+          const searchResults = await fetch(
+            `/api/location?text=${searchText}`,
+            {
+              signal,
+            }
+          )
+            .then((res) => res.json())
+            .then((data) => data);
+          setQueryResults(searchResults || []);
+          setIsLoadingPlaces(false);
+        } catch (err) {
+          console.log(err);
+        }
+      }
+
+      getLocations();
+      return () => controller.abort();
+    },
+    [searchText]
+  );
 
   return (
     <FlexibleModal
@@ -34,20 +71,21 @@ function NewAddressModal({
           <SearchComponent
             placeholder="Search places"
             searchText={searchText}
-            setSearchText={setSearchText}
             isClearable={isSearching}
+            onChange={handleQueryChange}
             onClear={() => {
-              console.log("clearing");
+              setSearchText("");
               setIsSearching(false);
             }}
             onFocus={() => setIsSearching(true)}
           />
         </div>
-        {isSearching && (
-          <div>
-            <p>Big</p>
-          </div>
-        )}
+        {isSearching &&
+          (isLoadingPlaces ? (
+            <PlaceListsLoading />
+          ) : (
+            <PlaceLists places={queryResults} />
+          ))}
         <button
           type="button"
           className="flex items-center justify-center gap-1 py-3 px-5 max-w-full text-sm font-semibold text-blue-500 transition-all hover:underline  bg-opacity-10 rounded-full mt-auto"
@@ -77,6 +115,55 @@ function NewAddressModal({
         </button>
       </div>
     </FlexibleModal>
+  );
+}
+
+function PlaceLists({ places }: { places: SearchForTextResult[] }) {
+  return (
+    <div className="w-full mt-8 px-2">
+      {places.map((placeObject) => {
+        const { Place, PlaceId } = placeObject;
+        if (!Place || !PlaceId || !Place.Label) return null;
+
+        const country = Place.Label.split(",").at(-1);
+        const address =
+          Place.Label.split(",").slice(0, -1).join() ||
+          Place?.Street ||
+          Place?.SubMunicipality ||
+          Place?.Municipality ||
+          Place?.Region ||
+          "No address found";
+
+        return (
+          <button
+            key={PlaceId}
+            className="w-full text-left text-white py-3 border border-transparent border-b-white last:border-b-transparent border-opacity-[0.37]"
+          >
+            <p>{address}</p>
+            <p className="text-sm text-white text-opacity-50">
+              {address}
+              {country && `, ${country}`}
+            </p>
+          </button>
+        );
+      })}
+    </div>
+  );
+}
+
+function PlaceListsLoading() {
+  return (
+    <div className="w-full mt-8 px-2 transition-all">
+      {["", "", "", "", ""].map((_, i) => (
+        <div
+          key={i}
+          className="w-full py-3 border border-transparent border-b-white last:border-b-transparent border-opacity-[0.05]"
+        >
+          <div className="bg-white bg-opacity-[0.03] h-10 rounded-lg"></div>
+          {/* <div className="bg-white bg-opacity-[0.02] h-3 rounded-lg w-[50%]"></div> */}
+        </div>
+      ))}
+    </div>
   );
 }
 

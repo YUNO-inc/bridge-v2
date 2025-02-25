@@ -1,4 +1,6 @@
-import { ReverseGeoCode } from "./service";
+"use server";
+
+import { QueryPlaceString, ReverseGeoCode } from "./service";
 
 export async function ReverseGeoCodeAction({
   lat,
@@ -14,6 +16,26 @@ export async function ReverseGeoCodeAction({
       options: {
         IndexName: process.env.AWS_PLACE_INDEX,
         Position: [lng, lat],
+        MaxResults: maxResults,
+      },
+    });
+  } catch (err) {
+    console.log(err);
+  }
+}
+
+export async function QueryPlaceStringAction({
+  text,
+  maxResults = 5,
+}: {
+  text: string;
+  maxResults?: number;
+}) {
+  try {
+    return QueryPlaceString({
+      options: {
+        IndexName: process.env.AWS_PLACE_INDEX,
+        Text: text,
         MaxResults: maxResults,
       },
     });

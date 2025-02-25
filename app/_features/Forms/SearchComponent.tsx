@@ -6,15 +6,15 @@ import { motion } from "motion/react";
 function SearchComponent({
   placeholder = "",
   searchText,
-  setSearchText,
   isClearable = true,
+  onChange,
   onClear,
   onFocus,
 }: {
   placeholder: string;
   searchText: string;
-  setSearchText: React.Dispatch<React.SetStateAction<string>>;
   isClearable?: boolean;
+  onChange?: (text: string) => void;
   onClear?: () => void;
   onFocus?: () => void;
 }) {
@@ -28,7 +28,9 @@ function SearchComponent({
         placeholder={placeholder}
         className="grow bg-transparent placeholder:text-current placeholder:text-opacity-60 outline-none leading-none"
         value={searchText}
-        onChange={(e) => setSearchText(e.target.value)}
+        onChange={(e) => {
+          if (onChange) onChange(e.target.value);
+        }}
         onFocus={() => {
           if (onFocus) onFocus();
         }}
@@ -39,7 +41,6 @@ function SearchComponent({
       {isClearable && (
         <button
           onClick={() => {
-            setSearchText("");
             if (onClear) onClear();
           }}
         >
