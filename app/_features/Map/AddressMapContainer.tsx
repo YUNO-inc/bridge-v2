@@ -49,7 +49,10 @@ function MapContainer({
 
   useEffect(
     function () {
-      if (searchLatLng) setMapCenter(searchLatLng);
+      if (searchLatLng) {
+        setZoomLevel(18);
+        setMapCenter(searchLatLng);
+      }
     },
     [searchLatLng]
   );
