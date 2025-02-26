@@ -28,7 +28,7 @@ function Radio({
           id="belu"
         />
         <span
-          className={`flex items-center justify-center rounded-full w-[20px] h-[20px] border border-current transition-all ${
+          className={`flex items-center justify-center rounded-full min-w-[20px] w-[20px] h-[20px] border border-current transition-all ${
             isChecked ? "text-blue-500" : "text-stone-500"
           }`}
         >
