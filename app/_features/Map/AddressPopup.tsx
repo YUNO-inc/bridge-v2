@@ -69,7 +69,7 @@ function AddressPopup({
       addresses: [...userAddresses, { ...address, isSelected: true }],
     });
     dispatch(setUser(newUser));
-    router.push("/address");
+    router.back();
   };
 
   return (
