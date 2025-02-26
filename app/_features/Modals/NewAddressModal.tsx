@@ -5,11 +5,16 @@ import FlexibleModal from "./FlexibleModal";
 import { usePathname, useRouter } from "next/navigation";
 import CircleLoader from "../Loaders/CircleLoader";
 import { SearchForTextResult } from "@aws-sdk/client-location";
+import { AddressDTO } from "@/app/_interfaces/interfaces";
 
 function NewAddressModal({
   isLoadingGeoPosition,
+  setSearchLatLng,
 }: {
   isLoadingGeoPosition: boolean;
+  setSearchLatLng: React.Dispatch<
+    React.SetStateAction<AddressDTO["coords"] | undefined>
+  >;
 }) {
   const router = useRouter();
   const pathname = usePathname();
@@ -19,7 +24,7 @@ function NewAddressModal({
   const [queryResults, setQueryResults] = useState<SearchForTextResult[]>([]);
 
   function handleToGeoPosition() {
-    router.push(`${pathname}?geoposition=true`);
+    router.replace(`${pathname}?geoposition=true`);
   }
 
   function handleQueryChange(text: string) {
@@ -84,7 +89,11 @@ function NewAddressModal({
           (isLoadingPlaces ? (
             <PlaceListsLoading />
           ) : (
-            <PlaceLists places={queryResults} />
+            <PlaceLists
+              places={queryResults}
+              setSearchLatLng={setSearchLatLng}
+              setIsSearching={setIsSearching}
+            />
           ))}
         <button
           type="button"
@@ -118,7 +127,23 @@ function NewAddressModal({
   );
 }
 
-function PlaceLists({ places }: { places: SearchForTextResult[] }) {
+function PlaceLists({
+  places,
+  setSearchLatLng,
+  setIsSearching,
+}: {
+  places: SearchForTextResult[];
+  setSearchLatLng: React.Dispatch<
+    React.SetStateAction<AddressDTO["coords"] | undefined>
+  >;
+  setIsSearching: React.Dispatch<React.SetStateAction<boolean>>;
+}) {
+  function handleToLatLng({ lat, lng }: { lat?: number; lng?: number }) {
+    if (typeof lat !== "number" || typeof lng !== "number") return;
+    setSearchLatLng([lat, lng]);
+    setIsSearching(false);
+  }
+
   return (
     <div className="w-full mt-8 px-2">
       {places.map((placeObject) => {
@@ -138,6 +163,12 @@ function PlaceLists({ places }: { places: SearchForTextResult[] }) {
           <button
             key={PlaceId}
             className="w-full text-left text-white py-3 border border-transparent border-b-white last:border-b-transparent border-opacity-[0.37]"
+            onClick={() =>
+              handleToLatLng({
+                lng: Place.Geometry?.Point?.[0],
+                lat: Place.Geometry?.Point?.[1],
+              })
+            }
           >
             <p>{address}</p>
             <p className="text-sm text-white text-opacity-50">

@@ -21,9 +21,11 @@ const DEFAULT_POS: AddressDTO["coords"] = [
 
 function MapContainer({
   className,
+  searchLatLng,
   setIsLoadingGeoPosition,
 }: {
   className?: string;
+  searchLatLng: AddressDTO["coords"] | undefined;
   setIsLoadingGeoPosition: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
   const selectedAddress = useAppSelector(getSelectedAddress);
@@ -31,19 +33,26 @@ function MapContainer({
   const fromUserPosition = searchParams.get("geoposition");
 
   const [zoomLevel, setZoomLevel] = useState(16);
-
   const [userPosition, setUserPosition] = useState<
     { coords: AddressDTO["coords"]; accuracy: number } | undefined
   >(undefined);
   const [mapCenter, setMapCenter] = useState(
     selectedAddress ? selectedAddress.coords : DEFAULT_POS
   );
+
   const tiles = {
     roadmap: "http://mt0.google.com/vt/lyrs=m&hl=en&x={x}&y={y}&z={z} ",
     stadiaDark:
       "https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.png?api_key=59980a15-7d7c-4d12-93ea-f80b93d525e3",
     cartoDark: "https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png",
   };
+
+  useEffect(
+    function () {
+      if (searchLatLng) setMapCenter(searchLatLng);
+    },
+    [searchLatLng]
+  );
 
   useEffect(function () {
     function setUPIcons() {
