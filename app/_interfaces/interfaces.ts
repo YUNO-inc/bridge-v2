@@ -14,9 +14,12 @@ export interface UserDTO {
 }
 
 export interface ItemDTO {
-  // business?: Partial<BusinessDTO> | string;
   id: string;
-  ownerData: { id: string; deliveryPrice: number };
+  ownerData: {
+    id: BusinessDTO["id"];
+    name: BusinessDTO["name"];
+    deliveryPrice: BusinessDTO["deliveryPrice"];
+  };
   image: string;
   name: string;
   price: number;
@@ -32,7 +35,11 @@ export interface BusinessDTO {
   recommendations: ItemDTO[];
 }
 
-export type CartDTO = ItemDTO[];
+export type CartDTO = {
+  items: ItemDTO[];
+  delivery: number;
+  farthestBusiness: BusinessDTO["id"] | undefined;
+};
 
 export type InputsProps = {
   type: "tel" | "select" | "text" | "email";

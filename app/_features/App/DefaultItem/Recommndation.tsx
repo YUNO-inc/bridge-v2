@@ -13,8 +13,8 @@ function Recommndations({
   businessName: string;
 }) {
   const dispatch = useAppDispatch();
-  const { cart } = useAppSelector(getCart);
-  const isInCart = cart.some((item) => item?.id === rec.id);
+  const { items: cartItems } = useAppSelector(getCart);
+  const isInCart = cartItems.some((item) => item?.id === rec.id);
 
   function handleAddToCart(item: ItemDTO) {
     dispatch(addToCart(item));

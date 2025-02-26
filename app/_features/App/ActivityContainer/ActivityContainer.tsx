@@ -9,12 +9,14 @@ import DefaultItem from "../DefaultItem/DefaultItem";
 import { BusinessDTO } from "@/app/_interfaces/interfaces";
 import { useAppSelector } from "@/app/_hooks/reduxHooks";
 import { getCart } from "../../Cart/cartSlice";
+import Cart from "../../Cart/Cart";
 
 function ActivityContainer({ currPageIndex = 0 }) {
-  const { cart } = useAppSelector(getCart);
+  const { items: cartItems } = useAppSelector(getCart);
   const MAX_PAGE_INDEX = 1;
   const DRAG_BUFFER = 33;
   const [pageIndex, setPageIndex] = useState(currPageIndex);
+  const [cartIsOpen, setCartIsOpen] = useState(false);
   const dragX = useMotionValue(0);
   const businesses: BusinessDTO[] = [
     {
@@ -27,28 +29,44 @@ function ActivityContainer({ currPageIndex = 0 }) {
       recommendations: [
         {
           id: "item01",
-          ownerData: { id: "1", deliveryPrice: 200 },
+          ownerData: {
+            id: "1",
+            name: "witty shawarma",
+            deliveryPrice: 200,
+          },
           image: "witty-sha.jpg",
           name: "chicken shawarma",
           price: 2000,
         },
         {
           id: "item02",
-          ownerData: { id: "1", deliveryPrice: 200 },
+          ownerData: {
+            id: "1",
+            name: "witty shawarma",
+            deliveryPrice: 200,
+          },
           image: "witty-sha.jpg",
           name: "turkey shawarma",
           price: 2000,
         },
         {
           id: "item03",
-          ownerData: { id: "1", deliveryPrice: 200 },
+          ownerData: {
+            id: "1",
+            name: "witty shawarma",
+            deliveryPrice: 200,
+          },
           image: "witty-sha.jpg",
           name: "Double Roasted shawarma",
           price: 2000,
         },
         {
           id: "item04",
-          ownerData: { id: "1", deliveryPrice: 200 },
+          ownerData: {
+            id: "1",
+            name: "witty shawarma",
+            deliveryPrice: 200,
+          },
           image: "witty-sha.jpg",
           name: "Pork shawarma",
           price: 2000,
@@ -65,28 +83,44 @@ function ActivityContainer({ currPageIndex = 0 }) {
       recommendations: [
         {
           id: "item05",
-          ownerData: { id: "2", deliveryPrice: 300 },
+          ownerData: {
+            id: "2",
+            name: "Premium shawarma",
+            deliveryPrice: 300,
+          },
           image: "witty-sha.jpg",
           name: "chicken shawarma",
           price: 2000,
         },
         {
           id: "item06",
-          ownerData: { id: "2", deliveryPrice: 300 },
+          ownerData: {
+            id: "2",
+            name: "Premium shawarma",
+            deliveryPrice: 300,
+          },
           image: "witty-sha.jpg",
           name: "turkey shawarma",
           price: 2000,
         },
         {
           id: "item07",
-          ownerData: { id: "2", deliveryPrice: 300 },
+          ownerData: {
+            id: "2",
+            name: "Premium shawarma",
+            deliveryPrice: 300,
+          },
           image: "witty-sha.jpg",
           name: "Double Roasted shawarma",
           price: 2000,
         },
         {
           id: "item08",
-          ownerData: { id: "2", deliveryPrice: 300 },
+          ownerData: {
+            id: "2",
+            name: "Premium shawarma",
+            deliveryPrice: 300,
+          },
           image: "witty-sha.jpg",
           name: "Pork shawarma",
           price: 2000,
@@ -103,28 +137,44 @@ function ActivityContainer({ currPageIndex = 0 }) {
       recommendations: [
         {
           id: "item09",
-          ownerData: { id: "3", deliveryPrice: 200 },
+          ownerData: {
+            id: "3",
+            name: "witty shawarma 2",
+            deliveryPrice: 200,
+          },
           image: "witty-sha.jpg",
           name: "chicken shawarma",
           price: 2000,
         },
         {
           id: "item10",
-          ownerData: { id: "3", deliveryPrice: 200 },
+          ownerData: {
+            id: "3",
+            name: "witty shawarma 2",
+            deliveryPrice: 200,
+          },
           image: "witty-sha.jpg",
           name: "turkey shawarma",
           price: 2000,
         },
         {
           id: "item11",
-          ownerData: { id: "3", deliveryPrice: 200 },
+          ownerData: {
+            id: "3",
+            name: "witty shawarma 2",
+            deliveryPrice: 200,
+          },
           image: "witty-sha.jpg",
           name: "Double Roasted shawarma",
           price: 2000,
         },
         {
           id: "item12",
-          ownerData: { id: "3", deliveryPrice: 200 },
+          ownerData: {
+            id: "3",
+            name: "witty shawarma 2",
+            deliveryPrice: 200,
+          },
           image: "witty-sha.jpg",
           name: "Pork shawarma",
           price: 2000,
@@ -141,28 +191,44 @@ function ActivityContainer({ currPageIndex = 0 }) {
       recommendations: [
         {
           id: "item13",
-          ownerData: { id: "4", deliveryPrice: 150 },
+          ownerData: {
+            id: "4",
+            name: "Premium shawarma 2",
+            deliveryPrice: 150,
+          },
           image: "witty-sha.jpg",
           name: "chicken shawarma",
           price: 2000,
         },
         {
           id: "item14",
-          ownerData: { id: "4", deliveryPrice: 150 },
+          ownerData: {
+            id: "4",
+            name: "Premium shawarma 2",
+            deliveryPrice: 150,
+          },
           image: "witty-sha.jpg",
           name: "turkey shawarma",
           price: 2000,
         },
         {
           id: "item15",
-          ownerData: { id: "4", deliveryPrice: 150 },
+          ownerData: {
+            id: "4",
+            name: "Premium shawarma 2",
+            deliveryPrice: 150,
+          },
           image: "witty-sha.jpg",
           name: "Double Roasted shawarma",
           price: 2000,
         },
         {
           id: "item16",
-          ownerData: { id: "4", deliveryPrice: 150 },
+          ownerData: {
+            id: "4",
+            name: "Premium shawarma 2",
+            deliveryPrice: 150,
+          },
           image: "witty-sha.jpg",
           name: "Pork shawarma",
           price: 2000,
@@ -190,7 +256,9 @@ function ActivityContainer({ currPageIndex = 0 }) {
             })`,
           }}
           transition={{ type: "spring", mass: 3, stiffness: 400, damping: 50 }}
-          className="flex w-full gap-4 sw700:h-[60dvh] h-[50dvh] max-h-[63.7dvh] min-h-[400px] active:cursor-grabbing"
+          className={`flex w-full gap-4 sw700:h-[60dvh] h-[50dvh] max-h-[63.7dvh] min-h-[400px] active:cursor-grabbing ${
+            cartIsOpen ? "opacity-0" : "opacity-100"
+          }`}
         >
           <motion.div
             drag="x"
@@ -198,7 +266,7 @@ function ActivityContainer({ currPageIndex = 0 }) {
             onDragEnd={onDragEnd}
             style={{ x: dragX }}
             className={`bg-[#f2f2f2] h-full shrink-0 w-full rounded-[25px] overflow-x-hidden overflow-y-auto p-2 flex flex-col gap-4 ${
-              cart.length && "pb-[90px]"
+              cartItems.length && "pb-[90px]"
             }`}
           >
             {businesses.map((business) => (
@@ -213,14 +281,28 @@ function ActivityContainer({ currPageIndex = 0 }) {
             className="bg-[#f2f2f2] h-full shrink-0 w-full rounded-[25px] overflow-hidden"
           ></motion.div>
         </motion.div>
-        <div className="absolute w-full left-1/2 translate-x-[-50%] bottom-2 px-2 flex flex-col gap-1 items-center z-10">
+        <div
+          className={`absolute w-full left-1/2 translate-x-[-50%] px-2 flex flex-col gap-1 items-center z-10 transition-all bottom-2 ${
+            cartIsOpen ? "-bottom-3 invisible opacity-0" : "visible opacity-100"
+          }`}
+        >
           <PageControl
             numOptions={2}
             activeIndex={pageIndex}
             setActiveIndex={setPageIndex}
-            className={!cart.length ? "shadow-sgc" : ""}
+            className={!cartItems.length ? "shadow-sgc" : ""}
           />
-          {!!cart.length && <CartButton />}
+          {!!cartItems.length && <CartButton setCartIsOpen={setCartIsOpen} />}
+        </div>
+        <div
+          className={`h-full w-full absolute transition-all ${
+            cartIsOpen
+              ? "left-0 visible opacity-100"
+              : "left-3 invisible opacity-0"
+          }`}
+          onClick={() => setCartIsOpen(false)}
+        >
+          <Cart />
         </div>
       </div>
       <ActivityControlsSegmentedControl />

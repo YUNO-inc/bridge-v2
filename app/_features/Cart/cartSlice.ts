@@ -1,14 +1,10 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { CartDTO, ItemDTO } from "@/app/_interfaces/interfaces";
 
-type InitialState = {
-  cart: Partial<CartDTO>;
-  delivery: number;
-};
-
-const initialState: InitialState = {
-  cart: [],
+const initialState: CartDTO = {
+  items: [],
   delivery: 0,
+  farthestBusiness: undefined,
 };
 
 const cartSlice = createSlice({
@@ -16,7 +12,7 @@ const cartSlice = createSlice({
   initialState,
   reducers: {
     addToCart(state, action: PayloadAction<ItemDTO>) {
-      state.cart.push(action.payload);
+      state.items.push(action.payload);
       state.delivery += action.payload.ownerData.deliveryPrice;
     },
   },
@@ -24,7 +20,7 @@ const cartSlice = createSlice({
 
 export const { addToCart } = cartSlice.actions;
 
-export const getCart = (state: { cart: InitialState }) => state.cart;
+export const getCart = (state: { cart: CartDTO }) => state.cart;
 
 const cartSliceReducer = cartSlice.reducer;
 export default cartSliceReducer;
