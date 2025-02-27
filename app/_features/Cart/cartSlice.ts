@@ -56,23 +56,3 @@ function createGroup(newItem: ItemDTO) {
     totalPrice: newItem.price,
   };
 }
-
-// state.groups = state.groups.reduce<CartDTO["groups"]>((accGroups) => {
-//   const foundGroup = accGroups.find((group) => {
-//     console.log(group.id === newItem.ownerData.id);
-//     console.log(group.id, newItem.ownerData.id);
-//     return group.id === newItem.ownerData.id;
-//   });
-//   console.log("foundGroup: ", foundGroup, createGroup(newItem));
-//   if (!foundGroup) {
-//     accGroups = [...accGroups, createGroup(newItem)];
-//     console.log("no group found", [...accGroups, createGroup(newItem)]);
-//   } else {
-//     foundGroup.items.push(newItem);
-//     foundGroup.totalPrice += newItem.price;
-//   }
-
-//   return accGroups;
-// }, []);
-
-// console.log(state.groups);
