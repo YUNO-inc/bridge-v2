@@ -35,10 +35,19 @@ export interface BusinessDTO {
   recommendations: ItemDTO[];
 }
 
-export type CartDTO = {
+export type CartGroupDTO = {
+  id: ItemDTO["ownerData"]["id"];
+  name: ItemDTO["ownerData"]["name"];
+  deliveryPrice: ItemDTO["ownerData"]["deliveryPrice"];
   items: ItemDTO[];
-  delivery: number;
-  farthestBusiness: BusinessDTO["id"] | undefined;
+  totalPrice: number;
+};
+
+export type CartDTO = {
+  groups: CartGroupDTO[];
+  numTotalItems: number;
+  deliveryTotal: number;
+  farthestPurchase: BusinessDTO["id"] | undefined;
 };
 
 export type InputsProps = {

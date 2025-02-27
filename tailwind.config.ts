@@ -54,6 +54,7 @@ export default {
       boxShadow: {
         purple: "0px 18px 30px rgba(131, 119, 198, 0.11)",
         sgc: "0px 3px 8px rgba(0, 0, 0, 0.12)",
+        "sgc-light": "0px 1.5px 4px rgba(0, 0, 0, 0.12)",
       },
       keyframes: {
         ["spin-opacity"]: {

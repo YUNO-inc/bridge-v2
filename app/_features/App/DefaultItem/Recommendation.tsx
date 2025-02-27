@@ -1,23 +1,26 @@
-import { useAppDispatch, useAppSelector } from "@/app/_hooks/reduxHooks";
+import { useAppDispatch } from "@/app/_hooks/reduxHooks";
 import { ItemDTO } from "@/app/_interfaces/interfaces";
 import { PlusIcon } from "@heroicons/react/16/solid";
 import Image from "next/image";
-import { addToCart, getCart } from "../../Cart/cartSlice";
+import { addToCart } from "../../Cart/cartSlice";
 import CheckAnimation from "../../CheckAnimation/CheckAnimation";
+import { useState } from "react";
 
-function Recommndations({
+function Recommendations({
   rec,
   businessName,
 }: {
   rec: ItemDTO;
   businessName: string;
 }) {
+  const [isActive, setIsActive] = useState(false);
   const dispatch = useAppDispatch();
-  const { items: cartItems } = useAppSelector(getCart);
-  const isInCart = cartItems.some((item) => item?.id === rec.id);
+  const ACTIVE_TIMEOUT = 2000;
 
   function handleAddToCart(item: ItemDTO) {
     dispatch(addToCart(item));
+    setIsActive(true);
+    setTimeout(() => setIsActive(false), ACTIVE_TIMEOUT);
   }
 
   return (
@@ -37,12 +40,12 @@ function Recommndations({
         />
         <div
           className={`absolute h-[30%] w-full bg-opacity-[0.9] backdrop-blur-[1px] z-10 bottom-0 left-0 rounded-b-[4px] flex items-center justify-center py-1.5 transition-all duration-500 ${
-            isInCart
+            isActive
               ? "border-opacity-[1] bg-opacity-[1] bg-phthaloGreen"
               : "bg-opacity-50 bg-phthaloGreen-50"
           }`}
         >
-          {isInCart ? (
+          {isActive ? (
             <CheckAnimation
               size={11}
               message=""
@@ -63,4 +66,4 @@ function Recommndations({
   );
 }
 
-export default Recommndations;
+export default Recommendations;

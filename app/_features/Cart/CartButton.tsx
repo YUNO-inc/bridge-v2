@@ -9,7 +9,7 @@ export default function CartButton({
 }: {
   setCartIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
-  const { items: cartItems, delivery } = useAppSelector(getCart);
+  const { deliveryTotal, numTotalItems } = useAppSelector(getCart);
 
   return (
     <button
@@ -19,11 +19,11 @@ export default function CartButton({
       <span>Cart</span>
       <span className="flex items-center gap-[6px] text-[13px]">
         <span>
-          {cartItems.length} item{cartItems.length === 1 ? "" : "s"}
+          {numTotalItems} item{numTotalItems === 1 ? "" : "s"}
         </span>
         <span className="w-1 h-1 bg-phthaloGreen-50 bg-opacity-55 rounded-full"></span>
         <span className="flex gap-1">
-          <span>₦{delivery}</span>
+          <span>₦{deliveryTotal}</span>
           <span className="relative bottom-[-2px]">
             <LocalIcons
               name="rider2"

@@ -2,7 +2,7 @@
 import { BusinessDTO } from "@/app/_interfaces/interfaces";
 import LocalIcons from "@/app/_utils/LocalIcons";
 import Image from "next/image";
-import Recommndation from "./Recommndation";
+import Recommndation from "./Recommendation";
 
 type EdibleItemProps = { business: BusinessDTO };
 

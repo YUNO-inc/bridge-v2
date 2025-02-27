@@ -12,7 +12,7 @@ import { getCart } from "../../Cart/cartSlice";
 import Cart from "../../Cart/Cart";
 
 function ActivityContainer({ currPageIndex = 0 }) {
-  const { items: cartItems } = useAppSelector(getCart);
+  const { numTotalItems } = useAppSelector(getCart);
   const MAX_PAGE_INDEX = 1;
   const DRAG_BUFFER = 33;
   const [pageIndex, setPageIndex] = useState(currPageIndex);
@@ -266,7 +266,7 @@ function ActivityContainer({ currPageIndex = 0 }) {
             onDragEnd={onDragEnd}
             style={{ x: dragX }}
             className={`bg-[#f2f2f2] h-full shrink-0 w-full rounded-[25px] overflow-x-hidden overflow-y-auto p-2 flex flex-col gap-4 ${
-              cartItems.length && "pb-[90px]"
+              numTotalItems && "pb-[90px]"
             }`}
           >
             {businesses.map((business) => (
@@ -290,9 +290,9 @@ function ActivityContainer({ currPageIndex = 0 }) {
             numOptions={2}
             activeIndex={pageIndex}
             setActiveIndex={setPageIndex}
-            className={!cartItems.length ? "shadow-sgc" : ""}
+            className={!numTotalItems ? "shadow-sgc" : ""}
           />
-          {!!cartItems.length && <CartButton setCartIsOpen={setCartIsOpen} />}
+          {!!numTotalItems && <CartButton setCartIsOpen={setCartIsOpen} />}
         </div>
         <div
           className={`h-full w-full absolute transition-all ${
