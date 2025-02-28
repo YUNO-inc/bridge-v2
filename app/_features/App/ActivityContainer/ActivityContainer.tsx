@@ -36,7 +36,8 @@ function ActivityContainer({ currPageIndex = 0 }) {
           },
           image: "witty-sha.jpg",
           name: "chicken shawarma",
-          price: 2000,
+          price: 3000,
+          addedAt: new Date(1740738322952),
         },
         {
           id: "item02",
@@ -47,7 +48,8 @@ function ActivityContainer({ currPageIndex = 0 }) {
           },
           image: "witty-sha.jpg",
           name: "turkey shawarma",
-          price: 2000,
+          price: 5000,
+          addedAt: new Date(1740738522952),
         },
         {
           id: "item03",
@@ -58,7 +60,8 @@ function ActivityContainer({ currPageIndex = 0 }) {
           },
           image: "witty-sha.jpg",
           name: "Double Roasted shawarma",
-          price: 2000,
+          price: 9000,
+          addedAt: new Date(1740738922152),
         },
         {
           id: "item04",
@@ -69,7 +72,8 @@ function ActivityContainer({ currPageIndex = 0 }) {
           },
           image: "witty-sha.jpg",
           name: "Pork shawarma",
-          price: 2000,
+          price: 4000,
+          addedAt: new Date(1740738422952),
         },
       ],
     },
@@ -90,7 +94,8 @@ function ActivityContainer({ currPageIndex = 0 }) {
           },
           image: "witty-sha.jpg",
           name: "chicken shawarma",
-          price: 2000,
+          price: 3000,
+          addedAt: new Date(1740738312952),
         },
         {
           id: "item06",
@@ -102,6 +107,7 @@ function ActivityContainer({ currPageIndex = 0 }) {
           image: "witty-sha.jpg",
           name: "turkey shawarma",
           price: 2000,
+          addedAt: new Date(1740738222952),
         },
         {
           id: "item07",
@@ -112,7 +118,8 @@ function ActivityContainer({ currPageIndex = 0 }) {
           },
           image: "witty-sha.jpg",
           name: "Double Roasted shawarma",
-          price: 2000,
+          price: 8000,
+          addedAt: new Date(1740738822952),
         },
         {
           id: "item08",
@@ -123,7 +130,8 @@ function ActivityContainer({ currPageIndex = 0 }) {
           },
           image: "witty-sha.jpg",
           name: "Pork shawarma",
-          price: 2000,
+          price: 4000,
+          addedAt: new Date(1740738422952),
         },
       ],
     },
@@ -144,7 +152,8 @@ function ActivityContainer({ currPageIndex = 0 }) {
           },
           image: "witty-sha.jpg",
           name: "chicken shawarma",
-          price: 2000,
+          price: 4000,
+          addedAt: new Date(1740738422952),
         },
         {
           id: "item10",
@@ -155,7 +164,8 @@ function ActivityContainer({ currPageIndex = 0 }) {
           },
           image: "witty-sha.jpg",
           name: "turkey shawarma",
-          price: 2000,
+          price: 6000,
+          addedAt: new Date(1740738622952),
         },
         {
           id: "item11",
@@ -166,7 +176,8 @@ function ActivityContainer({ currPageIndex = 0 }) {
           },
           image: "witty-sha.jpg",
           name: "Double Roasted shawarma",
-          price: 2000,
+          price: 8000,
+          addedAt: new Date(1740738822952),
         },
         {
           id: "item12",
@@ -177,7 +188,8 @@ function ActivityContainer({ currPageIndex = 0 }) {
           },
           image: "witty-sha.jpg",
           name: "Pork shawarma",
-          price: 2000,
+          price: 7000,
+          addedAt: new Date(1740738722952),
         },
       ],
     },
@@ -198,7 +210,8 @@ function ActivityContainer({ currPageIndex = 0 }) {
           },
           image: "witty-sha.jpg",
           name: "chicken shawarma",
-          price: 2000,
+          price: 8000,
+          addedAt: new Date(1740738822952),
         },
         {
           id: "item14",
@@ -209,7 +222,8 @@ function ActivityContainer({ currPageIndex = 0 }) {
           },
           image: "witty-sha.jpg",
           name: "turkey shawarma",
-          price: 2000,
+          price: 9000,
+          addedAt: new Date(1740738922952),
         },
         {
           id: "item15",
@@ -220,7 +234,8 @@ function ActivityContainer({ currPageIndex = 0 }) {
           },
           image: "witty-sha.jpg",
           name: "Double Roasted shawarma",
-          price: 2000,
+          price: 1600,
+          addedAt: new Date(1740738022952),
         },
         {
           id: "item16",
@@ -231,7 +246,8 @@ function ActivityContainer({ currPageIndex = 0 }) {
           },
           image: "witty-sha.jpg",
           name: "Pork shawarma",
-          price: 2000,
+          price: 7000,
+          addedAt: new Date(1740738722952),
         },
       ],
     },
@@ -300,9 +316,8 @@ function ActivityContainer({ currPageIndex = 0 }) {
               ? "left-0 visible opacity-100"
               : "left-3 invisible opacity-0"
           }`}
-          onClick={() => setCartIsOpen(false)}
         >
-          <Cart />
+          <Cart cartIsOpen={cartIsOpen} setCartIsOpen={setCartIsOpen} />
         </div>
       </div>
       <ActivityControlsSegmentedControl />

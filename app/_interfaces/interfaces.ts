@@ -23,6 +23,7 @@ export interface ItemDTO {
   image: string;
   name: string;
   price: number;
+  addedAt: Date | number;
 }
 
 export interface BusinessDTO {

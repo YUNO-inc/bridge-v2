@@ -8,15 +8,24 @@ function CartGroup({ group }: { group: CartGroupDTO }) {
   const { name, items, totalPrice, deliveryPrice } = group;
   return (
     <div className="flex flex-col gap-1 pt-4">
-      <div className="flex items-center gap-3 px-3">
-        <p className="font-semibold">{name}</p>
-        <span className="bg-phthaloGreen bg-opacity-[0.37] leading-none py-1 px-2 rounded-full capitalize text-xs font-semibold">
+      <div className="flex items-center gap-3 px-3 max-w-[100%] overflow-hidden whitespace-nowrap text-ellipsis">
+        <p className="font-semibold max-w-[100%] overflow-hidden whitespace-nowrap text-ellipsis">
+          {name}
+        </p>
+        <span className="whitespace-nowrap bg-phthaloGreen bg-opacity-[0.37] leading-none py-1 px-2 rounded-full capitalize text-xs font-semibold">
           farthest purchase
         </span>
       </div>
       <div className="flex flex-col bg-white bg-opacity-30 rounded-[18px] px-3">
         {items.map((item) => (
-          <CartItem item={item} key={item.id} />
+          <CartItem
+            item={item}
+            key={
+              typeof item.addedAt === "number"
+                ? item.addedAt
+                : item.addedAt.getTime()
+            }
+          />
         ))}
         <div className="py-3 flex items-center gap-6">
           <IconAndText

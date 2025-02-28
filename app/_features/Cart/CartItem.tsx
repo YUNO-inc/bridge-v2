@@ -13,10 +13,10 @@ function CartItem({ item }: { item: ItemDTO }) {
           alt={`Image of ${item.name} by ${item.ownerData.name}`}
         />
       </div>
-      <div className="grow text-[14px] sm:text-base flex justify-between items-center">
-        <div className="grow flex flex-col">
-          <div className="grow max-w-40 sw340:max-w-48 sw355:max-w-52 sw370:max-w-56 sw380:max-w-[234px] sw390:max-w-60 sw400:max-w-[250px] sw420:max-w-[280px] sw460:max-w-80 sw550:max-w-none flex items-center gap-2">
-            <p className="max-w-[300px] overflow-hidden whitespace-nowrap text-ellipsis capitalize">
+      <div className="grow max-w-[100%] overflow-hidden text-[14px] sm:text-base flex justify-between items-center">
+        <div className="grow flex flex-col max-w-[80%]">
+          <div className="grow flex items-center gap-2">
+            <p className="max-w-[100%] overflow-hidden whitespace-nowrap text-ellipsis capitalize">
               {item.name}
             </p>
             <span className=" shrink-0 w-1 h-1 bg-phthaloGreen bg-opacity-55 rounded-full"></span>

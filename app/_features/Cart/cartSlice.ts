@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { CartDTO, ItemDTO } from "@/app/_interfaces/interfaces";
+import { CartDTO, CartGroupDTO, ItemDTO } from "@/app/_interfaces/interfaces";
 
 const initialState: CartDTO = {
   groups: [],
@@ -14,6 +14,7 @@ const cartSlice = createSlice({
   reducers: {
     addToCart(state, action: PayloadAction<ItemDTO>) {
       const newItem = action.payload;
+      newItem.addedAt = Date.now();
       const numOfGroups = state.groups.length > 0;
       let groupAlreadyExits = false;
 
@@ -47,7 +48,7 @@ export const isInCart = (state: { cart: CartDTO }) => state.cart;
 const cartSliceReducer = cartSlice.reducer;
 export default cartSliceReducer;
 
-function createGroup(newItem: ItemDTO) {
+function createGroup(newItem: ItemDTO): CartGroupDTO {
   return {
     id: newItem.ownerData.id,
     name: newItem.ownerData.name,
