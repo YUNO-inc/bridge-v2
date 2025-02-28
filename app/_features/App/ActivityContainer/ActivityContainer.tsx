@@ -10,13 +10,17 @@ import { BusinessDTO } from "@/app/_interfaces/interfaces";
 import { useAppSelector } from "@/app/_hooks/reduxHooks";
 import { getCart } from "../../Cart/cartSlice";
 import Cart from "../../Cart/Cart";
+import { useRouter, useSearchParams } from "next/navigation";
 
 function ActivityContainer({ currPageIndex = 0 }) {
   const { numTotalItems } = useAppSelector(getCart);
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const hasCartURL = searchParams.get("cart");
   const MAX_PAGE_INDEX = 1;
   const DRAG_BUFFER = 33;
   const [pageIndex, setPageIndex] = useState(currPageIndex);
-  const [cartIsOpen, setCartIsOpen] = useState(false);
+  const [cartIsOpen, setCartIsOpen] = useState(!!hasCartURL);
   const dragX = useMotionValue(0);
   const businesses: BusinessDTO[] = [
     {
@@ -262,6 +266,13 @@ function ActivityContainer({ currPageIndex = 0 }) {
     }
   };
 
+  function toogleCartIsOpenState(newState: boolean) {
+    setCartIsOpen(newState);
+
+    if (newState) router.push("/?cart=open");
+    else router.replace("/");
+  }
+
   return (
     <div className="w-full flex flex-col gap-2">
       <div className="relative w-full flex justify-center items-center overflow-hidden">
@@ -308,7 +319,9 @@ function ActivityContainer({ currPageIndex = 0 }) {
             setActiveIndex={setPageIndex}
             className={!numTotalItems ? "shadow-sgc" : ""}
           />
-          {!!numTotalItems && <CartButton setCartIsOpen={setCartIsOpen} />}
+          {!!numTotalItems && (
+            <CartButton openCart={() => toogleCartIsOpenState(true)} />
+          )}
         </div>
         <div
           className={`h-full w-full absolute transition-all ${
@@ -317,7 +330,10 @@ function ActivityContainer({ currPageIndex = 0 }) {
               : "left-3 invisible opacity-0"
           }`}
         >
-          <Cart cartIsOpen={cartIsOpen} setCartIsOpen={setCartIsOpen} />
+          <Cart
+            cartIsOpen={cartIsOpen}
+            closeCart={() => toogleCartIsOpenState(false)}
+          />
         </div>
       </div>
       <ActivityControlsSegmentedControl />

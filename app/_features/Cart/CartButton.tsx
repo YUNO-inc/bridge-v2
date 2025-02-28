@@ -4,17 +4,13 @@ import { useAppSelector } from "@/app/_hooks/reduxHooks";
 import LocalIcons from "@/app/_utils/LocalIcons";
 import { getCart } from "./cartSlice";
 
-export default function CartButton({
-  setCartIsOpen,
-}: {
-  setCartIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
-}) {
+export default function CartButton({ openCart }: { openCart: () => void }) {
   const { deliveryTotal, numTotalItems } = useAppSelector(getCart);
 
   return (
     <button
       className="bg-phthaloGreen text-phthaloGreen-50 backdrop-blur-md text-sm px-4 py-4 w-full flex items-center justify-between rounded-[16px] shadow-sgc"
-      onClick={() => setCartIsOpen(true)}
+      onClick={openCart}
     >
       <span>Cart</span>
       <span className="flex items-center gap-[6px] text-[13px]">

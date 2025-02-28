@@ -55,6 +55,8 @@ const cartSlice = createSlice({
       });
       if (group.items.length < 1)
         state.groups = state.groups.filter((group) => group.id !== ownerId);
+
+      state.numTotalItems -= 1;
     },
   },
 });
