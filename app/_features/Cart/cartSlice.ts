@@ -36,10 +36,30 @@ const cartSlice = createSlice({
         ? 0
         : action.payload.ownerData.deliveryPrice;
     },
+    deleteFromCart(
+      state,
+      action: PayloadAction<{
+        delId: ItemDTO["id"];
+        delAddedAt: ItemDTO["addedAt"];
+        delPrice: ItemDTO["price"];
+        ownerId: ItemDTO["ownerData"]["id"];
+      }>
+    ) {
+      const { delId, delAddedAt, delPrice, ownerId } = action.payload;
+      const group = state.groups.find((group) => group.id === ownerId);
+      if (!group) return;
+      group.items = group.items.filter((item) => {
+        const isDelItem = item.id === delId && item.addedAt === delAddedAt;
+        if (isDelItem) group.totalPrice -= delPrice;
+        return !isDelItem;
+      });
+      if (group.items.length < 1)
+        state.groups = state.groups.filter((group) => group.id !== ownerId);
+    },
   },
 });
 
-export const { addToCart } = cartSlice.actions;
+export const { addToCart, deleteFromCart } = cartSlice.actions;
 
 export const getCart = (state: { cart: CartDTO }) => state.cart;
 
