@@ -48,6 +48,7 @@ export type CartDTO = {
   groups: CartGroupDTO[];
   numTotalItems: number;
   deliveryTotal: number;
+  priceTotal: number;
   farthestPurchase: BusinessDTO["id"] | undefined;
 };
 

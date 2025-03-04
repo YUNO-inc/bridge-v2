@@ -4,6 +4,7 @@ import { CartDTO, CartGroupDTO, ItemDTO } from "@/app/_interfaces/interfaces";
 const initialState: CartDTO = {
   groups: [],
   deliveryTotal: 0,
+  priceTotal: 0,
   numTotalItems: 0,
   farthestPurchase: undefined,
 };
@@ -32,9 +33,10 @@ const cartSlice = createSlice({
       }
 
       state.numTotalItems += 1;
+      state.priceTotal += newItem.price;
       state.deliveryTotal += groupAlreadyExits
         ? 0
-        : action.payload.ownerData.deliveryPrice;
+        : newItem.ownerData.deliveryPrice;
     },
     deleteFromCart(
       state,
@@ -57,6 +59,7 @@ const cartSlice = createSlice({
         state.groups = state.groups.filter((group) => group.id !== ownerId);
 
       state.numTotalItems -= 1;
+      state.priceTotal -= delPrice;
     },
   },
 });

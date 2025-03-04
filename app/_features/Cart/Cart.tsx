@@ -5,19 +5,27 @@ import CartGroup from "./CartGroup";
 import { getSelectedAddress } from "../User/userSlice";
 import { useRouter } from "next/navigation";
 import EmptyCart from "./EmptyCart";
+import CheckOutBtnBig from "./CheckOutBtnBig";
 
 function Cart({ closeCart }: { cartIsOpen: boolean; closeCart: () => void }) {
-  const { groups: cartGroups, numTotalItems } = useAppSelector(getCart);
+  const {
+    groups: cartGroups,
+    numTotalItems,
+    priceTotal,
+  } = useAppSelector(getCart);
 
   return (
-    <div className="h-full flex flex-col bg-phthaloGreen bg-opacity-10 rounded-[25px] overflow-x-hidden overflow-y-auto p-4 text-phthaloGreen text-opacity-[1] border-[0.1px] border-phthaloGreen border-opacity-[0.37]">
+    <div className="relative h-full flex flex-col bg-phthaloGreen bg-opacity-10 rounded-[25px] overflow-x-hidden overflow-y-auto text-phthaloGreen text-opacity-[1] border-[0.1px] border-phthaloGreen border-opacity-[0.37]">
       <Header closeCart={closeCart} />
       {numTotalItems > 0 ? (
-        <div>
-          {cartGroups.map((group) => (
-            <CartGroup key={group.id} group={group} />
-          ))}
-        </div>
+        <>
+          <div className="px-4 pb-4 grow flex flex-col">
+            {cartGroups.map((group) => (
+              <CartGroup key={group.id} group={group} />
+            ))}
+          </div>
+          <CheckOutBtnBig priceTotal={priceTotal} />
+        </>
       ) : (
         <EmptyCart closeCart={closeCart} />
       )}
@@ -36,30 +44,34 @@ function Header({
   const router = useRouter();
 
   return (
-    <div className={`font-light ${className} flex justify-between`}>
-      <div className="flex items-center gap-2">
-        <button
-          onClick={closeCart}
-          className="bg-white w-8 h-8 flex items-center justify-center rounded-full"
-        >
-          <ArrowLeft className="w-4 h-4" />
-        </button>
-        <div className="text-lg tracking-wider">Cart</div>
-      </div>
-      <button
-        className={`flex justify-start items-center gap-[1px] max-w-[50%] ${
-          !!selectedAddress?.name || "text-app-red-200 underline"
-        }`}
-        onClick={() => {
-          if (!!selectedAddress?.name) router.push("/address");
-          else router.push("/address/new?geoposition=true");
-        }}
+    <div className="sticky top-0 left-0 z-10">
+      <div
+        className={`p-4 backdrop-blur-[50px] overflow-auto font-light ${className} flex justify-between`}
       >
-        <MapPin weight="fill" className="w-4 h-4 shrink-0" />
-        <span className="overflow-hidden whitespace-nowrap text-ellipsis">
-          {selectedAddress?.name || "set up delivery Addres"}
-        </span>
-      </button>
+        <div className="flex items-center gap-2">
+          <button
+            onClick={closeCart}
+            className="bg-white w-8 h-8 flex items-center justify-center rounded-full"
+          >
+            <ArrowLeft className="w-4 h-4" />
+          </button>
+          <div className="text-lg tracking-wider">Cart</div>
+        </div>
+        <button
+          className={`flex justify-start items-center gap-[1px] max-w-[50%] ${
+            !!selectedAddress?.name || "text-app-red-200 underline"
+          }`}
+          onClick={() => {
+            if (!!selectedAddress?.name) router.push("/address");
+            else router.push("/address/new?geoposition=true");
+          }}
+        >
+          <MapPin weight="fill" className="w-4 h-4 shrink-0" />
+          <span className="overflow-hidden whitespace-nowrap text-ellipsis">
+            {selectedAddress?.name || "set up delivery Addres"}
+          </span>
+        </button>
+      </div>
     </div>
   );
 }

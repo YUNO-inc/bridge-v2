@@ -26,3 +26,7 @@
   min-height: auto !important;
   width: auto !important;
 }
+
+.bg-paper-custom {
+  background: url("/images/bg/paper.png");
+}
