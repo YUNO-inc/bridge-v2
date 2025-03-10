@@ -16,7 +16,7 @@ function CartGroup({ group }: { group: CartGroupDTO }) {
           farthest purchase
         </span>
       </div>
-      <div className="flex flex-col bg-white bg-opacity-30 rounded-[18px] px-3">
+      <div className="flex flex-col bg-white bg-opacity-[0.37] rounded-[18px] px-3">
         {items.map((item) => (
           <CartItem
             item={item}

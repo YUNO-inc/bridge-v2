@@ -8,11 +8,7 @@ import EmptyCart from "./EmptyCart";
 import CheckOutBtnBig from "./CheckOutBtnBig";
 
 function Cart({ closeCart }: { cartIsOpen: boolean; closeCart: () => void }) {
-  const {
-    groups: cartGroups,
-    numTotalItems,
-    priceTotal,
-  } = useAppSelector(getCart);
+  const { groups: cartGroups, numTotalItems } = useAppSelector(getCart);
 
   return (
     <div className="relative h-full flex flex-col bg-phthaloGreen bg-opacity-10 rounded-[25px] overflow-x-hidden overflow-y-auto text-phthaloGreen text-opacity-[1] border-[0.1px] border-phthaloGreen border-opacity-[0.37]">
@@ -24,7 +20,7 @@ function Cart({ closeCart }: { cartIsOpen: boolean; closeCart: () => void }) {
               <CartGroup key={group.id} group={group} />
             ))}
           </div>
-          <CheckOutBtnBig priceTotal={priceTotal} />
+          <CheckOutBtnBig />
         </>
       ) : (
         <EmptyCart closeCart={closeCart} />

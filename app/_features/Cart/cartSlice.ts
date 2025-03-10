@@ -38,6 +38,7 @@ const cartSlice = createSlice({
         ? 0
         : newItem.ownerData.deliveryPrice;
     },
+    duplicateItem() {},
     deleteFromCart(
       state,
       action: PayloadAction<{

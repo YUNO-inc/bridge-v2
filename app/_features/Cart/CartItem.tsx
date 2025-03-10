@@ -2,7 +2,8 @@ import { useAppDispatch } from "@/app/_hooks/reduxHooks";
 import { ItemDTO } from "@/app/_interfaces/interfaces";
 import { ChevronRightIcon, MinusIcon } from "@heroicons/react/16/solid";
 import Image from "next/image";
-import { deleteFromCart } from "./cartSlice";
+import { addToCart, deleteFromCart } from "./cartSlice";
+import LocalIcons from "@/app/_utils/LocalIcons";
 
 function CartItem({ item }: { item: ItemDTO }) {
   const dispatch = useAppDispatch();
@@ -16,6 +17,13 @@ function CartItem({ item }: { item: ItemDTO }) {
         delPrice: item.price,
       })
     );
+  }
+
+  function handleDuplicate() {
+    console.log(item);
+    const dup = structuredClone(item);
+    dup.addedAt = Date.now();
+    dispatch(addToCart(dup));
   }
 
   return (
@@ -45,6 +53,15 @@ function CartItem({ item }: { item: ItemDTO }) {
             {/* <span className="text-sm font-semibold">₦{item.price}</span> */}
             <button className="bg-phthaloGreen bg-opacity-[0.37] rounded-full p-1">
               <ChevronRightIcon className="w-4 h-4 fill-current" />
+            </button>
+            <button
+              className="bg-blue-800 text-blue-800 bg-opacity-[0.10] rounded-full p-1 transition-all active:bg-opacity-[0.20] active:text-white"
+              onClick={handleDuplicate}
+            >
+              <LocalIcons
+                name="copy"
+                className="w-4 h-4 fill-current rotate-180"
+              />
             </button>
           </div>
         </div>
