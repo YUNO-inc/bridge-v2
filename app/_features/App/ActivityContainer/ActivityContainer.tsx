@@ -5,14 +5,21 @@ import { useState } from "react";
 import PageControl from "../../PageControl/PageControl";
 import ActivityControlsSegmentedControl from "../ActivityControlsSegmentedControl";
 import CartButton from "../../Cart/CartButton";
-import DefaultItem from "../DefaultItem/DefaultItem";
 import { BusinessDTO } from "@/app/_interfaces/interfaces";
 import { useAppSelector } from "@/app/_hooks/reduxHooks";
 import { getCart } from "../../Cart/cartSlice";
 import Cart from "../../Cart/Cart";
 import { useRouter, useSearchParams } from "next/navigation";
+import ProductList from "../../Item/ProductItem/ProductList";
+import DefaultList from "../../Item/DefaultItem/DefaultList";
 
-function ActivityContainer({ currPageIndex = 0 }) {
+function ActivityContainer({
+  searchStr,
+  currPageIndex = 0,
+}: {
+  searchStr: string;
+  currPageIndex?: number;
+}) {
   const { numTotalItems } = useAppSelector(getCart);
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -292,13 +299,15 @@ function ActivityContainer({ currPageIndex = 0 }) {
             dragConstraints={{ left: 0, right: 0 }}
             onDragEnd={onDragEnd}
             style={{ x: dragX }}
-            className={`bg-[#f2f2f2] h-full shrink-0 w-full rounded-[25px] overflow-x-hidden overflow-y-auto p-2 flex flex-col gap-4 ${
+            className={`bg-[#f2f2f2] h-full shrink-0 w-full rounded-[25px] overflow-x-hidden overflow-y-auto ${
               numTotalItems && "pb-[90px]"
             }`}
           >
-            {businesses.map((business) => (
-              <DefaultItem key={business.name} business={business} />
-            ))}
+            {!!searchStr ? (
+              <ProductList searchStr={searchStr} />
+            ) : (
+              <DefaultList businesses={businesses} />
+            )}
           </motion.div>
           <motion.div
             drag="x"

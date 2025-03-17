@@ -41,14 +41,10 @@ function EdibleItem({ business }: EdibleItemProps) {
           </span>
         </div>
       </div>
-      {business.recommendations.length && (
+      {!!business.recommendations.length && (
         <div className="flex space-x-3 items-center w-full overflow-auto">
           {business.recommendations.map((rec) => (
-            <Recommndation
-              key={rec.id}
-              rec={rec}
-              businessName={business.name}
-            />
+            <Recommndation key={rec.id} rec={rec} />
           ))}
         </div>
       )}
