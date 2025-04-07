@@ -294,21 +294,38 @@ function ActivityContainer({
             cartIsOpen ? "opacity-0" : "opacity-100"
           }`}
         >
-          <motion.div
-            drag="x"
-            dragConstraints={{ left: 0, right: 0 }}
-            onDragEnd={onDragEnd}
-            style={{ x: dragX }}
-            className={`bg-[#f2f2f2] h-full shrink-0 w-full rounded-[25px] overflow-x-hidden overflow-y-auto ${
-              numTotalItems && "pb-[90px]"
-            }`}
-          >
-            {!!searchStr ? (
+          <div className="h-full w-full shrink-0 relative">
+            <motion.div
+              drag="x"
+              dragConstraints={{ left: 0, right: 0 }}
+              onDragEnd={onDragEnd}
+              style={{ x: dragX }}
+              className={`absolute top-0 left-0 bg-[#f2f2f2] h-full shrink-0 w-full rounded-[25px] overflow-x-hidden overflow-y-auto ${
+                numTotalItems && "pb-[90px]"
+              } ${
+                searchStr
+                  ? "opacity-100 visible z-10"
+                  : "opacity-0 invisible -z-10"
+              }`}
+            >
               <ProductList searchStr={searchStr} />
-            ) : (
+            </motion.div>
+            <motion.div
+              drag="x"
+              dragConstraints={{ left: 0, right: 0 }}
+              onDragEnd={onDragEnd}
+              style={{ x: dragX }}
+              className={` absolute top-0 left-0 bg-[#f2f2f2] h-full shrink-0 w-full rounded-[25px] overflow-x-hidden overflow-y-auto ${
+                numTotalItems && "pb-[90px]"
+              } ${
+                !searchStr
+                  ? "opacity-100 visible z-10"
+                  : "opacity-0 invisible -z-10"
+              }`}
+            >
               <DefaultList businesses={businesses} />
-            )}
-          </motion.div>
+            </motion.div>
+          </div>
           <motion.div
             drag="x"
             dragConstraints={{ left: 0, right: 0 }}

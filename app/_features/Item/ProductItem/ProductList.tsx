@@ -196,6 +196,7 @@ function ProductList({ searchStr }: { searchStr: string }) {
       addedAt: new Date(1740738722952),
     },
   ];
+
   console.log(searchStr);
 
   return (

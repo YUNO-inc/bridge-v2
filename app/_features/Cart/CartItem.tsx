@@ -43,7 +43,6 @@ function CartItem({ item }: { item: ItemDTO }) {
               {item.name}
             </p>
             <span className=" shrink-0 w-1 h-1 bg-phthaloGreen bg-opacity-55 rounded-full"></span>
-            {/* <span className=" text-[13px] whitespace-nowrap">1 pairing</span> */}
             <span className="text-sm whitespace-nowrap">₦{item.price}</span>
           </div>
           <div className="flex items-center gap-3">

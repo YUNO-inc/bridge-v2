@@ -5,7 +5,7 @@ import LocalIcons from "@/app/_utils/LocalIcons";
 import { getCart } from "./cartSlice";
 
 export default function CartButton({ openCart }: { openCart: () => void }) {
-  const { deliveryTotal, numTotalItems } = useAppSelector(getCart);
+  const { deliveryTotal, priceTotal, numTotalItems } = useAppSelector(getCart);
 
   return (
     <button
@@ -19,7 +19,7 @@ export default function CartButton({ openCart }: { openCart: () => void }) {
         </span>
         <span className="w-1 h-1 bg-phthaloGreen-50 bg-opacity-55 rounded-full"></span>
         <span className="flex gap-1">
-          <span>₦{deliveryTotal}</span>
+          <span>₦{deliveryTotal + priceTotal}</span>
           <span className="relative bottom-[-2px]">
             <LocalIcons
               name="rider2"
