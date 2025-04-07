@@ -1,7 +1,7 @@
 "use client";
 
 import { motion, useMotionValue } from "motion/react";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import PageControl from "../../PageControl/PageControl";
 import ActivityControlsSegmentedControl from "../ActivityControlsSegmentedControl";
 import CartButton from "../../Cart/CartButton";
@@ -12,6 +12,19 @@ import Cart from "../../Cart/Cart";
 import { useRouter, useSearchParams } from "next/navigation";
 import ProductList from "../../Item/ProductItem/ProductList";
 import DefaultList from "../../Item/DefaultItem/DefaultList";
+
+type productPage =
+  | "default"
+  | "product list"
+  | "product page"
+  | "business page";
+
+const PRODUCT_PAGES: productPage[] = [
+  "default",
+  "product list",
+  "product page",
+  "business page",
+];
 
 function ActivityContainer({
   searchStr,
@@ -263,6 +276,17 @@ function ActivityContainer({
       ],
     },
   ];
+  const [activeProductPage, setActiveProductPage] =
+    useState<productPage>("default");
+  const previousActiveProductPage = useRef<productPage>("default");
+
+  useEffect(
+    function () {
+      if (searchStr?.length) setActiveProductPage("product list");
+      else setActiveProductPage(previousActiveProductPage.current);
+    },
+    [searchStr]
+  );
 
   const onDragEnd = () => {
     const x = dragX.get();
@@ -294,38 +318,36 @@ function ActivityContainer({
             cartIsOpen ? "opacity-0" : "opacity-100"
           }`}
         >
-          <div className="h-full w-full shrink-0 relative">
-            <motion.div
-              drag="x"
-              dragConstraints={{ left: 0, right: 0 }}
-              onDragEnd={onDragEnd}
-              style={{ x: dragX }}
-              className={`absolute top-0 left-0 bg-[#f2f2f2] h-full shrink-0 w-full rounded-[25px] overflow-x-hidden overflow-y-auto ${
-                numTotalItems && "pb-[90px]"
-              } ${
-                searchStr
-                  ? "opacity-100 visible z-10"
-                  : "opacity-0 invisible -z-10"
-              }`}
-            >
-              <ProductList searchStr={searchStr} />
-            </motion.div>
-            <motion.div
-              drag="x"
-              dragConstraints={{ left: 0, right: 0 }}
-              onDragEnd={onDragEnd}
-              style={{ x: dragX }}
-              className={` absolute top-0 left-0 bg-[#f2f2f2] h-full shrink-0 w-full rounded-[25px] overflow-x-hidden overflow-y-auto ${
-                numTotalItems && "pb-[90px]"
-              } ${
-                !searchStr
-                  ? "opacity-100 visible z-10"
-                  : "opacity-0 invisible -z-10"
-              }`}
-            >
-              <DefaultList businesses={businesses} />
-            </motion.div>
-          </div>
+          <motion.div
+            drag="x"
+            dragConstraints={{ left: 0, right: 0 }}
+            onDragEnd={onDragEnd}
+            style={{ x: dragX }}
+            className="h-full w-full shrink-0 relative"
+          >
+            {PRODUCT_PAGES.map((pageType, i) => {
+              let page;
+              if (pageType === "default")
+                page = <DefaultList businesses={businesses} />;
+              if (pageType === "product list")
+                page = <ProductList searchStr={searchStr} />;
+              if (pageType === "product page") page = <div>Hi Products</div>;
+              if (pageType === "business page")
+                page = <div>Hi Business Page</div>;
+              else page = <DefaultList businesses={businesses} />;
+
+              return (
+                <ContainersManager
+                  pageType={pageType}
+                  activeProductPage={activeProductPage}
+                  numTotalItems={numTotalItems}
+                  key={i}
+                >
+                  {page}
+                </ContainersManager>
+              );
+            })}
+          </motion.div>
           <motion.div
             drag="x"
             dragConstraints={{ left: 0, right: 0 }}
@@ -363,6 +385,28 @@ function ActivityContainer({
         </div>
       </div>
       <ActivityControlsSegmentedControl />
+    </div>
+  );
+}
+
+function ContainersManager({
+  numTotalItems,
+  pageType,
+  activeProductPage,
+  children,
+}: {
+  numTotalItems: number;
+  pageType: productPage;
+  activeProductPage: productPage;
+  children: React.ReactNode;
+}) {
+  return (
+    <div
+      className={`absolute top-0 left-0 bg-[#f2f2f2] h-full shrink-0 w-full rounded-[25px] overflow-x-hidden overflow-y-auto ${
+        numTotalItems && "pb-[90px]"
+      } ${pageType === activeProductPage ? "block" : "hidden"}`}
+    >
+      {children}
     </div>
   );
 }
