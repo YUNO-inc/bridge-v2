@@ -14,8 +14,8 @@ const cartSlice = createSlice({
   initialState,
   reducers: {
     addToCart(state, action: PayloadAction<ItemDTO>) {
-      const newItem = action.payload;
-      newItem.addedAt = Date.now();
+      const newItem = { ...action.payload, addedAt: Date.now() };
+
       const numOfGroups = state.groups.length > 0;
       let groupAlreadyExits = false;
 

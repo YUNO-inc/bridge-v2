@@ -1,20 +1,22 @@
 "use client";
 
-import { useAppSelector } from "@/app/_hooks/reduxHooks";
+import { useAppDispatch, useAppSelector } from "@/app/_hooks/reduxHooks";
 import { ArrowUpRightIcon, PlusIcon } from "@heroicons/react/16/solid";
 import { getCart } from "../../Cart/cartSlice";
+import { getActivity, setSearchStr } from "../ActivitySlice";
 
 function ActivitySearch({
   placeHolder = "What type of shawarma?",
-  searchStr,
-  setSearchStr,
 }: {
-  businessType?: string;
   placeHolder?: string;
-  searchStr: string;
-  setSearchStr: React.Dispatch<React.SetStateAction<string>>;
 }) {
   const { numTotalItems } = useAppSelector(getCart);
+  const { searchStr } = useAppSelector(getActivity);
+  const dispatch = useAppDispatch();
+
+  function handleSearchStrChange(newValue: string) {
+    dispatch(setSearchStr(newValue));
+  }
 
   return (
     <div className="w-full flex gap-1 justify-end mt-4 bg-phthaloGreen bg-opacity-[0.1] h-30 rounded-[42px] p-[10px] border has-[input:focus]:border-opacity-[0.37] has-[input:focus]:border-phthaloGreen transition-[border-color]">
@@ -24,7 +26,7 @@ function ActivitySearch({
           className="grow bg-transparent outline-none h-full px-[6px] rounded-[8px] focus:bor"
           placeholder={placeHolder}
           value={searchStr}
-          onChange={(e) => setSearchStr(e.target.value)}
+          onChange={(e) => handleSearchStrChange(e.target.value)}
         />
       </div>
       <div className="flex gap-[6px]">

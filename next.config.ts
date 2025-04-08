@@ -9,6 +9,15 @@ const withPWAConfig: NextConfig = withPWA({
 
 const nextConfig: NextConfig = {
   ...withPWAConfig,
+  async redirects() {
+    return [
+      {
+        source: "/",
+        destination: "/app",
+        permanent: true,
+      },
+    ];
+  },
   images: {
     remotePatterns: [
       {

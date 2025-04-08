@@ -1,37 +1,21 @@
 "use client";
 
 import { motion, useMotionValue } from "motion/react";
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 import PageControl from "../../PageControl/PageControl";
 import ActivityControlsSegmentedControl from "../ActivityControlsSegmentedControl";
 import CartButton from "../../Cart/CartButton";
-import { BusinessDTO } from "@/app/_interfaces/interfaces";
 import { useAppSelector } from "@/app/_hooks/reduxHooks";
 import { getCart } from "../../Cart/cartSlice";
 import Cart from "../../Cart/Cart";
 import { useRouter, useSearchParams } from "next/navigation";
-import ProductList from "../../Item/ProductItem/ProductList";
-import DefaultList from "../../Item/DefaultItem/DefaultList";
-
-type productPage =
-  | "default"
-  | "product list"
-  | "product page"
-  | "business page";
-
-const PRODUCT_PAGES: productPage[] = [
-  "default",
-  "product list",
-  "product page",
-  "business page",
-];
 
 function ActivityContainer({
-  searchStr,
   currPageIndex = 0,
+  container,
 }: {
-  searchStr: string;
   currPageIndex?: number;
+  container: React.ReactNode;
 }) {
   const { numTotalItems } = useAppSelector(getCart);
   const router = useRouter();
@@ -42,251 +26,6 @@ function ActivityContainer({
   const [pageIndex, setPageIndex] = useState(currPageIndex);
   const [cartIsOpen, setCartIsOpen] = useState(!!hasCartURL);
   const dragX = useMotionValue(0);
-  const businesses: BusinessDTO[] = [
-    {
-      id: "1",
-      name: "witty shawarma",
-      location: "Ago Okota",
-      deliveryPrice: 200,
-      profile: "witty-sha.jpg",
-      isOpen: true,
-      recommendations: [
-        {
-          id: "item01",
-          ownerData: {
-            id: "1",
-            name: "witty shawarma",
-            deliveryPrice: 200,
-          },
-          image: "witty-sha.jpg",
-          name: "chicken shawarma",
-          price: 3000,
-          addedAt: new Date(1740738322952),
-        },
-        {
-          id: "item02",
-          ownerData: {
-            id: "1",
-            name: "witty shawarma",
-            deliveryPrice: 200,
-          },
-          image: "witty-sha.jpg",
-          name: "turkey shawarma",
-          price: 5000,
-          addedAt: new Date(1740738522952),
-        },
-        {
-          id: "item03",
-          ownerData: {
-            id: "1",
-            name: "witty shawarma",
-            deliveryPrice: 200,
-          },
-          image: "witty-sha.jpg",
-          name: "Double Roasted shawarma",
-          price: 9000,
-          addedAt: new Date(1740738922152),
-        },
-        {
-          id: "item04",
-          ownerData: {
-            id: "1",
-            name: "witty shawarma",
-            deliveryPrice: 200,
-          },
-          image: "witty-sha.jpg",
-          name: "Pork shawarma",
-          price: 4000,
-          addedAt: new Date(1740738422952),
-        },
-      ],
-    },
-    {
-      id: "2",
-      name: "Premium shawarma",
-      location: "Century, Ago",
-      deliveryPrice: 300,
-      profile: "witty-sha.jpg",
-      isOpen: false,
-      recommendations: [
-        {
-          id: "item05",
-          ownerData: {
-            id: "2",
-            name: "Premium shawarma",
-            deliveryPrice: 300,
-          },
-          image: "witty-sha.jpg",
-          name: "chicken shawarma",
-          price: 3000,
-          addedAt: new Date(1740738312952),
-        },
-        {
-          id: "item06",
-          ownerData: {
-            id: "2",
-            name: "Premium shawarma",
-            deliveryPrice: 300,
-          },
-          image: "witty-sha.jpg",
-          name: "turkey shawarma",
-          price: 2000,
-          addedAt: new Date(1740738222952),
-        },
-        {
-          id: "item07",
-          ownerData: {
-            id: "2",
-            name: "Premium shawarma",
-            deliveryPrice: 300,
-          },
-          image: "witty-sha.jpg",
-          name: "Double Roasted shawarma",
-          price: 8000,
-          addedAt: new Date(1740738822952),
-        },
-        {
-          id: "item08",
-          ownerData: {
-            id: "2",
-            name: "Premium shawarma",
-            deliveryPrice: 300,
-          },
-          image: "witty-sha.jpg",
-          name: "Pork shawarma",
-          price: 4000,
-          addedAt: new Date(1740738422952),
-        },
-      ],
-    },
-    {
-      id: "3",
-      name: "witty shawarma 2",
-      location: "Ago Okota",
-      deliveryPrice: 200,
-      profile: "witty-sha.jpg",
-      isOpen: true,
-      recommendations: [
-        {
-          id: "item09",
-          ownerData: {
-            id: "3",
-            name: "witty shawarma 2",
-            deliveryPrice: 200,
-          },
-          image: "witty-sha.jpg",
-          name: "chicken shawarma",
-          price: 4000,
-          addedAt: new Date(1740738422952),
-        },
-        {
-          id: "item10",
-          ownerData: {
-            id: "3",
-            name: "witty shawarma 2",
-            deliveryPrice: 200,
-          },
-          image: "witty-sha.jpg",
-          name: "turkey shawarma",
-          price: 6000,
-          addedAt: new Date(1740738622952),
-        },
-        {
-          id: "item11",
-          ownerData: {
-            id: "3",
-            name: "witty shawarma 2",
-            deliveryPrice: 200,
-          },
-          image: "witty-sha.jpg",
-          name: "Double Roasted shawarma",
-          price: 8000,
-          addedAt: new Date(1740738822952),
-        },
-        {
-          id: "item12",
-          ownerData: {
-            id: "3",
-            name: "witty shawarma 2",
-            deliveryPrice: 200,
-          },
-          image: "witty-sha.jpg",
-          name: "Pork shawarma",
-          price: 7000,
-          addedAt: new Date(1740738722952),
-        },
-      ],
-    },
-    {
-      id: "4",
-      name: "Premium shawarma 2",
-      location: "Century, Ago",
-      deliveryPrice: 150,
-      profile: "witty-sha.jpg",
-      isOpen: true,
-      recommendations: [
-        {
-          id: "item13",
-          ownerData: {
-            id: "4",
-            name: "Premium shawarma 2",
-            deliveryPrice: 150,
-          },
-          image: "witty-sha.jpg",
-          name: "chicken shawarma",
-          price: 8000,
-          addedAt: new Date(1740738822952),
-        },
-        {
-          id: "item14",
-          ownerData: {
-            id: "4",
-            name: "Premium shawarma 2",
-            deliveryPrice: 150,
-          },
-          image: "witty-sha.jpg",
-          name: "turkey shawarma",
-          price: 9000,
-          addedAt: new Date(1740738922952),
-        },
-        {
-          id: "item15",
-          ownerData: {
-            id: "4",
-            name: "Premium shawarma 2",
-            deliveryPrice: 150,
-          },
-          image: "witty-sha.jpg",
-          name: "Double Roasted shawarma",
-          price: 1600,
-          addedAt: new Date(1740738022952),
-        },
-        {
-          id: "item16",
-          ownerData: {
-            id: "4",
-            name: "Premium shawarma 2",
-            deliveryPrice: 150,
-          },
-          image: "witty-sha.jpg",
-          name: "Pork shawarma",
-          price: 7000,
-          addedAt: new Date(1740738722952),
-        },
-      ],
-    },
-  ];
-  const [activeProductPage, setActiveProductPage] =
-    useState<productPage>("default");
-  const previousActiveProductPage = useRef<productPage>("default");
-
-  useEffect(
-    function () {
-      if (searchStr?.length) setActiveProductPage("product list");
-      else setActiveProductPage(previousActiveProductPage.current);
-    },
-    [searchStr]
-  );
 
   const onDragEnd = () => {
     const x = dragX.get();
@@ -325,28 +64,7 @@ function ActivityContainer({
             style={{ x: dragX }}
             className="h-full w-full shrink-0 relative"
           >
-            {PRODUCT_PAGES.map((pageType, i) => {
-              let page;
-              if (pageType === "default")
-                page = <DefaultList businesses={businesses} />;
-              if (pageType === "product list")
-                page = <ProductList searchStr={searchStr} />;
-              if (pageType === "product page") page = <div>Hi Products</div>;
-              if (pageType === "business page")
-                page = <div>Hi Business Page</div>;
-              else page = <DefaultList businesses={businesses} />;
-
-              return (
-                <ContainersManager
-                  pageType={pageType}
-                  activeProductPage={activeProductPage}
-                  numTotalItems={numTotalItems}
-                  key={i}
-                >
-                  {page}
-                </ContainersManager>
-              );
-            })}
+            {container}
           </motion.div>
           <motion.div
             drag="x"
@@ -385,28 +103,6 @@ function ActivityContainer({
         </div>
       </div>
       <ActivityControlsSegmentedControl />
-    </div>
-  );
-}
-
-function ContainersManager({
-  numTotalItems,
-  pageType,
-  activeProductPage,
-  children,
-}: {
-  numTotalItems: number;
-  pageType: productPage;
-  activeProductPage: productPage;
-  children: React.ReactNode;
-}) {
-  return (
-    <div
-      className={`absolute top-0 left-0 bg-[#f2f2f2] h-full shrink-0 w-full rounded-[25px] overflow-x-hidden overflow-y-auto ${
-        numTotalItems && "pb-[90px]"
-      } ${pageType === activeProductPage ? "block" : "hidden"}`}
-    >
-      {children}
     </div>
   );
 }
