@@ -8,16 +8,12 @@ import "leaflet/dist/leaflet.css";
 import iconUrl from "leaflet/dist/images/marker-icon.png";
 import iconRetinaUrl from "leaflet/dist/images/marker-icon-2x.png";
 import shadowUrl from "leaflet/dist/images/marker-shadow.png";
-import { AddressDTO } from "@/app/_interfaces/interfaces";
+import { AddressDTO, DEFAULT_COORDS } from "@/app/_interfaces/interfaces";
 import { useAppSelector } from "@/app/_hooks/reduxHooks";
 import { getSelectedAddress } from "../User/userSlice";
 import CurrentCoordCircle from "./CurrentCoordCircle";
 import { ChangMapView, DetectClick } from "./Utils";
 import CenterMarker from "./CenterMarker";
-
-const DEFAULT_POS: AddressDTO["coords"] = [
-  6.510770062610523, 3.3191478252410893,
-];
 
 function MapContainer({
   className,
@@ -37,7 +33,7 @@ function MapContainer({
     { coords: AddressDTO["coords"]; accuracy: number } | undefined
   >(undefined);
   const [mapCenter, setMapCenter] = useState(
-    selectedAddress ? selectedAddress.coords : DEFAULT_POS
+    selectedAddress ? selectedAddress.coords : DEFAULT_COORDS
   );
 
   const tiles = {

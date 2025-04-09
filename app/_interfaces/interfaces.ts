@@ -11,38 +11,49 @@ export interface UserDTO {
   email: string;
   phoneNumber?: string;
   addresses?: AddressDTO[];
+  createdAt: Date | number;
 }
 
 export interface ItemDTO {
   id: string;
-  ownerData: {
-    id: BusinessDTO["id"];
-    name: BusinessDTO["name"];
-    deliveryPrice: BusinessDTO["deliveryPrice"];
-    slug: BusinessDTO["slug"];
-  };
-  image: string;
   name: string;
+  image: string;
   price: number;
   slug: string;
-  addedAt: Date | number;
+  BusinessData: ItemBusinessData;
+  createdAt: Date | number;
 }
+export type ItemBusinessData = Pick<
+  BusinessDTO,
+  "id" | "name" | "deliveryPrice" | "slug"
+>;
+
+export type BusinessTypesDTO = "food" | "shawarma" | "pharmacy";
+export type RecommendationDTO = {
+  businessType: BusinessTypesDTO;
+  items: string[] | ItemDTO[];
+};
 
 export interface BusinessDTO {
   id: string;
   name: string;
-  location: string;
+  businessTypes: BusinessTypesDTO[];
+  owner: string | UserDTO;
+  address: BusinessAddressDTO;
   deliveryPrice: number;
-  profile: string;
+  profileImg: string;
   isOpen: boolean;
   slug: string;
-  recommendations: ItemDTO[];
+  recommendations: RecommendationDTO[];
+  createdAt: Date | number;
 }
 
+export type BusinessAddressDTO = Omit<AddressDTO, "isSelected">;
+
 export type CartGroupDTO = {
-  id: ItemDTO["ownerData"]["id"];
-  name: ItemDTO["ownerData"]["name"];
-  deliveryPrice: ItemDTO["ownerData"]["deliveryPrice"];
+  id: ItemDTO["BusinessData"]["id"];
+  name: ItemDTO["BusinessData"]["name"];
+  deliveryPrice: ItemDTO["BusinessData"]["deliveryPrice"];
   items: ItemDTO[];
   totalPrice: number;
 };
@@ -68,3 +79,12 @@ export type InputsProps = {
   value: string;
   setValue: React.Dispatch<React.SetStateAction<string | undefined>>;
 };
+
+export const BUSINESS_TYPES: BusinessDTO["businessTypes"] = [
+  "food",
+  "shawarma",
+  "pharmacy",
+];
+export const DEFAULT_COORDS: AddressDTO["coords"] = [
+  6.510770062610523, 3.3191478252410893,
+];
