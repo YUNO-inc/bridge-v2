@@ -1,10 +1,14 @@
 import { ItemDTO } from "@/app/_interfaces/interfaces";
 import ItemImage from "../ItemImage";
 import LocalIcons from "@/app/_utils/LocalIcons";
+import Link from "next/link";
 
 function EdibleItem({ item }: { item: ItemDTO }) {
   return (
-    <div className="flex items-center gap-2 border-b-[0.1px] border-b-phthaloGreen border-opacity-[0.1] py-3 mr-2 first:pt-0">
+    <Link
+      href={`/app/${item.ownerData.slug}/${item.slug}`}
+      className="flex items-center gap-2 border-b-[0.1px] border-b-phthaloGreen border-opacity-[0.1] py-3 mr-2 first:pt-0"
+    >
       <ItemImage item={item} />
       <div className="grow max-w-[80%] flex flex-col justify-between self-stretch">
         <div className="flex max-h-full items-center gap-2 capitalize font-semibold">
@@ -30,7 +34,7 @@ function EdibleItem({ item }: { item: ItemDTO }) {
           </span>
         </p>
       </div>
-    </div>
+    </Link>
   );
 }
 

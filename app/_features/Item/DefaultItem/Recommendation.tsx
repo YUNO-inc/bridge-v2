@@ -1,10 +1,11 @@
 import { ItemDTO } from "@/app/_interfaces/interfaces";
 import ItemImage from "../ItemImage";
+import Link from "next/link";
 
 function Recommendations({ rec }: { rec: ItemDTO }) {
   return (
-    <div
-      role="button"
+    <Link
+      href={`/app/${rec.ownerData.slug}/${rec.slug}`}
       className="bg-stone-800 bg-opacity-10 py-2 px-2 rounded-[7px] flex items-center gap-2 text-sm"
     >
       <ItemImage item={rec} />
@@ -12,7 +13,7 @@ function Recommendations({ rec }: { rec: ItemDTO }) {
         <p className="w-max max-w-[170px] capitalize">{rec.name}</p>
         <p>₦{rec.price}</p>
       </div>
-    </div>
+    </Link>
   );
 }
 

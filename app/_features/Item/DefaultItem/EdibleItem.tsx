@@ -1,4 +1,5 @@
 "use client";
+import Link from "next/link";
 import { BusinessDTO } from "@/app/_interfaces/interfaces";
 import LocalIcons from "@/app/_utils/LocalIcons";
 import Image from "next/image";
@@ -9,7 +10,10 @@ type EdibleItemProps = { business: BusinessDTO };
 function EdibleItem({ business }: EdibleItemProps) {
   return (
     <button className="flex flex-col gap-2 w-full bg-stone-800 bg-opacity-5 rounded-[13px] p-3 text-stone-800">
-      <div className="flex items-center justify-between w-full text-sm">
+      <Link
+        href={`/app/${business.slug}`}
+        className="flex items-center justify-between w-full text-sm"
+      >
         <div className="relative w-9 h-9 rounded-full overflow-hidden mr-3">
           <Image
             src={`/images/${business.profile}`}
@@ -40,7 +44,7 @@ function EdibleItem({ business }: EdibleItemProps) {
             />
           </span>
         </div>
-      </div>
+      </Link>
       {!!business.recommendations.length && (
         <div className="flex space-x-3 items-center w-full overflow-auto">
           {business.recommendations.map((rec) => (

@@ -19,10 +19,12 @@ export interface ItemDTO {
     id: BusinessDTO["id"];
     name: BusinessDTO["name"];
     deliveryPrice: BusinessDTO["deliveryPrice"];
+    slug: BusinessDTO["slug"];
   };
   image: string;
   name: string;
   price: number;
+  slug: string;
   addedAt: Date | number;
 }
 
@@ -33,6 +35,7 @@ export interface BusinessDTO {
   deliveryPrice: number;
   profile: string;
   isOpen: boolean;
+  slug: string;
   recommendations: ItemDTO[];
 }
 

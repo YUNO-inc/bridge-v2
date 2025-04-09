@@ -17,17 +17,20 @@ const initialState: InitialState = {
       deliveryPrice: 200,
       profile: "witty-sha.jpg",
       isOpen: true,
+      slug: "witty-shawarma",
       recommendations: [
         {
           id: "item01",
           ownerData: {
             id: "1",
             name: "witty shawarma",
+            slug: "witty-shawarma",
             deliveryPrice: 200,
           },
           image: "witty-sha.jpg",
           name: "chicken shawarma",
           price: 3000,
+          slug: "chicken-shawarma",
           addedAt: 1740738322952,
         },
         {
@@ -35,11 +38,13 @@ const initialState: InitialState = {
           ownerData: {
             id: "1",
             name: "witty shawarma",
+            slug: "witty-shawarma",
             deliveryPrice: 200,
           },
           image: "witty-sha.jpg",
           name: "turkey shawarma",
           price: 5000,
+          slug: "turkey-shawarma",
           addedAt: 1740738522952,
         },
         {
@@ -47,11 +52,13 @@ const initialState: InitialState = {
           ownerData: {
             id: "1",
             name: "witty shawarma",
+            slug: "witty-shawarma",
             deliveryPrice: 200,
           },
           image: "witty-sha.jpg",
           name: "Double Roasted shawarma",
           price: 9000,
+          slug: "Double-Roasted-shawarma",
           addedAt: 1740738922152,
         },
         {
@@ -59,11 +66,13 @@ const initialState: InitialState = {
           ownerData: {
             id: "1",
             name: "witty shawarma",
+            slug: "witty-shawarma",
             deliveryPrice: 200,
           },
           image: "witty-sha.jpg",
           name: "Pork shawarma",
           price: 4000,
+          slug: "pork-shawarma",
           addedAt: 1740738422952,
         },
       ],
@@ -75,17 +84,20 @@ const initialState: InitialState = {
       deliveryPrice: 300,
       profile: "witty-sha.jpg",
       isOpen: false,
+      slug: "premium-shawarma",
       recommendations: [
         {
           id: "item05",
           ownerData: {
             id: "2",
             name: "Premium shawarma",
+            slug: "premium-shawarma",
             deliveryPrice: 300,
           },
           image: "witty-sha.jpg",
           name: "chicken shawarma",
           price: 3000,
+          slug: "chicken-shawarma",
           addedAt: 1740738312952,
         },
         {
@@ -93,11 +105,13 @@ const initialState: InitialState = {
           ownerData: {
             id: "2",
             name: "Premium shawarma",
+            slug: "premium-shawarma",
             deliveryPrice: 300,
           },
           image: "witty-sha.jpg",
           name: "turkey shawarma",
           price: 2000,
+          slug: "turkey-shawarma",
           addedAt: 1740738222952,
         },
         {
@@ -105,11 +119,13 @@ const initialState: InitialState = {
           ownerData: {
             id: "2",
             name: "Premium shawarma",
+            slug: "premium-shawarma",
             deliveryPrice: 300,
           },
           image: "witty-sha.jpg",
           name: "Double Roasted shawarma",
           price: 8000,
+          slug: "Double-Roasted-shawarma",
           addedAt: 1740738822952,
         },
         {
@@ -117,11 +133,13 @@ const initialState: InitialState = {
           ownerData: {
             id: "2",
             name: "Premium shawarma",
+            slug: "premium-shawarma",
             deliveryPrice: 300,
           },
           image: "witty-sha.jpg",
           name: "Pork shawarma",
           price: 4000,
+          slug: "pork-shawarma",
           addedAt: 1740738422952,
         },
       ],
@@ -133,17 +151,20 @@ const initialState: InitialState = {
       deliveryPrice: 200,
       profile: "witty-sha.jpg",
       isOpen: true,
+      slug: "witty-shawarma-2",
       recommendations: [
         {
           id: "item09",
           ownerData: {
             id: "3",
             name: "witty shawarma 2",
+            slug: "witty-shawarma-2",
             deliveryPrice: 200,
           },
           image: "witty-sha.jpg",
           name: "chicken shawarma",
           price: 4000,
+          slug: "chicken-shawarma",
           addedAt: 1740738422952,
         },
         {
@@ -151,11 +172,13 @@ const initialState: InitialState = {
           ownerData: {
             id: "3",
             name: "witty shawarma 2",
+            slug: "witty-shawarma-2",
             deliveryPrice: 200,
           },
           image: "witty-sha.jpg",
           name: "turkey shawarma",
           price: 6000,
+          slug: "turkey-shawarma",
           addedAt: 1740738622952,
         },
         {
@@ -163,11 +186,13 @@ const initialState: InitialState = {
           ownerData: {
             id: "3",
             name: "witty shawarma 2",
+            slug: "witty-shawarma-2",
             deliveryPrice: 200,
           },
           image: "witty-sha.jpg",
           name: "Double Roasted shawarma",
           price: 8000,
+          slug: "Double-Roasted-shawarma",
           addedAt: 1740738822952,
         },
         {
@@ -175,11 +200,13 @@ const initialState: InitialState = {
           ownerData: {
             id: "3",
             name: "witty shawarma 2",
+            slug: "witty-shawarma-2",
             deliveryPrice: 200,
           },
           image: "witty-sha.jpg",
           name: "Pork shawarma",
           price: 7000,
+          slug: "pork-shawarma",
           addedAt: 1740738722952,
         },
       ],
@@ -191,17 +218,20 @@ const initialState: InitialState = {
       deliveryPrice: 150,
       profile: "witty-sha.jpg",
       isOpen: true,
+      slug: "Premium-shawarma-2",
       recommendations: [
         {
           id: "item13",
           ownerData: {
             id: "4",
             name: "Premium shawarma 2",
+            slug: "premium-shawarma-2",
             deliveryPrice: 150,
           },
           image: "witty-sha.jpg",
           name: "chicken shawarma",
           price: 8000,
+          slug: "chicken-shawarma",
           addedAt: 1740738822952,
         },
         {
@@ -209,11 +239,13 @@ const initialState: InitialState = {
           ownerData: {
             id: "4",
             name: "Premium shawarma 2",
+            slug: "premium-shawarma-2",
             deliveryPrice: 150,
           },
           image: "witty-sha.jpg",
           name: "turkey shawarma",
           price: 9000,
+          slug: "turkey-shawarma",
           addedAt: 1740738922952,
         },
         {
@@ -221,11 +253,13 @@ const initialState: InitialState = {
           ownerData: {
             id: "4",
             name: "Premium shawarma 2",
+            slug: "premium-shawarma-2",
             deliveryPrice: 150,
           },
           image: "witty-sha.jpg",
           name: "Double Roasted shawarma",
           price: 1600,
+          slug: "Double-Roasted-shawarma",
           addedAt: 1740738022952,
         },
         {
@@ -233,11 +267,13 @@ const initialState: InitialState = {
           ownerData: {
             id: "4",
             name: "Premium shawarma 2",
+            slug: "premium-shawarma-2",
             deliveryPrice: 150,
           },
           image: "witty-sha.jpg",
           name: "Pork shawarma",
           price: 7000,
+          slug: "pork-shawarma",
           addedAt: 1740738722952,
         },
       ],
@@ -249,11 +285,13 @@ const initialState: InitialState = {
       ownerData: {
         id: "1",
         name: "witty shawarma",
+        slug: "witty-shawarma",
         deliveryPrice: 200,
       },
       image: "witty-sha.jpg",
       name: "chicken shawarma",
       price: 3000,
+      slug: "chicken-shawarma",
       addedAt: 1740738322952,
     },
     {
@@ -261,11 +299,13 @@ const initialState: InitialState = {
       ownerData: {
         id: "1",
         name: "witty shawarma",
+        slug: "witty-shawarma",
         deliveryPrice: 200,
       },
       image: "witty-sha.jpg",
       name: "turkey shawarma",
       price: 5000,
+      slug: "turkey-shawarma",
       addedAt: 1740738522952,
     },
     {
@@ -273,11 +313,13 @@ const initialState: InitialState = {
       ownerData: {
         id: "1",
         name: "witty shawarma",
+        slug: "witty-shawarma",
         deliveryPrice: 200,
       },
       image: "witty-sha.jpg",
       name: "Double Roasted shawarma",
       price: 9000,
+      slug: "Double-Roasted-shawarma",
       addedAt: 1740738922152,
     },
     {
@@ -285,11 +327,13 @@ const initialState: InitialState = {
       ownerData: {
         id: "1",
         name: "witty shawarma",
+        slug: "witty-shawarma",
         deliveryPrice: 200,
       },
       image: "witty-sha.jpg",
       name: "Pork shawarma",
       price: 4000,
+      slug: "pork-shawarma",
       addedAt: 1740738422952,
     },
     {
@@ -297,11 +341,13 @@ const initialState: InitialState = {
       ownerData: {
         id: "2",
         name: "Premium shawarma",
+        slug: "premium-shawarma",
         deliveryPrice: 300,
       },
       image: "witty-sha.jpg",
       name: "chicken shawarma",
       price: 3000,
+      slug: "chicken-shawarma",
       addedAt: 1740738312952,
     },
     {
@@ -309,11 +355,13 @@ const initialState: InitialState = {
       ownerData: {
         id: "2",
         name: "Premium shawarma",
+        slug: "premium-shawarma",
         deliveryPrice: 300,
       },
       image: "witty-sha.jpg",
       name: "turkey shawarma",
       price: 2000,
+      slug: "turkey-shawarma",
       addedAt: 1740738222952,
     },
     {
@@ -321,11 +369,13 @@ const initialState: InitialState = {
       ownerData: {
         id: "2",
         name: "Premium shawarma",
+        slug: "premium-shawarma",
         deliveryPrice: 300,
       },
       image: "witty-sha.jpg",
       name: "Double Roasted shawarma",
       price: 8000,
+      slug: "Double-Roasted-shawarma",
       addedAt: 1740738822952,
     },
     {
@@ -333,11 +383,13 @@ const initialState: InitialState = {
       ownerData: {
         id: "2",
         name: "Premium shawarma",
+        slug: "premium-shawarma",
         deliveryPrice: 300,
       },
       image: "witty-sha.jpg",
       name: "Pork shawarma",
       price: 4000,
+      slug: "pork-shawarma",
       addedAt: 1740738422952,
     },
     {
@@ -345,11 +397,13 @@ const initialState: InitialState = {
       ownerData: {
         id: "3",
         name: "witty shawarma 2",
+        slug: "witty-shawarma-2",
         deliveryPrice: 200,
       },
       image: "witty-sha.jpg",
       name: "chicken shawarma",
       price: 4000,
+      slug: "chicken-shawarma",
       addedAt: 1740738422952,
     },
     {
@@ -357,11 +411,13 @@ const initialState: InitialState = {
       ownerData: {
         id: "3",
         name: "witty shawarma 2",
+        slug: "witty-shawarma-2",
         deliveryPrice: 200,
       },
       image: "witty-sha.jpg",
       name: "turkey shawarma",
       price: 6000,
+      slug: "turkey-shawarma",
       addedAt: 1740738622952,
     },
     {
@@ -369,11 +425,13 @@ const initialState: InitialState = {
       ownerData: {
         id: "3",
         name: "witty shawarma 2",
+        slug: "witty-shawarma-2",
         deliveryPrice: 200,
       },
       image: "witty-sha.jpg",
       name: "Double Roasted shawarma",
       price: 8000,
+      slug: "Double-Roasted-shawarma",
       addedAt: 1740738822952,
     },
     {
@@ -381,11 +439,13 @@ const initialState: InitialState = {
       ownerData: {
         id: "3",
         name: "witty shawarma 2",
+        slug: "witty-shawarma-2",
         deliveryPrice: 200,
       },
       image: "witty-sha.jpg",
       name: "Pork shawarma",
       price: 7000,
+      slug: "pork-shawarma",
       addedAt: 1740738722952,
     },
     {
@@ -393,11 +453,13 @@ const initialState: InitialState = {
       ownerData: {
         id: "4",
         name: "Premium shawarma 2",
+        slug: "premium-shawarma-2",
         deliveryPrice: 150,
       },
       image: "witty-sha.jpg",
       name: "chicken shawarma",
       price: 8000,
+      slug: "chicken-shawarma",
       addedAt: 1740738822952,
     },
     {
@@ -405,11 +467,13 @@ const initialState: InitialState = {
       ownerData: {
         id: "4",
         name: "Premium shawarma 2",
+        slug: "premium-shawarma-2",
         deliveryPrice: 150,
       },
       image: "witty-sha.jpg",
       name: "turkey shawarma",
       price: 9000,
+      slug: "turkey-shawarma",
       addedAt: 1740738922952,
     },
     {
@@ -417,11 +481,13 @@ const initialState: InitialState = {
       ownerData: {
         id: "4",
         name: "Premium shawarma 2",
+        slug: "premium-shawarma-2",
         deliveryPrice: 150,
       },
       image: "witty-sha.jpg",
       name: "Double Roasted shawarma",
       price: 1600,
+      slug: "Double-Roasted-shawarma",
       addedAt: 1740738022952,
     },
     {
@@ -429,11 +495,13 @@ const initialState: InitialState = {
       ownerData: {
         id: "4",
         name: "Premium shawarma 2",
+        slug: "premium-shawarma-2",
         deliveryPrice: 150,
       },
       image: "witty-sha.jpg",
       name: "Pork shawarma",
       price: 7000,
+      slug: "pork-shawarma",
       addedAt: 1740738722952,
     },
   ],

@@ -11,7 +11,8 @@ function ItemImage({ item, className }: { item: ItemDTO; className?: string }) {
   const dispatch = useAppDispatch();
   const ACTIVE_TIMEOUT = 2000;
 
-  function handleAddToCart() {
+  function handleAddToCart(e: React.MouseEvent<HTMLDivElement>) {
+    e.preventDefault();
     dispatch(addToCart(item));
     setIsActive(true);
     setTimeout(() => setIsActive(false), ACTIVE_TIMEOUT);
