@@ -38,35 +38,48 @@ const RecommendationSchema = new Schema<RecommendationDTO>(
   { toJSON: { virtuals: true }, toObject: { virtuals: true } }
 );
 
-const BusinessSchema = new Schema({
-  name: {
-    type: String,
-    required: [true, "Invalid Business name. Please check and try again"],
-    maxlength: [
-      120,
-      `Business name too long. Must be less than 121 characters.`,
-    ],
-    minlength: [1, `Business name too short. Must have at least 1 character.`],
+const BusinessSchema = new Schema(
+  {
+    name: {
+      type: String,
+      required: [true, "Invalid Business name. Please check and try again"],
+      maxlength: [
+        120,
+        `Business name too long. Must be less than 121 characters.`,
+      ],
+      minlength: [
+        1,
+        `Business name too short. Must have at least 1 character.`,
+      ],
+    },
+    businessTypes: {
+      type: [String],
+      enum: BUSINESS_TYPES,
+      default: [],
+    },
+    owner: {
+      type: mongoose.Schema.ObjectId,
+      ref: "User",
+      required: [true, "Unable to find an owner account for your business."],
+    },
+    address: {
+      type: BusinessAddressSchema,
+      required: [
+        true,
+        "Business lacks an address which is crucial for people to find it.",
+      ],
+      default: {},
+    },
+    profileImg: String,
+    slug: { type: String, unique: true, required: true },
+    recommendations: { type: [RecommendationSchema], default: [] },
+    createdAt: {
+      type: Date,
+      default: Date.now,
+    },
   },
-  businessTypes: {
-    type: [String],
-    enum: BUSINESS_TYPES,
-    default: [],
-  },
-  owner: {
-    type: mongoose.Schema.ObjectId,
-    ref: "User",
-    required: [true, "Unable to find an owner account for your business."],
-  },
-  address: { type: BusinessAddressSchema, default: {} },
-  profileImg: String,
-  slug: String,
-  recommendations: { type: [RecommendationSchema], default: [] },
-  createdAt: {
-    type: Date,
-    default: Date.now,
-  },
-});
+  { toJSON: { virtuals: true }, toObject: { virtuals: true } }
+);
 
 cleanupModel("Business");
 

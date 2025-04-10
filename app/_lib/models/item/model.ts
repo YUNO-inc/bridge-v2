@@ -16,7 +16,7 @@ const ItemSchema = new Schema({
   image: String,
   price: { type: Number, min: [0, "Price is invalid."] },
   slug: String,
-  BusinessData: {
+  businessData: {
     type: mongoose.Schema.ObjectId,
     ref: "Business",
     required: [true, "Unable to find a parent business for this item."],
@@ -26,6 +26,8 @@ const ItemSchema = new Schema({
     default: Date.now,
   },
 });
+
+ItemSchema.index({ slug: 1, businessData: 1 }, { unique: true });
 
 cleanupModel("Item");
 

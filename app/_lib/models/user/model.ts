@@ -41,8 +41,12 @@ const UserSchema = new Schema({
   },
   phoneNumber: {
     type: String,
-    maxlength: [11, `Phone Number too long. Must be less than 11 characters.`],
-    minlength: [10, `Phone Number too short. Must have at least 10 character.`],
+    validate: {
+      validator: function (value: string) {
+        return /^\+?[1-9]\d{7,14}$/.test(value); // E.164 format
+      },
+      message: "Invalid phone number format",
+    },
   },
   addresses: { type: [AddressSchema], default: [] },
   createdAt: {

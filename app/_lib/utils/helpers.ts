@@ -7,7 +7,8 @@ export function cleanupModel(modelName: string) {
   }
 }
 
-export function serializeMongoDocument(doc: object) {
+export function serializeMongoDocument(doc: object | any) {
+  if (typeof doc !== "object") return doc;
   return JSON.parse(
     JSON.stringify(doc, (key, value) => {
       if (value instanceof Object && value._bsontype === "ObjectId") {

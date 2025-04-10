@@ -20,7 +20,8 @@ export interface ItemDTO {
   image: string;
   price: number;
   slug: string;
-  BusinessData: ItemBusinessData;
+  businessData: ItemBusinessData | string;
+  itemType: BusinessTypesDTO;
   createdAt: Date | number;
 }
 export type ItemBusinessData = Pick<
@@ -51,9 +52,9 @@ export interface BusinessDTO {
 export type BusinessAddressDTO = Omit<AddressDTO, "isSelected">;
 
 export type CartGroupDTO = {
-  id: ItemDTO["BusinessData"]["id"];
-  name: ItemDTO["BusinessData"]["name"];
-  deliveryPrice: ItemDTO["BusinessData"]["deliveryPrice"];
+  id: ItemBusinessData["id"];
+  name: ItemBusinessData["name"];
+  deliveryPrice: ItemBusinessData["deliveryPrice"];
   items: ItemDTO[];
   totalPrice: number;
 };
