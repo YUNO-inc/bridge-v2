@@ -4,9 +4,12 @@ import LocalIcons from "@/app/_utils/LocalIcons";
 import Link from "next/link";
 
 function EdibleItem({ item }: { item: ItemDTO }) {
+  if (typeof item.businessData === "string")
+    item.businessData = { slug: "", name: "", deliveryPrice: 100000, id: "" };
+
   return (
     <Link
-      href={`/app/${item.ownerData.slug}/${item.slug}`}
+      href={`/app/${item.businessData.slug}/${item.slug}`}
       className="flex items-center gap-2 border-b-[0.1px] border-b-phthaloGreen border-opacity-[0.1] py-3 mr-2 first:pt-0"
     >
       <ItemImage item={item} />
@@ -19,10 +22,10 @@ function EdibleItem({ item }: { item: ItemDTO }) {
           <p className="text-sm font-semibold">₦{item.price}</p>
         </div>
         <p className="flex items-center gap-2 text-stone-800 text-opacity-[0.37]">
-          <span>{item.ownerData.name}</span>
+          <span>{item.businessData.name}</span>
           <span className=" shrink-0 w-1 h-1 bg-phthaloGreen bg-opacity-55 rounded-full"></span>
           <span className="flex items-center text-xs font-semibold gap-1">
-            <>₦{item.ownerData.deliveryPrice}</>
+            <>₦{item.businessData.deliveryPrice}</>
             <LocalIcons
               name="rider"
               className="relative -top-[1px] w-3 h-3 fill-transparent"

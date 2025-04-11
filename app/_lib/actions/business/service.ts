@@ -1,4 +1,4 @@
-import { BusinessDTO } from "@/app/_interfaces/interfaces";
+import { BusinessDTO, DEFAULT_GEOJSON } from "@/app/_interfaces/interfaces";
 import { connect } from "../../db";
 import Business from "../../models/business/model";
 import { auth } from "../auth/auth";
@@ -27,4 +27,25 @@ export async function getSingleBusiness(queryData: Partial<BusinessDTO>) {
     "recommendations"
   );
   return business;
+}
+
+export async function getMultipleBusinesses(queryData: Partial<BusinessDTO>) {
+  const businesses = await Business.find(queryData).populate("recommendations");
+  return businesses;
+}
+
+export async function getNearBusinesses(
+  coords: BusinessDTO["address"]["coordinates"]
+): Promise<BusinessDTO[]> {
+  const businesses = await Business.find({
+    address: {
+      $near: {
+        $geometry: {
+          type: DEFAULT_GEOJSON,
+          coordinates: coords,
+        },
+      },
+    },
+  }).populate("recommendations");
+  return businesses;
 }

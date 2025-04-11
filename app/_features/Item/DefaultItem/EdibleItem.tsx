@@ -1,13 +1,16 @@
-"use client";
 import Link from "next/link";
-import { BusinessDTO } from "@/app/_interfaces/interfaces";
+import { BusinessDTO, RecommendationDTO } from "@/app/_interfaces/interfaces";
 import LocalIcons from "@/app/_utils/LocalIcons";
 import Image from "next/image";
-import Recommndation from "./Recommendation";
+import Recommendation from "./Recommendation";
 
 type EdibleItemProps = { business: BusinessDTO };
 
 function EdibleItem({ business }: EdibleItemProps) {
+  const defaultRec: RecommendationDTO = { businessType: "shawarma", items: [] };
+  const recommendations =
+    business.recommendations.find((rec) => rec.businessType === "shawarma") ||
+    defaultRec;
   return (
     <button className="flex flex-col gap-2 w-full bg-stone-800 bg-opacity-5 rounded-[13px] p-3 text-stone-800">
       <Link
@@ -16,7 +19,7 @@ function EdibleItem({ business }: EdibleItemProps) {
       >
         <div className="relative w-9 h-9 rounded-full overflow-hidden mr-3">
           <Image
-            src={`/images/${business.profile}`}
+            src={`/images/${business.profileImg}`}
             alt={`${business.name} Profile Image`}
             className="object-cover"
             fill
@@ -27,7 +30,7 @@ function EdibleItem({ business }: EdibleItemProps) {
             {business.name}
           </div>
           <div className="space-x-3">
-            <span>{business.location}</span>
+            <span>{business.address.name}</span>
             <span className="border-r border-r-phthaloGreen border-opacity-40"></span>
             <span className="text-stone-800 text-opacity-60">
               {business.isOpen ? "Open" : "Closed"}
@@ -47,9 +50,10 @@ function EdibleItem({ business }: EdibleItemProps) {
       </Link>
       {!!business.recommendations.length && (
         <div className="flex space-x-3 items-center w-full overflow-auto">
-          {business.recommendations.map((rec) => (
-            <Recommndation key={rec.id} rec={rec} />
-          ))}
+          {recommendations.items.map((rec) => {
+            if (typeof rec === "string") return null;
+            else return <Recommendation key={rec.id} rec={rec} />;
+          })}
         </div>
       )}
     </button>

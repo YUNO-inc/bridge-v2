@@ -5,6 +5,7 @@ import {
   BusinessAddressDTO,
   BusinessDTO,
   DEFAULT_COORDS,
+  DEFAULT_GEOJSON,
   RecommendationDTO,
 } from "@/app/_interfaces/interfaces";
 import mongoose from "mongoose";
@@ -12,7 +13,8 @@ import mongoose from "mongoose";
 const BusinessAddressSchema = new Schema<BusinessAddressDTO>(
   {
     name: { type: String, default: "Okota" },
-    coords: {
+    type: { type: String, default: DEFAULT_GEOJSON },
+    coordinates: {
       type: [Number],
       default: DEFAULT_COORDS,
       validate: (val: number[]) => val.length === 2,
@@ -80,6 +82,8 @@ const BusinessSchema = new Schema(
   },
   { toJSON: { virtuals: true }, toObject: { virtuals: true } }
 );
+
+BusinessSchema.index({ address: "2dsphere" });
 
 cleanupModel("Business");
 

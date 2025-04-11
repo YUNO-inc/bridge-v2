@@ -1,9 +1,8 @@
+import { ItemDTO } from "@/app/_interfaces/interfaces";
 import ProductItem from "./ProductItem";
-import { useAppSelector } from "@/app/_hooks/reduxHooks";
-import { getActivity } from "@/app/_features/App/ActivitySlice";
 
-function ProductList() {
-  const { productResults: items } = useAppSelector(getActivity);
+async function ProductList() {
+  const items: ItemDTO[] = [];
 
   return (
     <div className="flex flex-col pl-4 py-4 text-stone-800">

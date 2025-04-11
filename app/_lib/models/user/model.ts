@@ -4,13 +4,15 @@ import { cleanupModel } from "../../utils/helpers";
 import {
   AddressDTO,
   DEFAULT_COORDS,
+  DEFAULT_GEOJSON,
   UserDTO,
 } from "@/app/_interfaces/interfaces";
 
 const AddressSchema = new Schema<AddressDTO>(
   {
     name: { type: String, default: "Okota" },
-    coords: {
+    type: { type: String, default: DEFAULT_GEOJSON },
+    coordinates: {
       type: [Number],
       default: DEFAULT_COORDS,
       validate: (val: number[]) => val.length === 2,

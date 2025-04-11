@@ -7,8 +7,12 @@ function CreateBiz({ name = "" }) {
   async function createBiz() {
     try {
       await CreateBusinessAction({
-        name,
-        address: { coords: DEFAULT_COORDS, name: "Okota Roundabout" },
+        name: "Premium Shawarma",
+        address: {
+          name: "9, Esuola Str, Ago.",
+          type: "Point",
+          coordinates: DEFAULT_COORDS,
+        },
         profileImg:
           "https://lh3.googleusercontent.com/gps-cs-s/AB5caB-4MnsP3q25l0NUkibuaUZVoliPTJifJ_y6nD-W1oHfmUCP5OqciSkdiaCNaSLhxQXL0vp2HImjfSKQvBYW062rF61yz6SSIQYK0Ls1a2i8SD3LlZx6HW5lTTUZkKi69to7HJs6=w125-h125-n-k-no",
       });

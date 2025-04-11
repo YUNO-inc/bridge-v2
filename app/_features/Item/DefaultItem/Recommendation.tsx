@@ -2,10 +2,12 @@ import { ItemDTO } from "@/app/_interfaces/interfaces";
 import ItemImage from "../ItemImage";
 import Link from "next/link";
 
-function Recommendations({ rec }: { rec: ItemDTO }) {
+function Recommendation({ rec }: { rec: ItemDTO }) {
+  if (typeof rec.businessData === "string") return null;
+
   return (
     <Link
-      href={`/app/${rec.ownerData.slug}/${rec.slug}`}
+      href={`/app/${rec.businessData.slug}/${rec.slug}`}
       className="bg-stone-800 bg-opacity-10 py-2 px-2 rounded-[7px] flex items-center gap-2 text-sm"
     >
       <ItemImage item={rec} />
@@ -17,4 +19,4 @@ function Recommendations({ rec }: { rec: ItemDTO }) {
   );
 }
 
-export default Recommendations;
+export default Recommendation;

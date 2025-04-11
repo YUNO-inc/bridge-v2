@@ -1,3 +1,5 @@
+"use client";
+
 import { ItemDTO } from "@/app/_interfaces/interfaces";
 import { PlusIcon } from "@heroicons/react/16/solid";
 import Image from "next/image";
@@ -27,7 +29,11 @@ function ItemImage({ item, className }: { item: ItemDTO; className?: string }) {
         src={`/images/${item.image}`}
         fill
         className="object-cover"
-        alt={`Image of ${item.name} by ${item.ownerData.name}`}
+        alt={`Image of ${item.name} by ${
+          typeof item.businessData === "string"
+            ? "a business"
+            : item.businessData.name
+        }`}
       />
       <div
         className={`absolute h-[30%] w-full bg-opacity-[0.9] backdrop-blur-[1px] z-10 bottom-0 left-0 flex items-center justify-center py-1.5 transition-all duration-500 border-none ${

@@ -1,7 +1,8 @@
 export interface AddressDTO {
   id?: string;
   name: string;
-  coords: [number, number];
+  type: "Point";
+  coordinates: [number, number];
   isSelected: boolean;
 }
 
@@ -86,6 +87,9 @@ export const BUSINESS_TYPES: BusinessDTO["businessTypes"] = [
   "shawarma",
   "pharmacy",
 ];
-export const DEFAULT_COORDS: AddressDTO["coords"] = [
-  6.510770062610523, 3.3191478252410893,
+
+export const DEFAULT_GEOJSON = "Point";
+
+export const DEFAULT_COORDS: AddressDTO["coordinates"] = [
+  3.3191478252410893, 6.510770062610523,
 ];
