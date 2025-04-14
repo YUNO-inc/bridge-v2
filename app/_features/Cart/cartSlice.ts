@@ -1,5 +1,10 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { CartDTO, CartGroupDTO, ItemDTO } from "@/app/_interfaces/interfaces";
+import {
+  CartDTO,
+  CartGroupDTO,
+  ItemBusinessData,
+  ItemDTO,
+} from "@/app/_interfaces/interfaces";
 
 const initialState: CartDTO = {
   groups: [],
@@ -14,7 +19,10 @@ const cartSlice = createSlice({
   initialState,
   reducers: {
     addToCart(state, action: PayloadAction<ItemDTO>) {
-      const newItem = { ...action.payload, addedAt: Date.now() };
+      const newItem = { ...action.payload, createdAt: Date.now() };
+
+      if (typeof newItem.businessData === "string")
+        throw new Error("Unable to add to cart.");
 
       const numOfGroups = state.groups.length > 0;
       let groupAlreadyExits = false;
@@ -22,7 +30,9 @@ const cartSlice = createSlice({
       if (!numOfGroups) state.groups.push(createGroup(newItem));
       else if (numOfGroups) {
         groupAlreadyExits = state.groups.some((group, i) => {
-          const groupFound = group.id === newItem.ownerData.id;
+          if (typeof newItem.businessData === "string")
+            throw new Error("Unable to add to cart.");
+          const groupFound = group.id === newItem.businessData.id;
           if (groupFound) {
             state.groups[i].items.push(newItem);
             state.groups[i].totalPrice += newItem.price;
@@ -36,23 +46,23 @@ const cartSlice = createSlice({
       state.priceTotal += newItem.price;
       state.deliveryTotal += groupAlreadyExits
         ? 0
-        : newItem.ownerData.deliveryPrice;
+        : newItem.businessData.deliveryPrice;
     },
     duplicateItem() {},
     deleteFromCart(
       state,
       action: PayloadAction<{
         delId: ItemDTO["id"];
-        delAddedAt: ItemDTO["addedAt"];
+        delAddedAt: ItemDTO["createdAt"];
         delPrice: ItemDTO["price"];
-        ownerId: ItemDTO["ownerData"]["id"];
+        ownerId: ItemBusinessData["id"];
       }>
     ) {
       const { delId, delAddedAt, delPrice, ownerId } = action.payload;
       const group = state.groups.find((group) => group.id === ownerId);
       if (!group) return;
       group.items = group.items.filter((item) => {
-        const isDelItem = item.id === delId && item.addedAt === delAddedAt;
+        const isDelItem = item.id === delId && item.createdAt === delAddedAt;
         if (isDelItem) group.totalPrice -= delPrice;
         return !isDelItem;
       });
@@ -75,10 +85,13 @@ const cartSliceReducer = cartSlice.reducer;
 export default cartSliceReducer;
 
 function createGroup(newItem: ItemDTO): CartGroupDTO {
+  if (typeof newItem.businessData === "string")
+    throw new Error("Unable to create a new Cart group.");
+
   return {
-    id: newItem.ownerData.id,
-    name: newItem.ownerData.name,
-    deliveryPrice: newItem.ownerData.deliveryPrice,
+    id: newItem.businessData.id,
+    name: newItem.businessData.name,
+    deliveryPrice: newItem.businessData.deliveryPrice,
     items: [newItem],
     totalPrice: newItem.price,
   };

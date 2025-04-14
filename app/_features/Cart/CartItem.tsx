@@ -8,12 +8,16 @@ import LocalIcons from "@/app/_utils/LocalIcons";
 function CartItem({ item }: { item: ItemDTO }) {
   const dispatch = useAppDispatch();
 
+  if (typeof item.businessData === "string") return null;
+
   function handleDelete() {
+    if (typeof item.businessData === "string")
+      throw new Error("Unable to remove this item from cart.");
     dispatch(
       deleteFromCart({
         delId: item.id,
-        delAddedAt: item.addedAt,
-        ownerId: item.ownerData.id,
+        delAddedAt: item.createdAt,
+        ownerId: item.businessData.id,
         delPrice: item.price,
       })
     );
@@ -22,7 +26,7 @@ function CartItem({ item }: { item: ItemDTO }) {
   function handleDuplicate() {
     console.log(item);
     const dup = structuredClone(item);
-    dup.addedAt = Date.now();
+    dup.createdAt = Date.now();
     dispatch(addToCart(dup));
   }
 
@@ -33,7 +37,7 @@ function CartItem({ item }: { item: ItemDTO }) {
           src={`/images/${item.image}`}
           fill
           className="object-cover"
-          alt={`Image of ${item.name} by ${item.ownerData.name}`}
+          alt={`Image of ${item.name} by ${item.businessData.name}`}
         />
       </div>
       <div className="grow max-w-[100%] overflow-hidden text-[14px] sm:text-base flex justify-between items-center">

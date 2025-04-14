@@ -21,9 +21,9 @@ function CartGroup({ group }: { group: CartGroupDTO }) {
           <CartItem
             item={item}
             key={
-              typeof item.addedAt === "number"
-                ? item.addedAt
-                : item.addedAt.getTime()
+              typeof item.createdAt === "number"
+                ? item.createdAt
+                : item.createdAt.getTime()
             }
           />
         ))}
