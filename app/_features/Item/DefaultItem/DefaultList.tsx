@@ -1,6 +1,7 @@
 import { auth } from "@/app/_lib/actions/auth/auth";
 import DefaultItem from "./DefaultItem";
 import { GetNearBusinessesAction } from "@/app/_lib/actions/business/actions";
+import { BusinessDTO } from "@/app/_interfaces/interfaces";
 
 async function DefaultList() {
   const session = await auth();
@@ -17,7 +18,7 @@ async function DefaultList() {
 
   return (
     <div className="p-2 flex flex-col gap-4">
-      {businesses.map((business) => (
+      {businesses.map((business: BusinessDTO) => (
         <DefaultItem key={business.id} business={business} />
       ))}
     </div>

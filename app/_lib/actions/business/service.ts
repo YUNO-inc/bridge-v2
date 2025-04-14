@@ -3,6 +3,7 @@ import { connect } from "../../db";
 import Business from "../../models/business/model";
 import { auth } from "../auth/auth";
 import slugify from "slugify";
+import "@/app/_lib/models/item/model";
 
 export async function createBusiness(
   business: Pick<BusinessDTO, "name" | "address" | "profileImg">
@@ -46,6 +47,6 @@ export async function getNearBusinesses(
         },
       },
     },
-  }).populate("recommendations");
+  }).populate("recommendations.items");
   return businesses;
 }

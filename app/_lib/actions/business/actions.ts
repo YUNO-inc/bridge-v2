@@ -52,7 +52,7 @@ export async function GetNearBusinessesAction(
 ) {
   try {
     const businesses = await getNearBusinesses(coords);
-    return businesses;
+    return serializeMongoDocument(businesses);
   } catch (err: unknown) {
     const error = err as Error;
     console.error(error);

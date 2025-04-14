@@ -52,7 +52,14 @@ function EdibleItem({ business }: EdibleItemProps) {
         <div className="flex space-x-3 items-center w-full overflow-auto">
           {recommendations.items.map((rec) => {
             if (typeof rec === "string") return null;
-            else return <Recommendation key={rec.id} rec={rec} />;
+
+            rec.businessData = {
+              id: business.id,
+              name: business.name,
+              deliveryPrice: business.deliveryPrice,
+              slug: business.slug,
+            };
+            return <Recommendation key={rec.id} rec={rec} />;
           })}
         </div>
       )}
