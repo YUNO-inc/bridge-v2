@@ -11,6 +11,8 @@ function EdibleItem({ business }: EdibleItemProps) {
   const recommendations =
     business.recommendations.find((rec) => rec.businessType === "shawarma") ||
     defaultRec;
+
+  console.log(business.deliveryPrice);
   return (
     <button className="flex flex-col gap-2 w-full bg-stone-800 bg-opacity-5 rounded-[13px] p-3 text-stone-800">
       <Link
@@ -57,6 +59,7 @@ function EdibleItem({ business }: EdibleItemProps) {
               id: business.id,
               name: business.name,
               deliveryPrice: business.deliveryPrice,
+              address: business.address,
               slug: business.slug,
             };
             return <Recommendation key={rec.id} rec={rec} />;

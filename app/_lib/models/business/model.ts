@@ -9,6 +9,7 @@ import {
   RecommendationDTO,
 } from "@/app/_interfaces/interfaces";
 import mongoose from "mongoose";
+import { calcDeliveryPrice } from "@/app/_utils/helpers";
 
 const BusinessAddressSchema = new Schema<BusinessAddressDTO>(
   {
@@ -83,7 +84,25 @@ const BusinessSchema = new Schema(
   { toJSON: { virtuals: true }, toObject: { virtuals: true } }
 );
 
+BusinessSchema.virtual("deliveryPrice");
 BusinessSchema.index({ address: "2dsphere" });
+
+BusinessSchema.post(/^find/, function (d, next) {
+  const docs: BusinessDTO[] = d;
+  const pricePoint = this.get("pricePoint") || [
+    DEFAULT_COORDS[1],
+    DEFAULT_COORDS[0],
+  ];
+
+  docs.forEach((doc) => {
+    doc.deliveryPrice = calcDeliveryPrice(
+      [doc.address.coordinates[1], doc.address.coordinates[0]],
+      pricePoint
+    );
+  });
+
+  next();
+});
 
 cleanupModel("Business");
 

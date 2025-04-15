@@ -7,9 +7,9 @@ function CreateBiz({ name = "" }) {
   async function createBiz() {
     try {
       await CreateBusinessAction({
-        name: "Premium Shawarma",
+        name: "Chuddys Shawarma and Grills",
         address: {
-          name: "9, Esuola Str, Ago.",
+          name: "Ago roundabout.",
           type: "Point",
           coordinates: DEFAULT_COORDS,
         },

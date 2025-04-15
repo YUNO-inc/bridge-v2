@@ -42,13 +42,13 @@ const cartSlice = createSlice({
         if (!groupAlreadyExits) state.groups.push(createGroup(newItem));
       }
 
+      console.log(state.groups[0]);
       state.numTotalItems += 1;
       state.priceTotal += newItem.price;
       state.deliveryTotal += groupAlreadyExits
         ? 0
         : newItem.businessData.deliveryPrice;
     },
-    duplicateItem() {},
     deleteFromCart(
       state,
       action: PayloadAction<{
@@ -66,8 +66,10 @@ const cartSlice = createSlice({
         if (isDelItem) group.totalPrice -= delPrice;
         return !isDelItem;
       });
-      if (group.items.length < 1)
+      if (group.items.length < 1) {
         state.groups = state.groups.filter((group) => group.id !== ownerId);
+        state.deliveryTotal = state.deliveryTotal - group.deliveryPrice;
+      }
 
       state.numTotalItems -= 1;
       state.priceTotal -= delPrice;
@@ -93,6 +95,7 @@ function createGroup(newItem: ItemDTO): CartGroupDTO {
     name: newItem.businessData.name,
     deliveryPrice: newItem.businessData.deliveryPrice,
     items: [newItem],
+    address: newItem.businessData.address,
     totalPrice: newItem.price,
   };
 }

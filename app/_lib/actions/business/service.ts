@@ -1,4 +1,8 @@
-import { BusinessDTO, DEFAULT_GEOJSON } from "@/app/_interfaces/interfaces";
+import {
+  BusinessDTO,
+  DEFAULT_COORDS,
+  DEFAULT_GEOJSON,
+} from "@/app/_interfaces/interfaces";
 import { connect } from "../../db";
 import Business from "../../models/business/model";
 import { auth } from "../auth/auth";
@@ -47,6 +51,10 @@ export async function getNearBusinesses(
         },
       },
     },
-  }).populate("recommendations.items");
+  })
+    .populate("recommendations.items")
+    .set("pricePoint", [DEFAULT_COORDS[1], DEFAULT_COORDS[0]]);
+
+  console.log(businesses[0].deliveryPrice);
   return businesses;
 }

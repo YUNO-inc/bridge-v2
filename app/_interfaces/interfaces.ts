@@ -27,7 +27,7 @@ export interface ItemDTO {
 }
 export type ItemBusinessData = Pick<
   BusinessDTO,
-  "id" | "name" | "deliveryPrice" | "slug"
+  "id" | "name" | "deliveryPrice" | "slug" | "address"
 >;
 
 export type BusinessTypesDTO = "food" | "shawarma" | "pharmacy";
@@ -58,6 +58,7 @@ export type CartGroupDTO = {
   deliveryPrice: ItemBusinessData["deliveryPrice"];
   items: ItemDTO[];
   totalPrice: number;
+  address: ItemBusinessData["address"];
 };
 
 export type CartDTO = {
