@@ -1,10 +1,13 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createSlice, current, PayloadAction } from "@reduxjs/toolkit";
 import {
+  AddressDTO,
+  BusinessDTO,
   CartDTO,
   CartGroupDTO,
   ItemBusinessData,
   ItemDTO,
 } from "@/app/_interfaces/interfaces";
+import { isNewFarthestPoint, sortByFarthestPoint } from "@/app/_utils/helpers";
 
 const initialState: CartDTO = {
   groups: [],
@@ -12,19 +15,32 @@ const initialState: CartDTO = {
   priceTotal: 0,
   numTotalItems: 0,
   farthestPurchase: undefined,
+  pickupPoints: [],
 };
 
 const cartSlice = createSlice({
   name: "cart",
   initialState,
   reducers: {
-    addToCart(state, action: PayloadAction<ItemDTO>) {
-      const newItem = { ...action.payload, createdAt: Date.now() };
+    addToCart(
+      state,
+      action: PayloadAction<{
+        item: ItemDTO;
+        deliveryAddress: AddressDTO | undefined;
+      }>
+    ) {
+      const deliveryAddress = action.payload.deliveryAddress;
+      const newItem = { ...action.payload.item, createdAt: Date.now() };
 
       if (typeof newItem.businessData === "string")
         throw new Error("Unable to add to cart.");
 
       const numOfGroups = state.groups.length > 0;
+      const isFarthestPurchase = isNewFarthestPoint({
+        deliveryPoint: deliveryAddress?.coordinates,
+        oldPoint: state.farthestPurchase?.coordinates,
+        newPoint: newItem.businessData.address.coordinates,
+      });
       let groupAlreadyExits = false;
 
       if (!numOfGroups) state.groups.push(createGroup(newItem));
@@ -42,12 +58,14 @@ const cartSlice = createSlice({
         if (!groupAlreadyExits) state.groups.push(createGroup(newItem));
       }
 
-      console.log(state.groups[0]);
       state.numTotalItems += 1;
       state.priceTotal += newItem.price;
       state.deliveryTotal += groupAlreadyExits
         ? 0
         : newItem.businessData.deliveryPrice;
+      state.farthestPurchase = isFarthestPurchase
+        ? newItem.businessData.address
+        : state.farthestPurchase;
     },
     deleteFromCart(
       state,
@@ -56,9 +74,11 @@ const cartSlice = createSlice({
         delAddedAt: ItemDTO["createdAt"];
         delPrice: ItemDTO["price"];
         ownerId: ItemBusinessData["id"];
+        deliveryAddress: AddressDTO;
       }>
     ) {
-      const { delId, delAddedAt, delPrice, ownerId } = action.payload;
+      const { delId, delAddedAt, delPrice, ownerId, deliveryAddress } =
+        action.payload;
       const group = state.groups.find((group) => group.id === ownerId);
       if (!group) return;
       group.items = group.items.filter((item) => {
@@ -67,6 +87,14 @@ const cartSlice = createSlice({
         return !isDelItem;
       });
       if (group.items.length < 1) {
+        const sortedPickups = sortByFarthestPoint(
+          deliveryAddress,
+          current(state.groups).map((group) => group.address)
+        );
+        const isFarthestPurchase = sortedPickups[0].id === group.address.id;
+        state.farthestPurchase = isFarthestPurchase
+          ? sortedPickups[1]
+          : state.farthestPurchase;
         state.groups = state.groups.filter((group) => group.id !== ownerId);
         state.deliveryTotal = state.deliveryTotal - group.deliveryPrice;
       }
@@ -81,7 +109,9 @@ export const { addToCart, deleteFromCart } = cartSlice.actions;
 
 export const getCart = (state: { cart: CartDTO }) => state.cart;
 
-export const isInCart = (state: { cart: CartDTO }) => state.cart;
+export const businessIsInCart =
+  (businessId: BusinessDTO["id"]) => (state: { cart: CartDTO }) =>
+    state.cart.groups.some((group) => group.id === businessId);
 
 const cartSliceReducer = cartSlice.reducer;
 export default cartSliceReducer;

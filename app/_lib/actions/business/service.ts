@@ -55,6 +55,5 @@ export async function getNearBusinesses(
     .populate("recommendations.items")
     .set("pricePoint", [DEFAULT_COORDS[1], DEFAULT_COORDS[0]]);
 
-  console.log(businesses[0].deliveryPrice);
   return businesses;
 }

@@ -5,17 +5,19 @@ import { PlusIcon } from "@heroicons/react/16/solid";
 import Image from "next/image";
 import CheckAnimation from "../CheckAnimation/CheckAnimation";
 import { useState } from "react";
-import { useAppDispatch } from "@/app/_hooks/reduxHooks";
+import { useAppDispatch, useAppSelector } from "@/app/_hooks/reduxHooks";
 import { addToCart } from "../Cart/cartSlice";
+import { getSelectedAddress } from "../User/userSlice";
 
 function ItemImage({ item, className }: { item: ItemDTO; className?: string }) {
+  const selectedAddress = useAppSelector(getSelectedAddress);
   const [isActive, setIsActive] = useState(false);
   const dispatch = useAppDispatch();
   const ACTIVE_TIMEOUT = 2000;
 
   function handleAddToCart(e: React.MouseEvent<HTMLDivElement>) {
     e.preventDefault();
-    dispatch(addToCart(item));
+    dispatch(addToCart({ item, deliveryAddress: selectedAddress }));
     setIsActive(true);
     setTimeout(() => setIsActive(false), ACTIVE_TIMEOUT);
   }

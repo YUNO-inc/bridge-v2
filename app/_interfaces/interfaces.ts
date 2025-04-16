@@ -66,7 +66,8 @@ export type CartDTO = {
   numTotalItems: number;
   deliveryTotal: number;
   priceTotal: number;
-  farthestPurchase: BusinessDTO["id"] | undefined;
+  farthestPurchase: BusinessDTO["address"] | undefined;
+  pickupPoints: BusinessDTO["address"][];
 };
 
 export type InputsProps = {
@@ -94,3 +95,9 @@ export const DEFAULT_GEOJSON = "Point";
 export const DEFAULT_COORDS: AddressDTO["coordinates"] = [
   3.3191478252410893, 6.510770062610523,
 ];
+export const DEFAULT_ADDRESS: AddressDTO = {
+  name: "",
+  type: "Point",
+  coordinates: DEFAULT_COORDS,
+  isSelected: false,
+};

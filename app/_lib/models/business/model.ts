@@ -89,10 +89,7 @@ BusinessSchema.index({ address: "2dsphere" });
 
 BusinessSchema.post(/^find/, function (d, next) {
   const docs: BusinessDTO[] = d;
-  const pricePoint = this.get("pricePoint") || [
-    DEFAULT_COORDS[1],
-    DEFAULT_COORDS[0],
-  ];
+  const pricePoint = this.get("pricePoint") || DEFAULT_COORDS;
 
   docs.forEach((doc) => {
     doc.deliveryPrice = calcDeliveryPrice(

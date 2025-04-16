@@ -1,12 +1,14 @@
-import { useAppDispatch } from "@/app/_hooks/reduxHooks";
-import { ItemDTO } from "@/app/_interfaces/interfaces";
+import { useAppDispatch, useAppSelector } from "@/app/_hooks/reduxHooks";
+import { DEFAULT_ADDRESS, ItemDTO } from "@/app/_interfaces/interfaces";
 import { ChevronRightIcon, MinusIcon } from "@heroicons/react/16/solid";
 import Image from "next/image";
 import { addToCart, deleteFromCart } from "./cartSlice";
 import LocalIcons from "@/app/_utils/LocalIcons";
+import { getSelectedAddress } from "../User/userSlice";
 
 function CartItem({ item }: { item: ItemDTO }) {
   const dispatch = useAppDispatch();
+  const selectedAddress = useAppSelector(getSelectedAddress);
 
   if (typeof item.businessData === "string") return null;
 
@@ -19,15 +21,15 @@ function CartItem({ item }: { item: ItemDTO }) {
         delAddedAt: item.createdAt,
         ownerId: item.businessData.id,
         delPrice: item.price,
+        deliveryAddress: selectedAddress || DEFAULT_ADDRESS,
       })
     );
   }
 
   function handleDuplicate() {
-    console.log(item);
     const dup = structuredClone(item);
     dup.createdAt = Date.now();
-    dispatch(addToCart(dup));
+    dispatch(addToCart({ item: dup, deliveryAddress: selectedAddress }));
   }
 
   return (

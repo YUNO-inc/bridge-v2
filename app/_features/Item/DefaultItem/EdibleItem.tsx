@@ -3,6 +3,7 @@ import { BusinessDTO, RecommendationDTO } from "@/app/_interfaces/interfaces";
 import LocalIcons from "@/app/_utils/LocalIcons";
 import Image from "next/image";
 import Recommendation from "./Recommendation";
+import EdibleItemDeliveryPrice from "./EdibleItemDeliveryPrice";
 
 type EdibleItemProps = { business: BusinessDTO };
 
@@ -12,7 +13,6 @@ function EdibleItem({ business }: EdibleItemProps) {
     business.recommendations.find((rec) => rec.businessType === "shawarma") ||
     defaultRec;
 
-  console.log(business.deliveryPrice);
   return (
     <button className="flex flex-col gap-2 w-full bg-stone-800 bg-opacity-5 rounded-[13px] p-3 text-stone-800">
       <Link
@@ -40,7 +40,11 @@ function EdibleItem({ business }: EdibleItemProps) {
           </div>
         </div>
         <div className="flex items-center gap-1">
-          <div className="font-semibold">₦{business.deliveryPrice}</div>
+          <EdibleItemDeliveryPrice
+            deliveryPrice={business.deliveryPrice}
+            pickupPoint={business.address.coordinates}
+            businessId={business.id}
+          />
           <span className="relative bottom-[1px]">
             <LocalIcons
               name="rider"
