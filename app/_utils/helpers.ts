@@ -114,20 +114,3 @@ export function isNewFarthestPoint({
   const distanceOfNewPoint = haversine(deliveryPoint, newPoint);
   return distanceOfNewPoint > distanceOfOldPoint;
 }
-
-// export function calcMultiDeliveryPrices(
-//   deliveryPoint: AddressDTO["coordinates"] = DEFAULT_COORDS,
-//   pickupPoints: AddressDTO["coordinates"][]
-// ) {}
-
-// const origin = { name: "Lagos", coordinates: [3.3792, 6.5244] }; // Lagos
-// const coords: BusinessAddressDTO[] = [
-//   { name: "New York", type: "Point", coordinates: [-74.006, 40.7128] },
-//   { name: "Barcelona", type: "Point", coordinates: [2.1734, 41.3851] },
-//   { name: "Ibadan", type: "Point", coordinates: [3.8945, 7.3775] },
-//   { name: "Berlin", type: "Point", coordinates: [13.405, 52.52] },
-//   { name: "Accra", type: "Point", coordinates: [-0.186964, 5.6037] },
-//   { name: "London", type: "Point", coordinates: [0.1276, 51.5074] },
-// ];
-// const sorted = sortByFarthestPoint(undefined, coords);
-// console.log(sorted);

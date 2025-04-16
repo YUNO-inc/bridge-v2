@@ -42,7 +42,11 @@ function EdibleItemDeliveryPrice({
     [farthestPurchase, selectedAddress?.coordinates, currItemPickup, isInCart]
   );
 
-  return <div className="font-semibold">₦{dynamicDeliveryPrice}</div>;
+  return (
+    <div className="font-semibold">
+      {dynamicDeliveryPrice > 0 ? `₦${dynamicDeliveryPrice}` : "Free"}
+    </div>
+  );
 }
 
 export default EdibleItemDeliveryPrice;
