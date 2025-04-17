@@ -16,7 +16,7 @@ const BusinessAddressSchema = new Schema<BusinessAddressDTO>(
     name: { type: String, default: "Okota" },
     type: { type: String, default: DEFAULT_GEOJSON },
     coordinates: {
-      type: [Number],
+      type: [Number, Number],
       default: DEFAULT_COORDS,
       validate: (val: number[]) => val.length === 2,
     },
@@ -88,15 +88,22 @@ BusinessSchema.virtual("deliveryPrice");
 BusinessSchema.index({ address: "2dsphere" });
 
 BusinessSchema.post(/^find/, function (d, next) {
-  const docs: BusinessDTO[] = d;
+  const docs: BusinessDTO[] | BusinessDTO = d;
   const pricePoint = this.get("pricePoint") || DEFAULT_COORDS;
 
-  docs.forEach((doc) => {
-    doc.deliveryPrice = calcDeliveryPrice(
-      [doc.address.coordinates[1], doc.address.coordinates[0]],
+  if (Array.isArray(docs)) {
+    docs.forEach((doc) => {
+      doc.deliveryPrice = calcDeliveryPrice(
+        doc.address.coordinates,
+        pricePoint
+      );
+    });
+  } else {
+    docs.deliveryPrice = calcDeliveryPrice(
+      docs.address.coordinates,
       pricePoint
     );
-  });
+  }
 
   next();
 });

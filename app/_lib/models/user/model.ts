@@ -13,7 +13,7 @@ const AddressSchema = new Schema<AddressDTO>(
     name: { type: String, default: "Okota" },
     type: { type: String, default: DEFAULT_GEOJSON },
     coordinates: {
-      type: [Number],
+      type: [Number, Number],
       default: DEFAULT_COORDS,
       validate: (val: number[]) => val.length === 2,
     },

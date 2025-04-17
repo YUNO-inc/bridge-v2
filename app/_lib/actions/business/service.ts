@@ -42,6 +42,19 @@ export async function getMultipleBusinesses(queryData: Partial<BusinessDTO>) {
 export async function getNearBusinesses(
   coords: BusinessDTO["address"]["coordinates"]
 ): Promise<BusinessDTO[]> {
+  let deliveryPoint = DEFAULT_COORDS;
+  const session = await auth();
+  const user = session?.user;
+  const selectedAddress = user?.addresses?.length
+    ? user.addresses.find((add) => add.isSelected === true)
+    : undefined;
+
+  if (selectedAddress) {
+    deliveryPoint = selectedAddress.coordinates;
+  }
+
+  console.log(deliveryPoint, selectedAddress?.coordinates);
+
   const businesses = await Business.find({
     address: {
       $near: {
@@ -53,7 +66,7 @@ export async function getNearBusinesses(
     },
   })
     .populate("recommendations.items")
-    .set("pricePoint", [DEFAULT_COORDS[1], DEFAULT_COORDS[0]]);
+    .set("pricePoint", deliveryPoint);
 
   return businesses;
 }
