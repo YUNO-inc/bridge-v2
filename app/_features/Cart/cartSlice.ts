@@ -4,10 +4,15 @@ import {
   BusinessDTO,
   CartDTO,
   CartGroupDTO,
+  DEFAULT_COORDS,
   ItemBusinessData,
   ItemDTO,
 } from "@/app/_interfaces/interfaces";
-import { isNewFarthestPoint, sortByFarthestPoint } from "@/app/_utils/helpers";
+import {
+  calcDynamicDeliveryPrice,
+  isNewFarthestPoint,
+  sortByFarthestPoint,
+} from "@/app/_utils/helpers";
 
 const initialState: CartDTO = {
   groups: [],
@@ -58,11 +63,26 @@ const cartSlice = createSlice({
         if (!groupAlreadyExits) state.groups.push(createGroup(newItem));
       }
 
+      const totalDeliveryPice = current(state.groups).reduce((acc, group) => {
+        if (typeof newItem.businessData === "string")
+          throw new Error("Unable to add to cart.");
+        const farthestPurchase =
+          isFarthestPurchase && typeof newItem.businessData !== "string"
+            ? newItem.businessData.address
+            : current(state.farthestPurchase);
+        const dp = calcDynamicDeliveryPrice({
+          farthestPickup: farthestPurchase?.coordinates,
+          deliveryPoint: deliveryAddress?.coordinates || DEFAULT_COORDS,
+          currItemPickup: group.address.coordinates,
+          deliveryPrice: group.deliveryPrice,
+          isInCart: false,
+        });
+        return acc + dp;
+      }, 0);
+
       state.numTotalItems += 1;
       state.priceTotal += newItem.price;
-      state.deliveryTotal += groupAlreadyExits
-        ? 0
-        : newItem.businessData.deliveryPrice;
+      state.deliveryTotal = totalDeliveryPice;
       state.farthestPurchase = isFarthestPurchase
         ? newItem.businessData.address
         : state.farthestPurchase;

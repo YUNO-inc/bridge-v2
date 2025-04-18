@@ -12,7 +12,7 @@ function CreateItem({ name = "", businessSlug = "" }) {
       const newItems = await CreateItemsAction({
         items: [
           {
-            name: "Chicken and Beef Sharwarma",
+            name: "Beef Burger",
             price: 2500,
             image:
               "https://lh3.googleusercontent.com/gps-cs-s/AB5caB-4MnsP3q25l0NUkibuaUZVoliPTJifJ_y6nD-W1oHfmUCP5OqciSkdiaCNaSLhxQXL0vp2HImjfSKQvBYW062rF61yz6SSIQYK0Ls1a2i8SD3LlZx6HW5lTTUZkKi69to7HJs6=w125-h125-n-k-no",
@@ -26,7 +26,7 @@ function CreateItem({ name = "", businessSlug = "" }) {
             itemType: "shawarma",
           },
           {
-            name: "Beef Burger",
+            name: "Chicken and Beef Sharwarma",
             price: 2500,
             image:
               "https://lh3.googleusercontent.com/gps-cs-s/AB5caB-4MnsP3q25l0NUkibuaUZVoliPTJifJ_y6nD-W1oHfmUCP5OqciSkdiaCNaSLhxQXL0vp2HImjfSKQvBYW062rF61yz6SSIQYK0Ls1a2i8SD3LlZx6HW5lTTUZkKi69to7HJs6=w125-h125-n-k-no",

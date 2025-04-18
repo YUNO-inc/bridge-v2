@@ -71,9 +71,17 @@ export function calcDynamicDeliveryPrice({
   if (isInCart) return 0;
 
   const farthestDistance = haversine(farthestPickup, deliveryPoint);
-  const itemDistance = haversine(farthestPickup, currItemPickup);
+  const itemDistanceFromFarthestPoint = haversine(
+    farthestPickup,
+    currItemPickup
+  );
+  const itemDistanceFromDeliveryPoint = haversine(
+    deliveryPoint,
+    currItemPickup
+  );
 
-  if (farthestDistance < itemDistance) return deliveryPrice;
+  if (farthestDistance === itemDistanceFromDeliveryPoint) return deliveryPrice;
+  if (farthestDistance < itemDistanceFromFarthestPoint) return deliveryPrice;
 
   const deliveryDiscount = 50;
   return applyDiscount({ price: deliveryPrice, percent: deliveryDiscount });

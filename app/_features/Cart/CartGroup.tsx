@@ -1,11 +1,11 @@
-import LocalIcons from "@/app/_utils/LocalIcons";
 import CartItem from "./CartItem";
 import IconAndText from "./IconAndText";
 import { MoneyWavy } from "@phosphor-icons/react";
 import { CartGroupDTO } from "@/app/_interfaces/interfaces";
+import CartGroupDeliveryPrice from "./CartGroupDeliveryPrice";
 
 function CartGroup({ group }: { group: CartGroupDTO }) {
-  const { name, items, totalPrice, deliveryPrice } = group;
+  const { name, items, totalPrice, deliveryPrice, address } = group;
   return (
     <div className="flex flex-col gap-1 pt-4">
       <div className="flex items-center gap-3 px-3 max-w-[100%] overflow-hidden whitespace-nowrap text-ellipsis">
@@ -28,18 +28,9 @@ function CartGroup({ group }: { group: CartGroupDTO }) {
           />
         ))}
         <div className="py-3 flex items-center gap-6">
-          <IconAndText
-            icon={
-              <LocalIcons
-                name="rider"
-                className="w-3 h-3 fill-transparent"
-                pathClassName={[
-                  "fill-phthaloGreen fill-opacity-[0.3] ",
-                  "stroke-phthaloGreen stroke-opacity-[0.3] ",
-                ]}
-              />
-            }
-            text={`₦${deliveryPrice}`}
+          <CartGroupDeliveryPrice
+            deliveryPrice={deliveryPrice}
+            pickupPoint={address.coordinates}
           />
           <IconAndText
             icon={<MoneyWavy className="w-3.5 h-3.5 fill-phthaloGreen" />}

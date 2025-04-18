@@ -53,8 +53,6 @@ export async function getNearBusinesses(
     deliveryPoint = selectedAddress.coordinates;
   }
 
-  console.log(deliveryPoint, selectedAddress?.coordinates);
-
   const businesses = await Business.find({
     address: {
       $near: {
