@@ -40,7 +40,8 @@ export async function getMultipleBusinesses(queryData: Partial<BusinessDTO>) {
 }
 
 export async function getNearBusinesses(
-  coords: BusinessDTO["address"]["coordinates"]
+  coords: BusinessDTO["address"]["coordinates"],
+  findBy?: Partial<BusinessDTO>
 ): Promise<BusinessDTO[]> {
   let deliveryPoint = DEFAULT_COORDS;
   const session = await auth();
@@ -54,6 +55,7 @@ export async function getNearBusinesses(
   }
 
   const businesses = await Business.find({
+    ...findBy,
     address: {
       $near: {
         $geometry: {

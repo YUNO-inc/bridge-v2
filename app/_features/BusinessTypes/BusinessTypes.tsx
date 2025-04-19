@@ -2,18 +2,22 @@
 import { useRef, useState } from "react";
 import { motion, useMotionValueEvent, useScroll } from "motion/react";
 import LocalIcons from "@/app/_utils/LocalIcons";
+import { useAppSelector } from "@/app/_hooks/reduxHooks";
+import { getAppData } from "../App/AppSlice";
+import { useRouter } from "next/navigation";
 
 export default function BusinessTypes() {
+  const router = useRouter();
   const carouselRef = useRef<HTMLDivElement | null>(null);
   const { scrollX } = useScroll({ container: carouselRef });
   const [currIndex, setCurrIndex] = useState(0);
-  const businessTypes = ["shawarma", "food"];
+  const { businessTypes } = useAppSelector(getAppData);
   const widthOfItem = 40;
 
   useMotionValueEvent(scrollX, "change", (latest) => {
     let currentScrollIndex = Math.round(latest / widthOfItem);
     currentScrollIndex = currentScrollIndex < 0 ? 0 : currentScrollIndex;
-    setCurrIndex(currentScrollIndex);
+    handleBTChange(currentScrollIndex);
   });
 
   const handleSnapScroll = (index: number) => {
@@ -23,8 +27,13 @@ export default function BusinessTypes() {
       left: index * widthOfItem,
       behavior: "smooth",
     });
-    setCurrIndex(index);
+    handleBTChange(index);
   };
+
+  function handleBTChange(index: number) {
+    router.replace(`?bt=${encodeURIComponent(businessTypes[index])}`);
+    setCurrIndex(index);
+  }
 
   return (
     <div className="bg-phthaloGreen bg-opacity-10 w-[70%] rounded-xl border border-phthaloGreen border-opacity-[0.37]">

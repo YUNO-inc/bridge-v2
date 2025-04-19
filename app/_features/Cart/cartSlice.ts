@@ -14,7 +14,9 @@ import {
   sortByFarthestPoint,
 } from "@/app/_utils/helpers";
 
-const initialState: CartDTO = {
+type InitialState = CartDTO;
+
+const initialState: InitialState = {
   groups: [],
   deliveryTotal: 0,
   priceTotal: 0,
@@ -63,26 +65,17 @@ const cartSlice = createSlice({
         if (!groupAlreadyExits) state.groups.push(createGroup(newItem));
       }
 
-      const totalDeliveryPice = current(state.groups).reduce((acc, group) => {
-        if (typeof newItem.businessData === "string")
-          throw new Error("Unable to add to cart.");
-        const farthestPurchase =
-          isFarthestPurchase && typeof newItem.businessData !== "string"
-            ? newItem.businessData.address
-            : current(state.farthestPurchase);
-        const dp = calcDynamicDeliveryPrice({
-          farthestPickup: farthestPurchase?.coordinates,
-          deliveryPoint: deliveryAddress?.coordinates || DEFAULT_COORDS,
-          currItemPickup: group.address.coordinates,
-          deliveryPrice: group.deliveryPrice,
-          isInCart: false,
-        });
-        return acc + dp;
-      }, 0);
+      const totalDeliveryPrice = addToTotalDeliveryPrice(
+        current(state.groups),
+        newItem.businessData,
+        isFarthestPurchase,
+        deliveryAddress,
+        state.farthestPurchase
+      );
 
       state.numTotalItems += 1;
       state.priceTotal += newItem.price;
-      state.deliveryTotal = totalDeliveryPice;
+      state.deliveryTotal = totalDeliveryPrice;
       state.farthestPurchase = isFarthestPurchase
         ? newItem.businessData.address
         : state.farthestPurchase;
@@ -111,12 +104,25 @@ const cartSlice = createSlice({
           deliveryAddress,
           current(state.groups).map((group) => group.address)
         );
-        const isFarthestPurchase = sortedPickups[0].id === group.address.id;
-        state.farthestPurchase = isFarthestPurchase
-          ? sortedPickups[1]
-          : state.farthestPurchase;
+
         state.groups = state.groups.filter((group) => group.id !== ownerId);
-        state.deliveryTotal = state.deliveryTotal - group.deliveryPrice;
+
+        if (state.groups.length > 0) {
+          const isFarthestPurchase = sortedPickups[0].id === group.address.id;
+          state.farthestPurchase = isFarthestPurchase
+            ? sortedPickups[1]
+            : state.farthestPurchase;
+          state.deliveryTotal = getTotalDeliveryPrice(
+            state.groups,
+            isFarthestPurchase
+              ? sortedPickups[1]
+              : current(state.farthestPurchase),
+            deliveryAddress
+          );
+        } else {
+          state.farthestPurchase = undefined;
+          state.deliveryTotal = 0;
+        }
       }
 
       state.numTotalItems -= 1;
@@ -148,4 +154,43 @@ function createGroup(newItem: ItemDTO): CartGroupDTO {
     address: newItem.businessData.address,
     totalPrice: newItem.price,
   };
+}
+
+function addToTotalDeliveryPrice(
+  groups: InitialState["groups"],
+  businessData: ItemDTO["businessData"],
+  isFarthestPurchase: boolean,
+  deliveryAddress: AddressDTO | undefined,
+  stateFarthestPurchase: InitialState["farthestPurchase"]
+) {
+  if (typeof businessData === "string")
+    throw new Error("Unable to add to cart.");
+  const farthestPurchase =
+    isFarthestPurchase && typeof businessData !== "string"
+      ? businessData.address
+      : current(stateFarthestPurchase);
+
+  const totalDP = getTotalDeliveryPrice(
+    groups,
+    farthestPurchase,
+    deliveryAddress
+  );
+  return totalDP;
+}
+
+function getTotalDeliveryPrice(
+  groups: InitialState["groups"],
+  farthestPurchase: InitialState["farthestPurchase"],
+  deliveryAddress: AddressDTO | undefined
+) {
+  return groups.reduce((acc, group) => {
+    const dp = calcDynamicDeliveryPrice({
+      farthestPickup: farthestPurchase?.coordinates,
+      deliveryPoint: deliveryAddress?.coordinates || DEFAULT_COORDS,
+      currItemPickup: group.address.coordinates,
+      deliveryPrice: group.deliveryPrice,
+      isInCart: false,
+    });
+    return acc + dp;
+  }, 0);
 }

@@ -85,8 +85,8 @@ export type InputsProps = {
 };
 
 export const BUSINESS_TYPES: BusinessDTO["businessTypes"] = [
-  "food",
   "shawarma",
+  "food",
   "pharmacy",
 ];
 

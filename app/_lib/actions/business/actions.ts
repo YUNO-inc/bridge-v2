@@ -48,10 +48,11 @@ export async function GetMultipleBusinessesAction(
 }
 
 export async function GetNearBusinessesAction(
-  coords: BusinessDTO["address"]["coordinates"] = DEFAULT_COORDS
+  coords: BusinessDTO["address"]["coordinates"] = DEFAULT_COORDS,
+  findBy?: Partial<BusinessDTO>
 ) {
   try {
-    const businesses = await getNearBusinesses(coords);
+    const businesses = await getNearBusinesses(coords, findBy);
     return serializeMongoDocument(businesses);
   } catch (err: unknown) {
     const error = err as Error;

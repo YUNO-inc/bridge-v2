@@ -1,9 +1,13 @@
 import { auth } from "@/app/_lib/actions/auth/auth";
 import DefaultItem from "./DefaultItem";
 import { GetNearBusinessesAction } from "@/app/_lib/actions/business/actions";
-import { BusinessDTO } from "@/app/_interfaces/interfaces";
+import { BusinessDTO, BusinessTypesDTO } from "@/app/_interfaces/interfaces";
 
-async function DefaultList() {
+async function DefaultList({
+  businessType,
+}: {
+  businessType: BusinessTypesDTO;
+}) {
   const session = await auth();
   const user = session?.user;
   let selectedAddress;
@@ -13,7 +17,8 @@ async function DefaultList() {
   }
 
   const businesses = await GetNearBusinessesAction(
-    selectedAddress?.coordinates
+    selectedAddress?.coordinates,
+    { businessTypes: [businessType] }
   );
 
   return (

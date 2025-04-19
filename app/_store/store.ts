@@ -1,14 +1,14 @@
 import { configureStore } from "@reduxjs/toolkit";
 import userSliceReducer from "../_features/User/userSlice";
 import cartSliceReducer from "../_features/Cart/cartSlice";
-import ActivitySliceReducer from "../_features/App/ActivitySlice";
+import AppSliceReducer from "../_features/App/AppSlice";
 
 export const makeStore = () => {
   return configureStore({
     reducer: {
       user: userSliceReducer,
       cart: cartSliceReducer,
-      activity: ActivitySliceReducer,
+      app: AppSliceReducer,
     },
   });
 };
