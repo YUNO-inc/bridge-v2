@@ -5,6 +5,7 @@ import {
   BusinessDTO,
   DEFAULT_ADDRESS,
   DEFAULT_COORDS,
+  ItemDTO,
 } from "../_interfaces/interfaces";
 
 export function getRGB(color: string): string {
@@ -121,4 +122,36 @@ export function isNewFarthestPoint({
   const distanceOfOldPoint = haversine(deliveryPoint, oldPoint);
   const distanceOfNewPoint = haversine(deliveryPoint, newPoint);
   return distanceOfNewPoint > distanceOfOldPoint;
+}
+
+export function sortItemsByCloseness(
+  deliveryPoint: AddressDTO["coordinates"],
+  items: (ItemDTO & { distance?: number })[]
+) {
+  const sortedItems = items.reduce<(ItemDTO & { distance?: number })[]>(
+    (acc, i) => {
+      if (typeof i.businessData !== "object" || !i.businessData) return acc;
+      const pickupPoint = i.businessData.address.coordinates;
+
+      const distance = haversine(deliveryPoint, pickupPoint);
+
+      // Insert in sorted order
+      const insertAt = acc.findIndex(
+        (item) => distance < (item?.distance || 0)
+      );
+      i.distance = distance;
+
+      if (i.distance === undefined) return acc;
+
+      if (insertAt === -1) {
+        acc.push(i); // add to end
+      } else {
+        acc.splice(insertAt, 0, i); // insert at the right spot
+      }
+
+      return acc;
+    },
+    []
+  );
+  return sortedItems;
 }

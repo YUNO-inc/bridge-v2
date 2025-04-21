@@ -7,7 +7,7 @@ import { BUSINESS_TYPES, BusinessTypesDTO } from "../_interfaces/interfaces";
 interface PageProps {
   searchParams: {
     bt: BusinessTypesDTO;
-    [key: string]: string | string[] | undefined;
+    search: string;
   };
 }
 
@@ -23,7 +23,7 @@ async function Page({ searchParams }: PageProps) {
         <DefaultList businessType={businessType} />
       </ActivityItem>
       <ActivityItem show={isSearching}>
-        <ProductList />
+        <ProductList searchStr={searchStr} />
       </ActivityItem>
       <ActivityTypeLoader />
     </>

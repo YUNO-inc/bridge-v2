@@ -5,10 +5,12 @@ import { getAppData, setLoading } from "../App/AppSlice";
 import { useEffect } from "react";
 import { useSearchParams } from "next/navigation";
 import EdibleItemLoader from "./EdibleItemLoader";
+import ProductItemLoader from "./ProductItemLoader";
 
 function ActivityTypeLoader() {
   const searchParams = useSearchParams();
-  const query = searchParams.get("bt");
+  const btQuery = searchParams.get("bt");
+  const searchQuery = searchParams.get("search");
   const {
     loading: { isLoading, page },
   } = useAppSelector(getAppData);
@@ -18,7 +20,7 @@ function ActivityTypeLoader() {
     function () {
       dispatch(setLoading({ isLoading: false }));
     },
-    [query, dispatch]
+    [btQuery, searchQuery, dispatch]
   );
 
   return (
@@ -31,6 +33,15 @@ function ActivityTypeLoader() {
         <div className="p-2 flex flex-col gap-4">
           <EdibleItemLoader />
           <EdibleItemLoader />
+        </div>
+      )}
+      {page === "search" && (
+        <div className="pl-4 py-4">
+          <ProductItemLoader />
+          <ProductItemLoader />
+          <ProductItemLoader />
+          <ProductItemLoader />
+          <ProductItemLoader />
         </div>
       )}
     </div>

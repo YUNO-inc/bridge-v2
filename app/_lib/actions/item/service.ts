@@ -1,9 +1,11 @@
-import { BusinessDTO, ItemDTO } from "@/app/_interfaces/interfaces";
+import { AddressDTO, BusinessDTO, ItemDTO } from "@/app/_interfaces/interfaces";
 import Item from "../../models/item/model";
 import { auth } from "../auth/auth";
 import { connect } from "../../db";
 import Business from "../../models/business/model";
 import slugify from "slugify";
+import Fuse from "fuse.js";
+import { sortItemsByCloseness } from "@/app/_utils/helpers";
 
 export async function createItems({
   items,
@@ -55,4 +57,18 @@ export async function createItems({
   );
 
   return newItem;
+}
+
+export async function getItems(
+  searchStr?: ItemDTO["name"],
+  coords?: AddressDTO["coordinates"]
+): Promise<ItemDTO[]> {
+  let items = await Item.find().populate("businessData");
+
+  if (searchStr) {
+    const fuse = new Fuse(items, { keys: ["name"], threshold: 0.5 });
+    items = fuse.search(searchStr).map((r) => r.item);
+  }
+
+  return coords?.length === 2 ? sortItemsByCloseness(coords, items) : items;
 }

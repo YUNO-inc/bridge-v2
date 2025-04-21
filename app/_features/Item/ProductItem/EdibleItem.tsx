@@ -4,8 +4,7 @@ import LocalIcons from "@/app/_utils/LocalIcons";
 import Link from "next/link";
 
 function EdibleItem({ item }: { item: ItemDTO }) {
-  if (typeof item.businessData === "string")
-    item.businessData = { slug: "", name: "", deliveryPrice: 100000, id: "" };
+  if (typeof item.businessData !== "object" || !item.businessData) return null;
 
   return (
     <Link

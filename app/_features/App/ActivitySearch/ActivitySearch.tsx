@@ -1,9 +1,10 @@
 "use client";
 
-import { useAppSelector } from "@/app/_hooks/reduxHooks";
+import { useAppDispatch, useAppSelector } from "@/app/_hooks/reduxHooks";
 import { ArrowUpRightIcon, PlusIcon } from "@heroicons/react/16/solid";
 import { getCart } from "../../Cart/cartSlice";
 import { useRouter } from "next/navigation";
+import { setLoading } from "../AppSlice";
 
 function ActivitySearch({
   placeHolder = "What type of shawarma?",
@@ -11,9 +12,11 @@ function ActivitySearch({
   placeHolder?: string;
 }) {
   const router = useRouter();
+  const dispatch = useAppDispatch();
   const { numTotalItems } = useAppSelector(getCart);
 
   function handleSearchStrChange(newValue: string) {
+    dispatch(setLoading({ isLoading: true, page: "search" }));
     router.push(`?search=${encodeURIComponent(newValue)}`);
   }
 

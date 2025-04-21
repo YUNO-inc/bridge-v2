@@ -1,7 +1,7 @@
 "use server";
 
-import { BusinessDTO, ItemDTO } from "@/app/_interfaces/interfaces";
-import { createItems } from "./service";
+import { AddressDTO, BusinessDTO, ItemDTO } from "@/app/_interfaces/interfaces";
+import { createItems, getItems } from "./service";
 import { serializeMongoDocument } from "../../utils/helpers";
 
 export async function CreateItemsAction({
@@ -18,6 +18,21 @@ export async function CreateItemsAction({
     console.log(err);
     throw new Error(
       "Unable to create items. Please make sure you are logged in properly and try again."
+    );
+  }
+}
+
+export async function GetItemsAction(
+  searchStr?: ItemDTO["name"],
+  coords?: AddressDTO["coordinates"]
+): Promise<ItemDTO[]> {
+  try {
+    const newItems = await getItems(searchStr, coords);
+    return serializeMongoDocument(newItems);
+  } catch (err) {
+    console.log(err);
+    throw new Error(
+      "Could not find these items at the moment. Please try again in a bit."
     );
   }
 }
