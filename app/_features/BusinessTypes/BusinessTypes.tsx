@@ -2,8 +2,8 @@
 import { useRef, useState } from "react";
 import { motion, useMotionValueEvent, useScroll } from "motion/react";
 import LocalIcons from "@/app/_utils/LocalIcons";
-import { useAppSelector } from "@/app/_hooks/reduxHooks";
-import { getAppData } from "../App/AppSlice";
+import { useAppDispatch, useAppSelector } from "@/app/_hooks/reduxHooks";
+import { getAppData, setLoading } from "../App/AppSlice";
 import { useRouter } from "next/navigation";
 
 export default function BusinessTypes() {
@@ -12,6 +12,7 @@ export default function BusinessTypes() {
   const { scrollX } = useScroll({ container: carouselRef });
   const [currIndex, setCurrIndex] = useState(0);
   const { businessTypes } = useAppSelector(getAppData);
+  const dispatch = useAppDispatch();
   const widthOfItem = 40;
 
   useMotionValueEvent(scrollX, "change", (latest) => {
@@ -31,8 +32,9 @@ export default function BusinessTypes() {
   };
 
   function handleBTChange(index: number) {
-    router.replace(`?bt=${encodeURIComponent(businessTypes[index])}`);
+    dispatch(setLoading({ isLoading: true, page: "default" }));
     setCurrIndex(index);
+    router.replace(`?bt=${encodeURIComponent(businessTypes[index])}`);
   }
 
   return (

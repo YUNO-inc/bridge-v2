@@ -1,4 +1,5 @@
 import {
+  ActivityType,
   BUSINESS_TYPES,
   BusinessDTO,
   BusinessTypesDTO,
@@ -8,7 +9,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 type InitialState = {
   searchStr: string;
-  loading: { isLoading: boolean; page: "search" | "default" };
+  loading: { isLoading: boolean; page: ActivityType };
   businessTypes: BusinessDTO["businessTypes"];
   selectedBusinessType: BusinessTypesDTO;
   businesses: BusinessDTO[];
@@ -34,10 +35,14 @@ const AppSlice = createSlice({
     ) {
       state.selectedBusinessType = action.payload;
     },
+    setLoading(state, action: PayloadAction<Partial<InitialState["loading"]>>) {
+      state.loading.isLoading = action.payload.isLoading || false;
+      state.loading.page = action.payload.page || "default";
+    },
   },
 });
 
-export const { changeSelectedBusinessType } = AppSlice.actions;
+export const { changeSelectedBusinessType, setLoading } = AppSlice.actions;
 
 export const getAppData = (state: { app: InitialState }) => state.app;
 

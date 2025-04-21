@@ -1,6 +1,7 @@
 import ActivityItem from "../_features/App/ActivityContainer/ActivityItem";
 import DefaultList from "../_features/Item/DefaultItem/DefaultList";
 import ProductList from "../_features/Item/ProductItem/ProductList";
+import ActivityTypeLoader from "../_features/Loaders/ActivityTypeLoader";
 import { BUSINESS_TYPES, BusinessTypesDTO } from "../_interfaces/interfaces";
 
 interface PageProps {
@@ -24,6 +25,7 @@ async function Page({ searchParams }: PageProps) {
       <ActivityItem show={isSearching}>
         <ProductList />
       </ActivityItem>
+      <ActivityTypeLoader />
     </>
   );
 }

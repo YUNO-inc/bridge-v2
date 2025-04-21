@@ -84,6 +84,8 @@ export type InputsProps = {
   setValue: React.Dispatch<React.SetStateAction<string | undefined>>;
 };
 
+export type ActivityType = "search" | "default";
+
 export const BUSINESS_TYPES: BusinessDTO["businessTypes"] = [
   "shawarma",
   "food",
