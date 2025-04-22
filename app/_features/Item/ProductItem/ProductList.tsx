@@ -1,7 +1,6 @@
 import { auth } from "@/app/_lib/actions/auth/auth";
 import ProductItem from "./ProductItem";
-import { GetItemsAction } from "@/app/_lib/actions/item/actions";
-import { DEFAULT_COORDS } from "@/app/_interfaces/interfaces";
+import { DEFAULT_COORDS, ItemDTO } from "@/app/_interfaces/interfaces";
 
 async function ProductList({ searchStr }: { searchStr: string }) {
   const session = await auth();
@@ -10,7 +9,14 @@ async function ProductList({ searchStr }: { searchStr: string }) {
     ? userAddresses.find((a) => a.isSelected)?.coordinates ||
       userAddresses[0].coordinates
     : DEFAULT_COORDS;
-  const items = await GetItemsAction(searchStr, selectedAddressCoords);
+
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_BASE_URL}/api/item?searchStr=${searchStr}&lon=${selectedAddressCoords[0]}&lat=${selectedAddressCoords[1]}`,
+    {
+      cache: "force-cache",
+    }
+  );
+  const items: ItemDTO[] = await res.json();
 
   return (
     <div className="flex flex-col pl-4 py-4 text-stone-800">

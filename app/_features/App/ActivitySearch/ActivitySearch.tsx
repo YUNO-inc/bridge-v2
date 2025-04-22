@@ -5,6 +5,8 @@ import { ArrowUpRightIcon, PlusIcon } from "@heroicons/react/16/solid";
 import { getCart } from "../../Cart/cartSlice";
 import { useRouter } from "next/navigation";
 import { setLoading } from "../AppSlice";
+import { useEffect, useState } from "react";
+import { useDebounce } from "@/app/_hooks/useDebounce";
 
 function ActivitySearch({
   placeHolder = "What type of shawarma?",
@@ -14,11 +16,25 @@ function ActivitySearch({
   const router = useRouter();
   const dispatch = useAppDispatch();
   const { numTotalItems } = useAppSelector(getCart);
+  const [searchStr, setSearchStr] = useState("");
+  const debouncedQuery = useDebounce(searchStr, 500);
 
-  function handleSearchStrChange(newValue: string) {
-    dispatch(setLoading({ isLoading: true, page: "search" }));
-    router.push(`?search=${encodeURIComponent(newValue)}`);
-  }
+  // function handleSearchStrChange(newValue: string) {
+  //   dispatch(setLoading({ isLoading: true, page: "search" }));
+  //   router.replace(`?search=${encodeURIComponent(newValue)}`);
+  // }
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    if (debouncedQuery) {
+      dispatch(setLoading({ isLoading: true, page: "search" }));
+      params.set("search", debouncedQuery);
+    } else {
+      params.delete("search");
+    }
+
+    router.replace(`?${params.toString()}`);
+  }, [debouncedQuery, router, dispatch]);
 
   return (
     <div className="w-full flex gap-1 justify-end mt-4 bg-phthaloGreen bg-opacity-[0.1] h-30 rounded-[42px] p-[10px] border has-[input:focus]:border-opacity-[0.37] has-[input:focus]:border-phthaloGreen transition-[border-color]">
@@ -27,7 +43,7 @@ function ActivitySearch({
           type="text"
           className="grow bg-transparent outline-none h-full px-[6px] rounded-[8px] focus:bor"
           placeholder={placeHolder}
-          onChange={(e) => handleSearchStrChange(e.target.value)}
+          onChange={(e) => setSearchStr(e.target.value)}
         />
       </div>
       <div className="flex gap-[6px]">

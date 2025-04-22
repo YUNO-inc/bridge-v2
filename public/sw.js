@@ -83,7 +83,7 @@ define(["./workbox-4754cb34"], function (e) {
           revision: "WNewZOMC-Uj9qkCFc1p7k",
         },
         {
-          url: "/_next/static/chunks/app/api/user/route-f39c91f657ab8f3c.js",
+          url: "/_next/static/chunks/app/api/route-f39c91f657ab8f3c.js",
           revision: "WNewZOMC-Uj9qkCFc1p7k",
         },
         {
