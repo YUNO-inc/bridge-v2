@@ -17,11 +17,11 @@ import CenterMarker from "./CenterMarker";
 
 function MapContainer({
   className,
-  searchLatLng,
+  searchLonLat,
   setIsLoadingGeoPosition,
 }: {
   className?: string;
-  searchLatLng: AddressDTO["coords"] | undefined;
+  searchLonLat: AddressDTO["coordinates"] | undefined;
   setIsLoadingGeoPosition: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
   const selectedAddress = useAppSelector(getSelectedAddress);
@@ -30,10 +30,10 @@ function MapContainer({
 
   const [zoomLevel, setZoomLevel] = useState(16);
   const [userPosition, setUserPosition] = useState<
-    { coords: AddressDTO["coords"]; accuracy: number } | undefined
+    { coordinates: AddressDTO["coordinates"]; accuracy: number } | undefined
   >(undefined);
   const [mapCenter, setMapCenter] = useState(
-    selectedAddress ? selectedAddress.coords : DEFAULT_COORDS
+    selectedAddress ? selectedAddress.coordinates : DEFAULT_COORDS
   );
 
   const tiles = {
@@ -45,12 +45,12 @@ function MapContainer({
 
   useEffect(
     function () {
-      if (searchLatLng) {
+      if (searchLonLat) {
         setZoomLevel(18);
-        setMapCenter(searchLatLng);
+        setMapCenter(searchLonLat);
       }
     },
-    [searchLatLng]
+    [searchLonLat]
   );
 
   useEffect(function () {
@@ -75,9 +75,12 @@ function MapContainer({
         const geoPosition = await getUserPosition();
         setIsLoadingGeoPosition(false);
         const { latitude, longitude, accuracy } = geoPosition.coords;
-        setUserPosition({ coords: [latitude, longitude], accuracy: accuracy });
+        setUserPosition({
+          coordinates: [longitude, latitude],
+          accuracy: accuracy,
+        });
         if (fromUserPosition) {
-          setMapCenter([latitude, longitude]);
+          setMapCenter([longitude, latitude]);
           setZoomLevel(18);
         }
       } catch (err) {
@@ -92,7 +95,7 @@ function MapContainer({
   return (
     <Container
       className={className}
-      center={mapCenter}
+      center={[mapCenter[1], mapCenter[0]]}
       zoom={zoomLevel}
       zoomControl={false}
     >
@@ -102,7 +105,7 @@ function MapContainer({
       />
       {userPosition && (
         <CurrentCoordCircle
-          currentCoords={userPosition.coords}
+          currentCoords={userPosition.coordinates}
           accuracyRad={userPosition.accuracy}
         />
       )}

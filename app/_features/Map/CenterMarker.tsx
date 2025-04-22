@@ -47,7 +47,8 @@ function CenterMarker() {
             address?.Municipality ||
             address?.Region ||
             "No address found",
-          coords: [lat, lng],
+          type: "Point",
+          coordinates: [lng, lat],
         });
       } catch (error) {
         if (currentRequestRef !== addressRequestRef.current) return;
@@ -117,7 +118,7 @@ function CenterMarker() {
 }
 export default CenterMarker;
 
-async function getAddress(coords: AddressDTO["coords"]) {
+async function getAddress(coords: AddressDTO["coordinates"]) {
   const [lat, lng] = coords;
   const data = await ReverseGeoCodeAction({ lat, lng });
 

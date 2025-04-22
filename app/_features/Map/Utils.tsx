@@ -6,11 +6,11 @@ import { useRouter, useSearchParams } from "next/navigation";
 export function ChangMapView({
   mapCenter,
 }: {
-  mapCenter: AddressDTO["coords"];
+  mapCenter: AddressDTO["coordinates"];
 }) {
   const map = useMap();
   useEffect(() => {
-    map.setView(mapCenter);
+    map.setView([mapCenter[1], mapCenter[0]]);
   }, [map, mapCenter]);
 
   return null;
@@ -19,7 +19,7 @@ export function ChangMapView({
 export function DetectClick({
   setMapCenter,
 }: {
-  setMapCenter: React.Dispatch<React.SetStateAction<AddressDTO["coords"]>>;
+  setMapCenter: React.Dispatch<React.SetStateAction<AddressDTO["coordinates"]>>;
 }) {
   const searchParams = useSearchParams();
   const fromUserPosition = searchParams.get("geoposition");
@@ -29,7 +29,7 @@ export function DetectClick({
     const {
       latlng: { lat, lng },
     } = e;
-    setMapCenter([lat, lng]);
+    setMapCenter([lng, lat]);
 
     if (fromUserPosition) {
       const params = new URLSearchParams(searchParams);

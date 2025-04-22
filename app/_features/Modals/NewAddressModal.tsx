@@ -9,11 +9,11 @@ import { AddressDTO } from "@/app/_interfaces/interfaces";
 
 function NewAddressModal({
   isLoadingGeoPosition,
-  setSearchLatLng,
+  setSearchLonLat,
 }: {
   isLoadingGeoPosition: boolean;
-  setSearchLatLng: React.Dispatch<
-    React.SetStateAction<AddressDTO["coords"] | undefined>
+  setSearchLonLat: React.Dispatch<
+    React.SetStateAction<AddressDTO["coordinates"] | undefined>
   >;
 }) {
   const router = useRouter();
@@ -91,7 +91,7 @@ function NewAddressModal({
           ) : (
             <PlaceLists
               places={queryResults}
-              setSearchLatLng={setSearchLatLng}
+              setSearchLonLat={setSearchLonLat}
               setIsSearching={setIsSearching}
             />
           ))}
@@ -129,18 +129,18 @@ function NewAddressModal({
 
 function PlaceLists({
   places,
-  setSearchLatLng,
+  setSearchLonLat,
   setIsSearching,
 }: {
   places: SearchForTextResult[];
-  setSearchLatLng: React.Dispatch<
-    React.SetStateAction<AddressDTO["coords"] | undefined>
+  setSearchLonLat: React.Dispatch<
+    React.SetStateAction<AddressDTO["coordinates"] | undefined>
   >;
   setIsSearching: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
-  function handleToLatLng({ lat, lng }: { lat?: number; lng?: number }) {
+  function handleToLonLat({ lng, lat }: { lat?: number; lng?: number }) {
     if (typeof lat !== "number" || typeof lng !== "number") return;
-    setSearchLatLng([lat, lng]);
+    setSearchLonLat([lng, lat]);
     setIsSearching(false);
   }
 
@@ -164,7 +164,7 @@ function PlaceLists({
             key={PlaceId}
             className="w-full text-left text-white py-3 border border-transparent border-b-white last:border-b-transparent border-opacity-[0.37]"
             onClick={() =>
-              handleToLatLng({
+              handleToLonLat({
                 lng: Place.Geometry?.Point?.[0],
                 lat: Place.Geometry?.Point?.[1],
               })

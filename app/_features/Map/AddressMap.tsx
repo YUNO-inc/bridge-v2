@@ -11,8 +11,8 @@ const Container = dynamic(() => import("./AddressMapContainer"), {
 
 function Map() {
   const [isLoadingGeoPosition, setIsLoadingGeoPosition] = useState(false);
-  const [searchLatLng, setSearchLatLng] = useState<
-    AddressDTO["coords"] | undefined
+  const [searchLonLat, setSearchLonLat] = useState<
+    AddressDTO["coordinates"] | undefined
   >(undefined);
 
   return (
@@ -20,11 +20,11 @@ function Map() {
       <Container
         className="w-full h-[78dvh] sm:h-dvh sm:w-[83vw]"
         setIsLoadingGeoPosition={setIsLoadingGeoPosition}
-        searchLatLng={searchLatLng}
+        searchLonLat={searchLonLat}
       />
       <NewAddressModal
         isLoadingGeoPosition={isLoadingGeoPosition}
-        setSearchLatLng={setSearchLatLng}
+        setSearchLonLat={setSearchLonLat}
       />
     </div>
   );

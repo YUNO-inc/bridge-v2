@@ -13,7 +13,7 @@ function CurrentCoordCircle({
   currentCoords,
   accuracyRad,
 }: {
-  currentCoords: AddressDTO["coords"];
+  currentCoords: AddressDTO["coordinates"];
   accuracyRad: number;
 }) {
   const [MAX_RAD, MIN_RAD] = [300, 2];
@@ -26,7 +26,7 @@ function CurrentCoordCircle({
   return (
     <>
       <Circle
-        center={currentCoords}
+        center={[currentCoords[1], currentCoords[0]]}
         radius={adjustRadius()}
         pathOptions={{
           color: "#3b82f650",
@@ -35,7 +35,10 @@ function CurrentCoordCircle({
           weight: 1,
         }}
       />
-      <Marker position={currentCoords} icon={customIcon} />
+      <Marker
+        position={[currentCoords[1], currentCoords[0]]}
+        icon={customIcon}
+      />
     </>
   );
 }

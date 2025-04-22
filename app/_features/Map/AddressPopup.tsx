@@ -29,6 +29,7 @@ function AddressPopup({
   const router = useRouter();
   const [address, setAddress] = useState(receivedAddress);
   const [edit, setEdit] = useState(false);
+  const [isUpdatingAddress, setIsUpdatingAddress] = useState(false);
   const editInputRef = useRef<HTMLInputElement>(null);
   const user = useAppSelector(getUser);
   const dispatch = useAppDispatch();
@@ -58,18 +59,23 @@ function AddressPopup({
   const handleUsePoint = async function () {
     if (!address) return;
 
-    const userAddresses =
-      user?.addresses?.reduce<AddressDTO[]>((acc, a) => {
-        if (a.id === address.id) return acc;
-        acc.push({ ...a, isSelected: false });
-        return acc;
-      }, []) || [];
+    try {
+      setIsUpdatingAddress(true);
+      const userAddresses =
+        user?.addresses?.reduce<AddressDTO[]>((acc, a) => {
+          if (a.id === address.id) return acc;
+          acc.push({ ...a, isSelected: false });
+          return acc;
+        }, []) || [];
 
-    const newUser = await UpdateMeAction(undefined, {
-      addresses: [...userAddresses, { ...address, isSelected: true }],
-    });
-    dispatch(setUser(newUser));
-    router.back();
+      const newUser = await UpdateMeAction(undefined, {
+        addresses: [...userAddresses, { ...address, isSelected: true }],
+      });
+      dispatch(setUser(newUser));
+      router.back();
+    } finally {
+      setIsUpdatingAddress(false);
+    }
   };
 
   return (
@@ -82,7 +88,7 @@ function AddressPopup({
       ref={popupRef}
       className="p-0"
     >
-      {!isLoading ? (
+      {!(isLoading || isUpdatingAddress) ? (
         <div
           className={`bg-background flex items-center justify-between rounded-xl p-2 gap-2 max-w-[90vw] ${nunito.className}`}
         >

@@ -69,7 +69,7 @@ function AddressRadios() {
             <Radio
               key={address.id}
               text={address.name}
-              value={String(address.coords)}
+              value={String(address.coordinates)}
               isChecked={address.isSelected}
               onChange={() => handleChange(address.id)}
               className="py-5 border border-transparent border-b-stone-200 cursor-pointer"
