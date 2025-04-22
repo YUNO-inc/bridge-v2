@@ -28,7 +28,7 @@ function ItemImage({ item, className }: { item: ItemDTO; className?: string }) {
       onClick={handleAddToCart}
     >
       <Image
-        src={`/images/${item.image}`}
+        src={`${item.image}`}
         fill
         className="object-cover"
         alt={`Image of ${item.name} by ${

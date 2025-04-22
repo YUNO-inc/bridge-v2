@@ -21,7 +21,7 @@ function EdibleItem({ business }: EdibleItemProps) {
       >
         <div className="relative w-9 h-9 rounded-full overflow-hidden mr-3">
           <Image
-            src={`/images/${business.profileImg}`}
+            src={`${business.profileImg}`}
             alt={`${business.name} Profile Image`}
             className="object-cover"
             fill

@@ -36,7 +36,7 @@ function CartItem({ item }: { item: ItemDTO }) {
     <div className="flex items-center gap-1 border border-transparent border-opacity-[0.1] border-b-phthaloGreen last:border-b-transparent py-3">
       <div className="relative bg-phthaloGreen rounded-md bg-opacity-[0.37] shrink-0 h-9 w-9 sm:h-11 sm:w-11 overflow-hidden">
         <Image
-          src={`/images/${item.image}`}
+          src={`${item.image}`}
           fill
           className="object-cover"
           alt={`Image of ${item.name} by ${item.businessData.name}`}
