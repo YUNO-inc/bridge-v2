@@ -3,7 +3,7 @@ import { connect } from "../../db";
 import User from "../../models/user/model";
 import { auth } from "../auth/auth";
 
-export async function createUser(user: UserDTO) {
+export async function createUser(user: Omit<UserDTO, "createdAt">) {
   await connect();
   const newUser = await User.create({ name: user.name, email: user.email });
   return newUser;
