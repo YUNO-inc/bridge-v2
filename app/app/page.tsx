@@ -5,10 +5,10 @@ import ActivityTypeLoader from "../_features/Loaders/ActivityTypeLoader";
 import { BUSINESS_TYPES, BusinessTypesDTO } from "../_interfaces/interfaces";
 
 interface PageProps {
-  searchParams: {
+  searchParams: Promise<{
     bt: BusinessTypesDTO;
     search: string;
-  };
+  }>;
 }
 
 async function Page({ searchParams }: PageProps) {
