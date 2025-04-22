@@ -26,7 +26,7 @@ export async function GetSingleBusinessAction(
 ): Promise<BusinessDTO | null> {
   try {
     const business = await getSingleBusiness(queryData);
-    return serializeMongoDocument(business);
+    return !!business ? serializeMongoDocument(business) : business;
   } catch (err: unknown) {
     const error = err as Error;
     console.error(error);
