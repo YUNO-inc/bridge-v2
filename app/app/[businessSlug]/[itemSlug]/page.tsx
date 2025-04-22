@@ -2,10 +2,10 @@ import ActivityItem from "@/app/_features/App/ActivityContainer/ActivityItem";
 import CreateItem from "@/app/_features/Item/CreateItem";
 
 type PageProps = {
-  params: {
+  params: Promise<{
     itemSlug: string;
     businessSlug: string;
-  };
+  }>;
 };
 
 async function Page({ params }: PageProps) {
