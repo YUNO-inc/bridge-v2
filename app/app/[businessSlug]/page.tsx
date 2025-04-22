@@ -2,9 +2,9 @@ import ActivityItem from "@/app/_features/App/ActivityContainer/ActivityItem";
 import CreateBiz from "@/app/_features/Business/CreateBiz";
 
 type PageProps = {
-  params: {
+  params: Promise<{
     businessSlug: string;
-  };
+  }>;
 };
 
 async function Page({ params }: PageProps) {
