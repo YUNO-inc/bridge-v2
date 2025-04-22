@@ -51,7 +51,7 @@ function NewAddressModal({
           setQueryResults(searchResults || []);
           setIsLoadingPlaces(false);
         } catch (err) {
-          console.log(err);
+          console.error(err);
         }
       }
 

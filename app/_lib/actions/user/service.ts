@@ -34,7 +34,7 @@ export async function updateMe(updateObj: Partial<UserDTO>) {
       );
     return user;
   } catch (error) {
-    console.log(error);
+    console.error(error);
     throw new Error("Unable to update user");
   }
 }

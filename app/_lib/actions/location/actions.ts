@@ -20,7 +20,7 @@ export async function ReverseGeoCodeAction({
       },
     });
   } catch (err) {
-    console.log(err);
+    console.error(err);
   }
 }
 
@@ -40,6 +40,6 @@ export async function QueryPlaceStringAction({
       },
     });
   } catch (err) {
-    console.log(err);
+    console.error(err);
   }
 }

@@ -10,7 +10,7 @@ import { startTransition, useOptimistic } from "react";
 
 function AddressRadios() {
   const user = useAppSelector(getUser);
-  if (!user) console.log("no user");
+  if (!user) console.error("no user");
   const dispatch = useAppDispatch();
 
   const [optimisticAddresses, setOptimisticAddresses] = useOptimistic(

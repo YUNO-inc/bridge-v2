@@ -53,7 +53,7 @@ function CenterMarker() {
       } catch (error) {
         if (currentRequestRef !== addressRequestRef.current) return;
         setAddress(undefined);
-        console.log(error);
+        console.error(error);
       } finally {
         if (currentRequestRef !== addressRequestRef.current) return;
         setIsLoadingAddress(false);

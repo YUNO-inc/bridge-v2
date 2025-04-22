@@ -85,7 +85,7 @@ function MapContainer({
         }
       } catch (err) {
         alert("Unable to locate you...");
-        console.log(err);
+        console.error(err);
       }
     }
 

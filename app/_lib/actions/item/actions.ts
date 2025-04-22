@@ -15,7 +15,7 @@ export async function CreateItemsAction({
     const newItems = await createItems({ items, businessId });
     return serializeMongoDocument(newItems);
   } catch (err) {
-    console.log(err);
+    console.error(err);
     throw new Error(
       "Unable to create items. Please make sure you are logged in properly and try again."
     );
@@ -30,7 +30,7 @@ export async function GetItemsAction(
     const newItems = await getItems(searchStr, coords);
     return serializeMongoDocument(newItems);
   } catch (err) {
-    console.log(err);
+    console.error(err);
     throw new Error(
       "Could not find these items at the moment. Please try again in a bit."
     );
