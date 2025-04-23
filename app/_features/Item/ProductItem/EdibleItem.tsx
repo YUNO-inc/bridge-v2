@@ -2,6 +2,7 @@ import { ItemDTO } from "@/app/_interfaces/interfaces";
 import ItemImage from "../ItemImage";
 import LocalIcons from "@/app/_utils/LocalIcons";
 import Link from "next/link";
+import EdibleItemDeliveryPrice from "../DefaultItem/EdibleItemDeliveryPrice";
 
 function EdibleItem({ item }: { item: ItemDTO }) {
   if (typeof item.businessData !== "object" || !item.businessData) return null;
@@ -18,13 +19,17 @@ function EdibleItem({ item }: { item: ItemDTO }) {
             {item.name}
           </span>
           <span className=" shrink-0 w-1 h-1 bg-phthaloGreen bg-opacity-55 rounded-full"></span>
-          <p className="text-sm font-semibold">₦{item.price}</p>
+          <div className="text-sm font-semibold">₦{item.price}</div>
         </div>
-        <p className="flex items-center gap-2 text-stone-800 text-opacity-[0.37]">
+        <div className="flex items-center gap-2 text-stone-800 text-opacity-[0.37]">
           <span>{item.businessData.name}</span>
           <span className=" shrink-0 w-1 h-1 bg-phthaloGreen bg-opacity-55 rounded-full"></span>
           <span className="flex items-center text-xs font-semibold gap-1">
-            <>₦{item.businessData.deliveryPrice}</>
+            <EdibleItemDeliveryPrice
+              deliveryPrice={item.businessData.deliveryPrice}
+              pickupPoint={item.businessData.address.coordinates}
+              businessId={item.businessData.id}
+            />
             <LocalIcons
               name="rider"
               className="relative -top-[1px] w-3 h-3 fill-transparent"
@@ -34,7 +39,7 @@ function EdibleItem({ item }: { item: ItemDTO }) {
               ]}
             />
           </span>
-        </p>
+        </div>
       </div>
     </Link>
   );
