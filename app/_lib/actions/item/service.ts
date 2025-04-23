@@ -63,7 +63,13 @@ export async function getItems(
   searchStr?: ItemDTO["name"],
   coords?: AddressDTO["coordinates"]
 ): Promise<ItemDTO[]> {
-  let items = await Item.find().populate("businessData");
+  let items = await Item.find().populate({
+    path: "businessData",
+    select: "-recommendations",
+    options: { pricePoint: coords },
+  });
+
+  console.log(items[0]);
 
   if (searchStr) {
     const fuse = new Fuse(items, { keys: ["name"], threshold: 0.5 });

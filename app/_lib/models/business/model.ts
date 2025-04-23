@@ -87,26 +87,38 @@ const BusinessSchema = new Schema(
 BusinessSchema.virtual("deliveryPrice");
 BusinessSchema.index({ address: "2dsphere" });
 
-BusinessSchema.post(/^find/, function (d, next) {
-  const docs: BusinessDTO[] | BusinessDTO = d;
-  const pricePoint = this.get("pricePoint") || DEFAULT_COORDS;
+BusinessSchema.post(
+  /^find/,
+  function (
+    this: mongoose.Query<unknown, "find", Record<string, never>> & {
+      getOptions?: () => { pricePoint: [number, number] | undefined };
+    },
+    d,
+    next
+  ) {
+    const docs: BusinessDTO[] | BusinessDTO = d;
+    const pricePoint =
+      this.get("pricePoint") ||
+      this.getOptions?.()?.pricePoint ||
+      DEFAULT_COORDS;
 
-  if (Array.isArray(docs)) {
-    docs.forEach((doc) => {
-      doc.deliveryPrice = calcDeliveryPrice(
-        doc.address.coordinates,
+    if (Array.isArray(docs)) {
+      docs.forEach((doc) => {
+        doc.deliveryPrice = calcDeliveryPrice(
+          doc.address.coordinates,
+          pricePoint
+        );
+      });
+    } else {
+      docs.deliveryPrice = calcDeliveryPrice(
+        docs.address.coordinates,
         pricePoint
       );
-    });
-  } else {
-    docs.deliveryPrice = calcDeliveryPrice(
-      docs.address.coordinates,
-      pricePoint
-    );
-  }
+    }
 
-  next();
-});
+    next();
+  }
+);
 
 cleanupModel("Business");
 
