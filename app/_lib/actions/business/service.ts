@@ -1,8 +1,4 @@
-import {
-  BusinessDTO,
-  DEFAULT_COORDS,
-  DEFAULT_GEOJSON,
-} from "@/app/_interfaces/interfaces";
+import { BusinessDTO, DEFAULT_GEOJSON } from "@/app/_interfaces/interfaces";
 import { connect } from "../../db";
 import Business from "../../models/business/model";
 import { auth } from "../auth/auth";
@@ -43,17 +39,6 @@ export async function getNearBusinesses(
   coords: BusinessDTO["address"]["coordinates"],
   findBy?: Partial<BusinessDTO>
 ): Promise<BusinessDTO[]> {
-  let deliveryPoint = DEFAULT_COORDS;
-  const session = await auth();
-  const user = session?.user;
-  const selectedAddress = user?.addresses?.length
-    ? user.addresses.find((add) => add.isSelected === true)
-    : undefined;
-
-  if (selectedAddress) {
-    deliveryPoint = selectedAddress.coordinates;
-  }
-
   const businesses = await Business.find({
     ...findBy,
     address: {
@@ -66,7 +51,7 @@ export async function getNearBusinesses(
     },
   })
     .populate("recommendations.items")
-    .set("pricePoint", deliveryPoint);
+    .set("pricePoint", coords);
 
   return businesses;
 }
