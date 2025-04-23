@@ -34,7 +34,7 @@ export default function BusinessTypes() {
   function handleBTChange(index: number) {
     dispatch(setLoading({ isLoading: true, page: "default" }));
     setCurrIndex(index);
-    router.replace(`?bt=${encodeURIComponent(businessTypes[index])}`);
+    router.replace(`/app?bt=${encodeURIComponent(businessTypes[index])}`);
   }
 
   return (

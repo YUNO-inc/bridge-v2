@@ -19,11 +19,6 @@ function ActivitySearch({
   const [searchStr, setSearchStr] = useState("");
   const debouncedQuery = useDebounce(searchStr, 500);
 
-  // function handleSearchStrChange(newValue: string) {
-  //   dispatch(setLoading({ isLoading: true, page: "search" }));
-  //   router.replace(`?search=${encodeURIComponent(newValue)}`);
-  // }
-
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     if (debouncedQuery) {
@@ -33,7 +28,7 @@ function ActivitySearch({
       params.delete("search");
     }
 
-    router.replace(`?${params.toString()}`);
+    router.replace(`/app?${params.toString()}`);
   }, [debouncedQuery, router, dispatch]);
 
   return (

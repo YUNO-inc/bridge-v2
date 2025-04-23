@@ -17,7 +17,7 @@ async function DefaultList({
   const [lon, lat] = selectedAddress?.coordinates || [];
 
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/api/business?lon=${lon}&lat=${lat}&businessType=${businessType}`
+    `${process.env.NEXT_PUBLIC_BASE_URL}/api/business/near?lon=${lon}&lat=${lat}&businessType=${businessType}`
   );
 
   const businesses: BusinessDTO[] = await res.json();

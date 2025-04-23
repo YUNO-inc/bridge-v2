@@ -1,8 +1,12 @@
+import {
+  BusinessDTO,
+  DEFAULT_COORDS,
+  ItemDTO,
+} from "@/app/_interfaces/interfaces";
 import { auth } from "@/app/_lib/actions/auth/auth";
-import ProductItem from "./ProductItem";
-import { DEFAULT_COORDS, ItemDTO } from "@/app/_interfaces/interfaces";
+import ProductItem from "../Item/ProductItem/ProductItem";
 
-async function ProductList({ searchStr }: { searchStr: string }) {
+async function BusinessProducts({ business }: { business: BusinessDTO }) {
   const session = await auth();
   const userAddresses = session?.user?.addresses;
   const selectedAddressCoords = userAddresses?.length
@@ -11,7 +15,10 @@ async function ProductList({ searchStr }: { searchStr: string }) {
     : DEFAULT_COORDS;
 
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/api/item?searchStr=${searchStr}&lon=${selectedAddressCoords[0]}&lat=${selectedAddressCoords[1]}`
+    `${process.env.NEXT_PUBLIC_BASE_URL}/api/item?lon=${selectedAddressCoords[0]}&lat=${selectedAddressCoords[1]}&businessId=${business.id}`,
+    {
+      cache: "force-cache",
+    }
   );
   const items: ItemDTO[] = await res.json();
 
@@ -24,4 +31,4 @@ async function ProductList({ searchStr }: { searchStr: string }) {
   );
 }
 
-export default ProductList;
+export default BusinessProducts;

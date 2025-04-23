@@ -61,15 +61,14 @@ export async function createItems({
 
 export async function getItems(
   searchStr?: ItemDTO["name"],
-  coords?: AddressDTO["coordinates"]
+  coords?: AddressDTO["coordinates"],
+  findBy: Partial<ItemDTO> = {}
 ): Promise<ItemDTO[]> {
-  let items = await Item.find().populate({
+  let items = await Item.find(findBy).populate({
     path: "businessData",
     select: "-recommendations",
     options: { pricePoint: coords },
   });
-
-  console.log(items[0]);
 
   if (searchStr) {
     const fuse = new Fuse(items, { keys: ["name"], threshold: 0.5 });
