@@ -4,20 +4,25 @@ import { useEffect, useRef, useState } from "react";
 import { useAppSelector } from "@/app/_hooks/reduxHooks";
 import { getCart } from "./cartSlice";
 import { getSelectedAddress } from "../User/userSlice";
-import { calcDynamicDeliveryPrice } from "@/app/_utils/helpers";
+import {
+  calcDeliveryPrice,
+  calcDynamicDeliveryPrice,
+} from "@/app/_utils/helpers";
 import { BusinessDTO, DEFAULT_COORDS } from "@/app/_interfaces/interfaces";
 
 function CartGroupDeliveryPrice({
-  deliveryPrice,
   pickupPoint,
 }: {
-  deliveryPrice: number;
   pickupPoint: BusinessDTO["address"]["coordinates"];
 }) {
-  const [dynamicDeliveryPrice, setDynamicDeliveryPrice] =
-    useState(deliveryPrice);
   const { farthestPurchase } = useAppSelector(getCart);
   const selectedAddress = useAppSelector(getSelectedAddress);
+  const deliveryPrice = calcDeliveryPrice(
+    selectedAddress?.coordinates || DEFAULT_COORDS,
+    pickupPoint
+  );
+  const [dynamicDeliveryPrice, setDynamicDeliveryPrice] =
+    useState(deliveryPrice);
   const [currItemPickup] = useState(pickupPoint);
   const dpRef = useRef(deliveryPrice);
 
@@ -36,11 +41,7 @@ function CartGroupDeliveryPrice({
       }
       updateDeliveryPrice();
     },
-    [
-      farthestPurchase?.coordinates,
-      selectedAddress?.coordinates,
-      currItemPickup,
-    ]
+    [farthestPurchase?.coordinates, selectedAddress, currItemPickup]
   );
 
   return (

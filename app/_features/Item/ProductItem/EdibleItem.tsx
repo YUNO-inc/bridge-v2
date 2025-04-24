@@ -26,7 +26,6 @@ function EdibleItem({ item }: { item: ItemDTO }) {
           <span className=" shrink-0 w-1 h-1 bg-phthaloGreen bg-opacity-55 rounded-full"></span>
           <span className="flex items-center text-xs font-semibold gap-1">
             <EdibleItemDeliveryPrice
-              deliveryPrice={item.businessData.deliveryPrice}
               pickupPoint={item.businessData.address.coordinates}
               businessId={item.businessData.id}
             />

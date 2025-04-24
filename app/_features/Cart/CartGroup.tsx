@@ -7,7 +7,7 @@ import { useAppSelector } from "@/app/_hooks/reduxHooks";
 import { getCart } from "./cartSlice";
 
 function CartGroup({ group }: { group: CartGroupDTO }) {
-  const { name, items, totalPrice, deliveryPrice, address } = group;
+  const { name, items, totalPrice, address } = group;
   const { farthestPurchase } = useAppSelector(getCart);
   return (
     <div className="flex flex-col gap-1 pt-4">
@@ -33,10 +33,7 @@ function CartGroup({ group }: { group: CartGroupDTO }) {
           />
         ))}
         <div className="py-3 flex items-center gap-6">
-          <CartGroupDeliveryPrice
-            deliveryPrice={deliveryPrice}
-            pickupPoint={address.coordinates}
-          />
+          <CartGroupDeliveryPrice pickupPoint={address.coordinates} />
           <IconAndText
             icon={<MoneyWavy className="w-3.5 h-3.5 fill-phthaloGreen" />}
             text={`₦${totalPrice}`}

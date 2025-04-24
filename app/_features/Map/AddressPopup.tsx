@@ -12,6 +12,7 @@ import LocalIcons from "@/app/_utils/LocalIcons";
 import { nunito } from "@/app/fonts";
 import { getUser, setUser } from "../User/userSlice";
 import PopupLoader from "./PopupLoader";
+import { updateTotalDeliveryPrice } from "../Cart/cartSlice";
 
 function AddressPopup({
   address: receivedAddress,
@@ -72,6 +73,11 @@ function AddressPopup({
         addresses: [...userAddresses, { ...address, isSelected: true }],
       });
       dispatch(setUser(newUser));
+      dispatch(
+        updateTotalDeliveryPrice({
+          deliveryAddress: { ...address, isSelected: true },
+        })
+      );
       router.back();
     } finally {
       setIsUpdatingAddress(false);

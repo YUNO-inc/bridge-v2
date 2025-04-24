@@ -1,15 +1,22 @@
 "use client";
 
 import { useAppDispatch, useAppSelector } from "@/app/_hooks/reduxHooks";
-import { changeAddress, deleteAddress, getUser } from "../User/userSlice";
+import {
+  changeAddress,
+  deleteAddress,
+  getSelectedAddress,
+  getUser,
+} from "../User/userSlice";
 import { AddressDTO } from "@/app/_interfaces/interfaces";
 import Radio from "./Radio";
 import { MapTrifold } from "@phosphor-icons/react";
 import { UpdateMeAction } from "@/app/_lib/actions/user/actions";
 import { startTransition, useOptimistic } from "react";
+import { updateTotalDeliveryPrice } from "../Cart/cartSlice";
 
 function AddressRadios() {
   const user = useAppSelector(getUser);
+  const selectedAddress = useAppSelector(getSelectedAddress);
   if (!user) console.error("no user");
   const dispatch = useAppDispatch();
 
@@ -27,10 +34,18 @@ function AddressRadios() {
       setOptimisticAddresses((prevAddresses) => prevAddresses.map(newAddress));
     });
 
+    const userAddresses = user?.addresses?.map(newAddress);
     await UpdateMeAction(undefined, {
-      addresses: user?.addresses?.map(newAddress),
+      addresses: userAddresses,
     });
     dispatch(changeAddress(id));
+    const newSelectedAddress = userAddresses?.find?.((add) => add.isSelected);
+    if (!newSelectedAddress) return;
+    dispatch(
+      updateTotalDeliveryPrice({
+        deliveryAddress: newSelectedAddress,
+      })
+    );
   }
 
   async function handleDelete(id: AddressDTO["id"]) {
@@ -54,6 +69,14 @@ function AddressRadios() {
       addresses: user?.addresses?.filter(filterAddress),
     });
     dispatch(deleteAddress(id));
+
+    const isSelectedAddress = id === selectedAddress?.id;
+    if (!isSelectedAddress) return;
+    dispatch(
+      updateTotalDeliveryPrice({
+        deliveryAddress: user?.addresses?.[0],
+      })
+    );
   }
 
   return (

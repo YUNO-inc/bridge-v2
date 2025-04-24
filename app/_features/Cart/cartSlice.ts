@@ -9,6 +9,7 @@ import {
   ItemDTO,
 } from "@/app/_interfaces/interfaces";
 import {
+  calcDeliveryPrice,
   calcDynamicDeliveryPrice,
   isNewFarthestPoint,
   sortByFarthestPoint,
@@ -128,10 +129,21 @@ const cartSlice = createSlice({
       state.numTotalItems -= 1;
       state.priceTotal -= delPrice;
     },
+    updateTotalDeliveryPrice(
+      state,
+      action: PayloadAction<{ deliveryAddress: AddressDTO }>
+    ) {
+      state.deliveryTotal = getTotalDeliveryPrice(
+        current(state.groups),
+        current(state.farthestPurchase),
+        action.payload.deliveryAddress
+      );
+    },
   },
 });
 
-export const { addToCart, deleteFromCart } = cartSlice.actions;
+export const { addToCart, deleteFromCart, updateTotalDeliveryPrice } =
+  cartSlice.actions;
 
 export const getCart = (state: { cart: CartDTO }) => state.cart;
 
@@ -184,11 +196,13 @@ function getTotalDeliveryPrice(
   deliveryAddress: AddressDTO | undefined
 ) {
   return groups.reduce((acc, group) => {
+    const deliveryPoint = deliveryAddress?.coordinates || DEFAULT_COORDS;
+    const currItemPickup = group.address.coordinates;
     const dp = calcDynamicDeliveryPrice({
       farthestPickup: farthestPurchase?.coordinates,
-      deliveryPoint: deliveryAddress?.coordinates || DEFAULT_COORDS,
-      currItemPickup: group.address.coordinates,
-      deliveryPrice: group.deliveryPrice,
+      deliveryPoint,
+      currItemPickup,
+      deliveryPrice: calcDeliveryPrice(deliveryPoint, currItemPickup),
       isInCart: false,
     });
     return acc + dp;

@@ -3,21 +3,26 @@
 import { useAppSelector } from "@/app/_hooks/reduxHooks";
 import { useEffect, useRef, useState } from "react";
 import { getCart, businessIsInCart } from "../../Cart/cartSlice";
-import { calcDynamicDeliveryPrice } from "@/app/_utils/helpers";
+import {
+  calcDeliveryPrice,
+  calcDynamicDeliveryPrice,
+} from "@/app/_utils/helpers";
 import { getSelectedAddress } from "../../User/userSlice";
 import { BusinessDTO, DEFAULT_COORDS } from "@/app/_interfaces/interfaces";
 
 function EdibleItemDeliveryPrice({
-  deliveryPrice,
   pickupPoint,
   businessId,
 }: {
-  deliveryPrice: number;
   pickupPoint: BusinessDTO["address"]["coordinates"];
   businessId: BusinessDTO["id"];
 }) {
   const { farthestPurchase } = useAppSelector(getCart);
   const selectedAddress = useAppSelector(getSelectedAddress);
+  const deliveryPrice = calcDeliveryPrice(
+    selectedAddress?.coordinates || DEFAULT_COORDS,
+    pickupPoint
+  );
   const isInCart = useAppSelector(businessIsInCart(businessId));
   const [currItemPickup] = useState(pickupPoint);
   const [dynamicDeliveryPrice, setDynamicDeliveryPrice] =

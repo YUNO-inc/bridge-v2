@@ -41,7 +41,6 @@ function EdibleItem({ business }: EdibleItemProps) {
         </div>
         <div className="flex items-center gap-1">
           <EdibleItemDeliveryPrice
-            deliveryPrice={business.deliveryPrice}
             pickupPoint={business.address.coordinates}
             businessId={business.id}
           />
