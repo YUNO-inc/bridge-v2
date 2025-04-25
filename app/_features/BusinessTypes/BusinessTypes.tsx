@@ -13,6 +13,7 @@ export default function BusinessTypes() {
   const { scrollX } = useScroll({ container: carouselRef });
   const { businessTypes } = useAppSelector(getAppData);
   const params = useSearchParams();
+  const paramsRef = useRef(params);
   const paramsBTIndex = useRef(
     businessTypes.findIndex(
       (type) => type.toLowerCase() === params.get("bt")?.toLowerCase?.()
@@ -50,7 +51,7 @@ export default function BusinessTypes() {
     function () {
       function changeRoute() {
         const currBT = businessTypes[debouncedCurrIndex];
-        const prevBT = params.get("bt");
+        const prevBT = paramsRef.current.get("bt");
         dispatch(
           setLoading({
             isLoading: currBT.toLowerCase() !== prevBT?.toLowerCase?.(),
@@ -64,7 +65,7 @@ export default function BusinessTypes() {
 
       changeRoute();
     },
-    [debouncedCurrIndex, businessTypes, router, dispatch, params]
+    [debouncedCurrIndex, businessTypes, router, dispatch, paramsRef]
   );
 
   useEffect(
