@@ -1,27 +1,38 @@
 "use client";
-import { useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { motion, useMotionValueEvent, useScroll } from "motion/react";
 import LocalIcons from "@/app/_utils/LocalIcons";
 import { useAppDispatch, useAppSelector } from "@/app/_hooks/reduxHooks";
 import { getAppData, setLoading } from "../App/AppSlice";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useDebounce } from "@/app/_hooks/useDebounce";
 
 export default function BusinessTypes() {
   const router = useRouter();
   const carouselRef = useRef<HTMLDivElement | null>(null);
   const { scrollX } = useScroll({ container: carouselRef });
-  const [currIndex, setCurrIndex] = useState(0);
   const { businessTypes } = useAppSelector(getAppData);
+  const params = useSearchParams();
+  const paramsBTIndex = useRef(
+    businessTypes.findIndex(
+      (type) => type.toLowerCase() === params.get("bt")?.toLowerCase?.()
+    )
+  );
+  const [currIndex, setCurrIndex] = useState(0);
+  const debouncedCurrIndex = useDebounce(currIndex, 500);
   const dispatch = useAppDispatch();
   const widthOfItem = 40;
 
   useMotionValueEvent(scrollX, "change", (latest) => {
-    let currentScrollIndex = Math.round(latest / widthOfItem);
+    const currScroll = latest / widthOfItem;
+    let currentScrollIndex = Math.round(currScroll);
     currentScrollIndex = currentScrollIndex < 0 ? 0 : currentScrollIndex;
+    const decimalPart = String(currScroll).split(".")[1];
+    if (decimalPart) return;
     handleBTChange(currentScrollIndex);
   });
 
-  const handleSnapScroll = (index: number) => {
+  const handleSnapScroll = useCallback(function (index: number) {
     const container = carouselRef.current;
     if (!container) return;
     container.scrollTo({
@@ -29,13 +40,40 @@ export default function BusinessTypes() {
       behavior: "smooth",
     });
     handleBTChange(index);
-  };
+  }, []);
 
   function handleBTChange(index: number) {
-    dispatch(setLoading({ isLoading: true, page: "default" }));
     setCurrIndex(index);
-    router.replace(`/app?bt=${encodeURIComponent(businessTypes[index])}`);
   }
+
+  useEffect(
+    function () {
+      function changeRoute() {
+        const currBT = businessTypes[debouncedCurrIndex];
+        const prevBT = params.get("bt");
+        dispatch(
+          setLoading({
+            isLoading: currBT.toLowerCase() !== prevBT?.toLowerCase?.(),
+            page: "default",
+          })
+        );
+        router.replace(
+          `/app?bt=${encodeURIComponent(businessTypes[debouncedCurrIndex])}`
+        );
+      }
+
+      changeRoute();
+    },
+    [debouncedCurrIndex, businessTypes, router, dispatch, params]
+  );
+
+  useEffect(
+    function () {
+      if (paramsBTIndex.current < 0) return;
+      else handleSnapScroll(paramsBTIndex.current);
+    },
+    [paramsBTIndex, handleSnapScroll]
+  );
 
   return (
     <div className="bg-phthaloGreen bg-opacity-10 w-[70%] rounded-xl border border-phthaloGreen border-opacity-[0.37]">
