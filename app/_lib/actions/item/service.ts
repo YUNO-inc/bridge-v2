@@ -59,6 +59,31 @@ export async function createItems({
   return newItem;
 }
 
+export async function getSingleItem({
+  itemId,
+  itemSlug,
+  businessSlug,
+}: {
+  itemId?: ItemDTO["id"];
+  itemSlug: ItemDTO["slug"];
+  businessSlug: BusinessDTO["slug"];
+}) {
+  let item;
+  if (itemId?.length) item = await Item.findById(itemId);
+  else {
+    const items = await Item.find({ slug: itemSlug }).populate("businessData");
+    item =
+      items.find(
+        (item) =>
+          typeof item?.businessData !== "string" &&
+          item?.businessData?.slug?.toLowerCase?.() ===
+            businessSlug.toLowerCase()
+      ) || null;
+  }
+
+  return item;
+}
+
 export async function getItems(
   searchStr?: ItemDTO["name"],
   coords?: AddressDTO["coordinates"],

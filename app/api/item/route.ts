@@ -1,20 +1,12 @@
 import { NextRequest, NextResponse } from "next/server";
-// import { connect } from "@/app/_lib/db";
-import { getItems } from "../../_lib/actions/item/service";
-import { ItemDTO } from "@/app/_interfaces/interfaces";
+import { getSingleItem } from "../../_lib/actions/item/service";
 
 export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url);
-  const searchStr = searchParams.get("searchStr") || undefined;
-  const businessId = searchParams.get("businessId") || undefined;
-  const lon = Number(searchParams.get("lon")) || undefined;
-  const lat = Number(searchParams.get("lat")) || undefined;
-  const coords: [number, number] | undefined =
-    typeof lon === "number" && typeof lat === "number" ? [lon, lat] : undefined;
-  const findBy: Partial<ItemDTO> = {};
+  const itemId = searchParams.get("itemId") || undefined;
+  const itemSlug = searchParams.get("itemSlug") || "";
+  const businessSlug = searchParams.get("businessSlug") || "";
 
-  if (businessId !== "null" && !!businessId) findBy.businessData = businessId;
-
-  const items = await getItems(searchStr, coords, findBy);
-  return NextResponse.json(items);
+  const item = await getSingleItem({ itemId, itemSlug, businessSlug });
+  return NextResponse.json(item);
 }

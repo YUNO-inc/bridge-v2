@@ -39,8 +39,11 @@ function ActivityContainer({
   function toogleCartIsOpenState(newState: boolean) {
     setCartIsOpen(newState);
 
-    if (newState) router.push("/?cart=open");
-    else router.replace("/");
+    if (!newState) {
+      const params = new URLSearchParams(searchParams.toString());
+      params.delete("cart");
+      router.replace(`?${params.toString()}`);
+    }
   }
 
   return (

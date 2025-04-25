@@ -11,7 +11,7 @@ async function ProductList({ searchStr }: { searchStr: string }) {
     : DEFAULT_COORDS;
 
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/api/item?searchStr=${searchStr}&lon=${selectedAddressCoords[0]}&lat=${selectedAddressCoords[1]}`
+    `${process.env.NEXT_PUBLIC_BASE_URL}/api/item/search?searchStr=${searchStr}&lon=${selectedAddressCoords[0]}&lat=${selectedAddressCoords[1]}`
   );
   const items: ItemDTO[] = await res.json();
 

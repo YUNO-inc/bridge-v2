@@ -22,8 +22,8 @@ async function Layout({
     <ActivityItem show={true}>
       <div className="p-4 w-full h-full">
         <BusinessHeader business={business} />
-        <BusinessProducts business={business} />
         <div>{children}</div>
+        <BusinessProducts business={business} />
       </div>
     </ActivityItem>
   );

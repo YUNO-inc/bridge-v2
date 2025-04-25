@@ -38,7 +38,7 @@ function ItemImage({ item, className }: { item: ItemDTO; className?: string }) {
         }`}
       />
       <div
-        className={`absolute h-[30%] w-full bg-opacity-[0.9] backdrop-blur-[1px] z-10 bottom-0 left-0 flex items-center justify-center py-1.5 transition-all duration-500 border-none ${
+        className={`absolute h-[30%] w-full bg-opacity-[0.9] z-10 bottom-0 left-0 flex items-center justify-center py-1.5 transition-all duration-500 border-none ${
           isActive
             ? "bg-opacity-[1] bg-phthaloGreen"
             : "bg-opacity-50 bg-phthaloGreen-50"
