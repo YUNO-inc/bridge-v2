@@ -19,7 +19,7 @@ function EdibleItem({ business }: EdibleItemProps) {
         href={`/app/${business.slug}`}
         className="flex items-center justify-between w-full text-sm"
       >
-        <div className="relative w-9 h-9 rounded-full overflow-hidden mr-3">
+        <div className="relative shrink-0 w-9 h-9 rounded-full overflow-hidden mr-3">
           <Image
             src={`${business.profileImg}`}
             alt={`${business.name} Profile Image`}
