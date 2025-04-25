@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import "./_styles/global.css";
 import { nunito } from "./fonts";
 import { auth } from "./_lib/actions/auth/auth";
@@ -8,6 +8,10 @@ import StoreProvider from "./_store/StoreProvider";
 export const metadata: Metadata = {
   title: "Bridge",
   description: "Connect to convenience",
+};
+
+export const viewport: Viewport = {
+  themeColor: "#ffffff",
 };
 
 export default async function RootLayout({

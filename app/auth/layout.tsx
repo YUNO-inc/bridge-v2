@@ -1,5 +1,10 @@
+import { Viewport } from "next";
 import Image from "next/image";
 import PageControl from "@/app/_features/PageControl/PageControl";
+
+export const viewport: Viewport = {
+  themeColor: "#123526",
+};
 
 async function Layout({
   children,
