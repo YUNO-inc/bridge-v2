@@ -24,11 +24,11 @@ function ActivitySearch({
     if (debouncedQuery) {
       dispatch(setLoading({ isLoading: true, page: "search" }));
       params.set("search", debouncedQuery);
+      router.replace(`/app?${params.toString()}`);
     } else {
       params.delete("search");
+      router.replace(`?${params.toString()}`);
     }
-
-    router.replace(`/app?${params.toString()}`);
   }, [debouncedQuery, router, dispatch]);
 
   return (

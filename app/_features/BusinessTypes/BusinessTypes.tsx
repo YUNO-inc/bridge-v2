@@ -58,9 +58,9 @@ export default function BusinessTypes() {
             page: "default",
           })
         );
-        router.replace(
-          `/app?bt=${encodeURIComponent(businessTypes[debouncedCurrIndex])}`
-        );
+        const params = new URLSearchParams(paramsRef.current.toString());
+        params.set("bt", encodeURIComponent(businessTypes[debouncedCurrIndex]));
+        router.replace(`/app?${params.toString()}`);
       }
 
       changeRoute();

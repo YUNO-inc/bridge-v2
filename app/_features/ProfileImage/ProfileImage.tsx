@@ -2,7 +2,7 @@
 
 import { useAppSelector } from "@/app/_hooks/reduxHooks";
 import { UserIcon } from "@heroicons/react/24/outline";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { getUser } from "../User/userSlice";
 import { ChevronDownIcon } from "@heroicons/react/16/solid";
 import { useState } from "react";
@@ -11,18 +11,21 @@ import DropDown from "@/app/_features/Modals/DropDown";
 function ProfileImage() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const pathname = usePathname();
   const user = useAppSelector(getUser);
   const [showModal, setShowModal] = useState(searchParams.get("menu") === "");
 
   function handleClick() {
     // if (!user) return router.push("/auth");
 
+    const params = new URLSearchParams(searchParams.toString());
+
     if (!showModal) {
-      router.push(`${pathname}?menu`);
+      params.set("menu", "open");
+      router.replace(`?${params.toString()}`);
       setShowModal(true);
     } else {
-      router.push(`${pathname}`);
+      params.delete("menu");
+      router.replace(`?${params.toString()}`);
       setShowModal(false);
     }
   }

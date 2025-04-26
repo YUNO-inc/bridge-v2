@@ -14,11 +14,12 @@ function DropDown({ showDropDown }: { showDropDown: boolean }) {
       <MajorLink
         icon={<UserIcon className="stroke-current w-6 h-6" />}
         text="Account"
+        href="/Account"
       />
       <MajorLink
         icon={<MapPinIcon className="stroke-current w-6 h-6" />}
         text="Addresses"
-        href="address"
+        href="/address"
       />
     </motion.div>
   );
