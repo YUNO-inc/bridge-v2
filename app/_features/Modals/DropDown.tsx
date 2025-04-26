@@ -14,7 +14,7 @@ function DropDown({ showDropDown }: { showDropDown: boolean }) {
       <MajorLink
         icon={<UserIcon className="stroke-current w-6 h-6" />}
         text="Account"
-        href="/Account"
+        href="/account"
       />
       <MajorLink
         icon={<MapPinIcon className="stroke-current w-6 h-6" />}
