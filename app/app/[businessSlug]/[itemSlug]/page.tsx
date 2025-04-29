@@ -1,5 +1,6 @@
 import Incrementals from "@/app/_features/Button/Incrementals";
 import EdibleItemDeliveryPrice from "@/app/_features/Item/DefaultItem/EdibleItemDeliveryPrice";
+// import Pair from "@/app/_features/Pairings/Pair";
 import { ItemDTO } from "@/app/_interfaces/interfaces";
 import LocalIcons from "@/app/_utils/LocalIcons";
 import Image from "next/image";
@@ -68,8 +69,49 @@ async function Page({ params }: PageProps) {
         Lorem ipsum dolor sit amet consectetur adipisicing elit. Tenetur labore
         molestiae suscipit mollitia sint reiciendis expedita?
       </p>
+      {/* <div>
+        <p className="font-semibold">Pairings</p>
+        <div className="mx-1 flex gap-3">
+          {pairs.map((pair) => (
+            <Pair pair={pair} key={pair.id} />
+          ))}
+        </div>
+      </div> */}
     </div>
   );
 }
 
 export default Page;
+
+// const pairs: ItemDTO[] = [
+//   {
+//     id: "23232",
+//     name: "goat meat",
+//     image: "/images/test/gold-beef-steak.jpg",
+//     price: 400,
+//     slug: "meat",
+//     createdAt: 232323,
+//     businessData: "rwe323fs",
+//     itemType: "food",
+//   },
+//   {
+//     id: "23212",
+//     name: "meat",
+//     image: "/images/test/gold-beef-steak.jpg",
+//     price: 200,
+//     slug: "beef",
+//     createdAt: 232323,
+//     businessData: "rwe323fs",
+//     itemType: "food",
+//   },
+//   // {
+//   //   id: "21232",
+//   //   name: "meat",
+//   //   image: "/images/test/gold-beef-steak.jpg",
+//   //   price: 200,
+//   //   slug: "meat",
+//   //   createdAt: 232323,
+//   //   businessData: "rwe323fs",
+//   //   itemType: "food",
+//   // },
+// ];
