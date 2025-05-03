@@ -1,16 +1,26 @@
 import Link from "next/link";
-import { BusinessDTO, RecommendationDTO } from "@/app/_interfaces/interfaces";
+import {
+  BusinessDTO,
+  BusinessTypesDTO,
+  RecommendationDTO,
+} from "@/app/_interfaces/interfaces";
 import LocalIcons from "@/app/_utils/LocalIcons";
 import Image from "next/image";
 import Recommendation from "./Recommendation";
 import EdibleItemDeliveryPrice from "./EdibleItemDeliveryPrice";
 
-type EdibleItemProps = { business: BusinessDTO };
+type EdibleItemProps = {
+  business: BusinessDTO;
+  businessType: BusinessTypesDTO;
+};
 
-function EdibleItem({ business }: EdibleItemProps) {
-  const defaultRec: RecommendationDTO = { businessType: "shawarma", items: [] };
+function EdibleItem({ business, businessType = "shawarma" }: EdibleItemProps) {
+  const defaultRec: RecommendationDTO = {
+    businessType: businessType,
+    items: [],
+  };
   const recommendations =
-    business.recommendations.find((rec) => rec.businessType === "shawarma") ||
+    business.recommendations.find((rec) => rec.businessType === businessType) ||
     defaultRec;
 
   return (

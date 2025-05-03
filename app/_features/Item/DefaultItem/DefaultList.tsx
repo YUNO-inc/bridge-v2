@@ -25,7 +25,11 @@ async function DefaultList({
   return (
     <div className="p-2 flex flex-col gap-4">
       {businesses.map((business: BusinessDTO) => (
-        <DefaultItem key={business.id} business={business} />
+        <DefaultItem
+          key={business.id}
+          business={business}
+          businessType={businessType}
+        />
       ))}
     </div>
   );
