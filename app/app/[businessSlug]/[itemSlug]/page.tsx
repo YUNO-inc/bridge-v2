@@ -14,14 +14,20 @@ type PageProps = {
 
 async function Page({ params }: PageProps) {
   const { businessSlug, itemSlug } = await params;
+  let item: ItemDTO | null;
 
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/api/item?itemSlug=${itemSlug}&businessSlug=${businessSlug}`
-  );
-  const item: ItemDTO = await res.json();
+  try {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_BASE_URL}/api/item?itemSlug=${itemSlug}&businessSlug=${businessSlug}`
+    );
+    item = await res.json();
+  } catch {
+    item = null;
+  }
+
   const business = item?.businessData;
-
-  if (typeof business === "string") return null;
+  if (!item || !business || typeof business === "string")
+    return <div>Could not find your requested item</div>;
 
   return (
     <div className="pt-2">
@@ -30,7 +36,7 @@ async function Page({ params }: PageProps) {
           className={`relative shrink-0 rounded-[13.333%] overflow-hidden border-none h-20 w-20`}
         >
           <Image
-            src={item.image}
+            src={item?.image}
             fill
             className="object-cover"
             alt={`Image of ${item.name} by ${

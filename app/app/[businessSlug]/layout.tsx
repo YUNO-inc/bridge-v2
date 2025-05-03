@@ -11,10 +11,15 @@ async function Layout({
   params: Promise<{ businessSlug: string }>;
 }) {
   const { businessSlug } = await params;
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/api/business/${businessSlug}`
-  );
-  const business: BusinessDTO | null = await res.json();
+  let business: BusinessDTO | null = null;
+  try {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_BASE_URL}/api/business/${businessSlug}`
+    );
+    business = await res.json();
+  } catch {
+    business = null;
+  }
 
   if (!business) return <div>Could not find your requested business</div>;
 

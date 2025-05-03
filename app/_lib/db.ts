@@ -1,11 +1,13 @@
 // db.ts
 import mongoose from "mongoose";
 
-const MONGODB_URI = process.env.MONGODB_URI!;
+let MONGODB_URI = process.env.MONGODB_URI!;
 
 if (!MONGODB_URI) {
   throw new Error("Please define the MONGODB_URI environment variable");
 }
+
+MONGODB_URI = MONGODB_URI.replace("<ENVIRONMENT>", "production"); // process.env.NODE_ENV;
 
 interface GlobalWithMongoose {
   mongoose: {

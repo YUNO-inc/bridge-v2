@@ -31,6 +31,8 @@ export function DetectClick({
     } = e;
     setMapCenter([lng, lat]);
 
+    console.log(lng, lat);
+
     if (fromUserPosition) {
       const params = new URLSearchParams(searchParams);
       params.delete("geoposition");

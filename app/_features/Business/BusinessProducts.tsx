@@ -16,10 +16,7 @@ async function BusinessProducts({ business }: { business: BusinessDTO }) {
     : DEFAULT_COORDS;
 
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/api/item/search?lon=${selectedAddressCoords[0]}&lat=${selectedAddressCoords[1]}&businessId=${business.id}`,
-    {
-      cache: "force-cache",
-    }
+    `${process.env.NEXT_PUBLIC_BASE_URL}/api/item/search?lon=${selectedAddressCoords[0]}&lat=${selectedAddressCoords[1]}&businessId=${business.id}`
   );
   const items: ItemDTO[] = await res.json();
 

@@ -34,7 +34,7 @@ export async function createItems({
       acc.items.push({
         ...item,
         businessData: businessId,
-        slug: slugify(item.name),
+        slug: slugify(item.name, { lower: true }),
       });
       if (!acc.itemTypes.includes(item.itemType)) {
         acc.itemTypes.push(item.itemType);
