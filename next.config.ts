@@ -32,6 +32,12 @@ const nextConfig: NextConfig = {
         port: "",
         pathname: "/**",
       },
+      {
+        protocol: "https",
+        hostname: "bridge-version-2.s3.eu-west-2.amazonaws.com",
+        port: "",
+        pathname: "/**",
+      },
     ],
   },
 };
