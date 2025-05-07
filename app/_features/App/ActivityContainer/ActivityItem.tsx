@@ -12,6 +12,8 @@ function ActivityItem({
 }) {
   const { numTotalItems } = useAppSelector(getCart);
 
+  console.log(numTotalItems);
+
   return (
     <div
       className={`absolute top-0 left-0 bg-[#f2f2f2] h-full shrink-0 w-full rounded-[25px] overflow-x-hidden overflow-y-auto ${
