@@ -13,17 +13,30 @@ import {
   calcDynamicDeliveryPrice,
   isNewFarthestPoint,
   sortByFarthestPoint,
+  updateLocalStorage_CLIENT,
 } from "@/app/_utils/helpers";
 
 type InitialState = CartDTO;
 
+const localCart: Partial<InitialState> = JSON.parse(
+  localStorage.getItem("local-cart") || "{}"
+);
+
 const initialState: InitialState = {
-  groups: [],
-  deliveryTotal: 0,
-  priceTotal: 0,
-  numTotalItems: 0,
-  farthestPurchase: undefined,
-  pickupPoints: [],
+  groups: Array.isArray(localCart?.groups) ? localCart.groups : [],
+  deliveryTotal:
+    typeof localCart?.deliveryTotal === "number" ? localCart.deliveryTotal : 0,
+  priceTotal:
+    typeof localCart?.priceTotal === "number" ? localCart.priceTotal : 0,
+  numTotalItems:
+    typeof localCart?.numTotalItems === "number" ? localCart.numTotalItems : 0,
+  farthestPurchase:
+    typeof localCart?.farthestPurchase === "object"
+      ? localCart.farthestPurchase
+      : undefined,
+  pickupPoints: Array.isArray(localCart?.pickupPoints)
+    ? localCart.pickupPoints
+    : [],
 };
 
 const cartSlice = createSlice({
@@ -80,6 +93,7 @@ const cartSlice = createSlice({
       state.farthestPurchase = isFarthestPurchase
         ? newItem.businessData.address
         : state.farthestPurchase;
+      updateLocalStorage_CLIENT("local-cart", JSON.stringify(current(state)));
     },
     deleteFromCart(
       state,
@@ -128,6 +142,7 @@ const cartSlice = createSlice({
 
       state.numTotalItems -= 1;
       state.priceTotal -= delPrice;
+      updateLocalStorage_CLIENT("local-cart", JSON.stringify(current(state)));
     },
     updateTotalDeliveryPrice(
       state,
@@ -138,6 +153,7 @@ const cartSlice = createSlice({
         current(state.farthestPurchase),
         action.payload.deliveryAddress
       );
+      updateLocalStorage_CLIENT("local-cart", JSON.stringify(current(state)));
     },
   },
 });

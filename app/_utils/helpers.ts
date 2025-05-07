@@ -155,3 +155,7 @@ export function sortItemsByCloseness(
   );
   return sortedItems;
 }
+
+export function updateLocalStorage_CLIENT(item: "local-cart", update: string) {
+  localStorage.setItem(item, update);
+}
