@@ -6,6 +6,7 @@ import { useAppDispatch, useAppSelector } from "@/app/_hooks/reduxHooks";
 import { getAppData, setLoading } from "../App/AppSlice";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useDebounce } from "@/app/_hooks/useDebounce";
+import { toogleCartIsOpen } from "../Cart/cartSlice";
 
 export default function BusinessTypes() {
   const router = useRouter();
@@ -28,24 +29,30 @@ export default function BusinessTypes() {
     const currScroll = latest / widthOfItem;
     let currentScrollIndex = Math.round(currScroll);
     currentScrollIndex = currentScrollIndex < 0 ? 0 : currentScrollIndex;
-    const decimalPart = String(currScroll).split(".")[1];
-    if (decimalPart) return;
+    if (currentScrollIndex === currIndex) return;
     handleBTChange(currentScrollIndex);
   });
 
-  const handleSnapScroll = useCallback(function (index: number) {
-    const container = carouselRef.current;
-    if (!container) return;
-    container.scrollTo({
-      left: index * widthOfItem,
-      behavior: "smooth",
-    });
-    handleBTChange(index);
-  }, []);
+  const handleBTChange = useCallback(
+    function (index: number) {
+      setCurrIndex(index);
+      dispatch(toogleCartIsOpen({ open: false }));
+    },
+    [dispatch]
+  );
 
-  function handleBTChange(index: number) {
-    setCurrIndex(index);
-  }
+  const handleSnapScroll = useCallback(
+    function (index: number) {
+      const container = carouselRef.current;
+      if (!container) return;
+      container.scrollTo({
+        left: index * widthOfItem,
+        behavior: "smooth",
+      });
+      handleBTChange(index);
+    },
+    [handleBTChange]
+  );
 
   useEffect(
     function () {

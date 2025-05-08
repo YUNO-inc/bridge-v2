@@ -16,27 +16,16 @@ import {
   updateLocalStorage_CLIENT,
 } from "@/app/_utils/helpers";
 
-type InitialState = CartDTO;
-
-const localCart: Partial<InitialState> = JSON.parse(
-  localStorage.getItem("local-cart") || "{}"
-);
+type InitialState = CartDTO & { cartIsOpen: boolean };
 
 const initialState: InitialState = {
-  groups: Array.isArray(localCart?.groups) ? localCart.groups : [],
-  deliveryTotal:
-    typeof localCart?.deliveryTotal === "number" ? localCart.deliveryTotal : 0,
-  priceTotal:
-    typeof localCart?.priceTotal === "number" ? localCart.priceTotal : 0,
-  numTotalItems:
-    typeof localCart?.numTotalItems === "number" ? localCart.numTotalItems : 0,
-  farthestPurchase:
-    typeof localCart?.farthestPurchase === "object"
-      ? localCart.farthestPurchase
-      : undefined,
-  pickupPoints: Array.isArray(localCart?.pickupPoints)
-    ? localCart.pickupPoints
-    : [],
+  groups: [],
+  deliveryTotal: 0,
+  priceTotal: 0,
+  numTotalItems: 0,
+  farthestPurchase: undefined,
+  pickupPoints: [],
+  cartIsOpen: false,
 };
 
 const cartSlice = createSlice({
@@ -155,13 +144,51 @@ const cartSlice = createSlice({
       );
       updateLocalStorage_CLIENT("local-cart", JSON.stringify(current(state)));
     },
+    toogleCartIsOpen(
+      state,
+      action: PayloadAction<{ open: InitialState["cartIsOpen"] }>
+    ) {
+      state.cartIsOpen = action.payload.open;
+    },
+    setLocalCart(state) {
+      const localCart: Partial<InitialState> = JSON.parse(
+        localStorage.getItem("local-cart") || "{}"
+      );
+      state.groups = Array.isArray(localCart?.groups)
+        ? localCart.groups
+        : state.groups;
+      state.deliveryTotal =
+        typeof localCart?.deliveryTotal === "number"
+          ? localCart.deliveryTotal
+          : state.deliveryTotal;
+      state.priceTotal =
+        typeof localCart?.priceTotal === "number"
+          ? localCart.priceTotal
+          : state.priceTotal;
+      state.numTotalItems =
+        typeof localCart?.numTotalItems === "number"
+          ? localCart.numTotalItems
+          : state.numTotalItems;
+      state.farthestPurchase =
+        typeof localCart?.farthestPurchase === "object"
+          ? localCart.farthestPurchase
+          : state.farthestPurchase;
+      state.pickupPoints = Array.isArray(localCart?.pickupPoints)
+        ? localCart.pickupPoints
+        : state.pickupPoints;
+    },
   },
 });
 
-export const { addToCart, deleteFromCart, updateTotalDeliveryPrice } =
-  cartSlice.actions;
+export const {
+  addToCart,
+  deleteFromCart,
+  updateTotalDeliveryPrice,
+  toogleCartIsOpen,
+  setLocalCart,
+} = cartSlice.actions;
 
-export const getCart = (state: { cart: CartDTO }) => state.cart;
+export const getCart = (state: { cart: InitialState }) => state.cart;
 
 export const businessIsInCart =
   (businessId: BusinessDTO["id"]) => (state: { cart: CartDTO }) =>

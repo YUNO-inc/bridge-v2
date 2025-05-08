@@ -1,12 +1,12 @@
 "use client";
 
 import { motion, useMotionValue } from "motion/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import PageControl from "../../PageControl/PageControl";
 import ActivityControlsSegmentedControl from "../ActivityControlsSegmentedControl";
 import CartButton from "../../Cart/CartButton";
-import { useAppSelector } from "@/app/_hooks/reduxHooks";
-import { getCart } from "../../Cart/cartSlice";
+import { useAppDispatch, useAppSelector } from "@/app/_hooks/reduxHooks";
+import { getCart, toogleCartIsOpen } from "../../Cart/cartSlice";
 import Cart from "../../Cart/Cart";
 import { useRouter, useSearchParams } from "next/navigation";
 
@@ -17,14 +17,14 @@ function ActivityContainer({
   currPageIndex?: number;
   container: React.ReactNode;
 }) {
-  const { numTotalItems } = useAppSelector(getCart);
+  const { numTotalItems, cartIsOpen } = useAppSelector(getCart);
+  const dispatch = useAppDispatch();
   const router = useRouter();
   const searchParams = useSearchParams();
   const hasCartURL = searchParams.get("cart");
   const MAX_PAGE_INDEX = 1;
   const DRAG_BUFFER = 33;
   const [pageIndex, setPageIndex] = useState(currPageIndex);
-  const [cartIsOpen, setCartIsOpen] = useState(!!hasCartURL);
   const dragX = useMotionValue(0);
 
   const onDragEnd = () => {
@@ -37,7 +37,7 @@ function ActivityContainer({
   };
 
   function toogleCartIsOpenState(newState: boolean) {
-    setCartIsOpen(newState);
+    dispatch(toogleCartIsOpen({ open: newState }));
 
     if (!newState) {
       const params = new URLSearchParams(searchParams.toString());
@@ -45,6 +45,14 @@ function ActivityContainer({
       router.replace(`?${params.toString()}`);
     }
   }
+
+  useEffect(
+    function () {
+      if (!hasCartURL) return;
+      else dispatch(toogleCartIsOpen({ open: true }));
+    },
+    [dispatch, hasCartURL]
+  );
 
   return (
     <div className="w-full flex flex-col gap-2">
@@ -92,18 +100,7 @@ function ActivityContainer({
             <CartButton openCart={() => toogleCartIsOpenState(true)} />
           )}
         </div>
-        <div
-          className={`h-full w-full absolute transition-all ${
-            cartIsOpen
-              ? "left-0 visible opacity-100"
-              : "left-3 invisible opacity-0"
-          }`}
-        >
-          <Cart
-            cartIsOpen={cartIsOpen}
-            closeCart={() => toogleCartIsOpenState(false)}
-          />
-        </div>
+        <Cart closeCart={() => toogleCartIsOpenState(false)} />
       </div>
       <ActivityControlsSegmentedControl />
     </div>

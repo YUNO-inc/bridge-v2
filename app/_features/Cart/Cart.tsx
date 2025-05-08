@@ -1,17 +1,31 @@
-import { useAppSelector } from "@/app/_hooks/reduxHooks";
+import { useAppDispatch, useAppSelector } from "@/app/_hooks/reduxHooks";
 import { ArrowLeft, MapPin } from "@phosphor-icons/react";
-import { getCart } from "./cartSlice";
+import { getCart, setLocalCart } from "./cartSlice";
 import CartGroup from "./CartGroup";
 import { getSelectedAddress } from "../User/userSlice";
 import { useRouter } from "next/navigation";
 import EmptyCart from "./EmptyCart";
 import CheckOutBtnBig from "./CheckOutBtnBig";
+import { useEffectOncePerPageLoad } from "@/app/_hooks/useEffectOncePerPageLoad";
 
-function Cart({ closeCart }: { cartIsOpen: boolean; closeCart: () => void }) {
-  const { groups: cartGroups, numTotalItems } = useAppSelector(getCart);
+function Cart({ closeCart }: { closeCart: () => void }) {
+  const {
+    groups: cartGroups,
+    numTotalItems,
+    cartIsOpen,
+  } = useAppSelector(getCart);
+  const dispatch = useAppDispatch();
+
+  useEffectOncePerPageLoad(() => {
+    dispatch(setLocalCart());
+  }, "load-local-cart");
 
   return (
-    <div className="relative h-full flex flex-col bg-phthaloGreen bg-opacity-10 rounded-[25px] overflow-x-hidden overflow-y-auto text-phthaloGreen text-opacity-[1] border-[0.1px] border-phthaloGreen border-opacity-[0.37]">
+    <div
+      className={`absolute h-full w-full flex flex-col bg-phthaloGreen bg-opacity-10 rounded-[25px] overflow-x-hidden overflow-y-auto text-phthaloGreen text-opacity-[1] border-[0.1px] border-phthaloGreen border-opacity-[0.37] transition-all ${
+        cartIsOpen ? "left-0 visible opacity-100" : "left-3 invisible opacity-0"
+      }`}
+    >
       <Header closeCart={closeCart} />
       {numTotalItems > 0 ? (
         <>
