@@ -159,6 +159,5 @@ export function sortItemsByCloseness(
 export function updateLocalStorage_CLIENT(item: "local-cart", update: string) {
   if (typeof window !== "undefined") {
     localStorage.setItem(item, update);
-    console.log(item, update);
   }
 }
