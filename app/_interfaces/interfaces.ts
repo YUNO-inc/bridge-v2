@@ -67,7 +67,14 @@ export type CartDTO = {
   deliveryTotal: number;
   priceTotal: number;
   farthestPurchase: BusinessDTO["address"] | undefined;
-  pickupPoints: BusinessDTO["address"][];
+};
+
+export type OrderDTO = {
+  user: UserDTO["id"];
+  items: ItemDTO["id"][];
+  businesses: BusinessDTO["id"][];
+  farthestBusiness: BusinessDTO;
+  createdAt: Date | number;
 };
 
 export type InputsProps = {

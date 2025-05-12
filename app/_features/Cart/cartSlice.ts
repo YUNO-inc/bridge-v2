@@ -1,4 +1,9 @@
-import { createSlice, current, PayloadAction } from "@reduxjs/toolkit";
+import {
+  createAsyncThunk,
+  createSlice,
+  current,
+  PayloadAction,
+} from "@reduxjs/toolkit";
 import {
   AddressDTO,
   BusinessDTO,
@@ -7,6 +12,7 @@ import {
   DEFAULT_COORDS,
   ItemBusinessData,
   ItemDTO,
+  OrderDTO,
 } from "@/app/_interfaces/interfaces";
 import {
   calcDeliveryPrice,
@@ -15,8 +21,9 @@ import {
   sortByFarthestPoint,
   updateLocalStorage_CLIENT,
 } from "@/app/_utils/helpers";
+import { RootState } from "@/app/_store/store";
 
-type InitialState = CartDTO & { cartIsOpen: boolean };
+type InitialState = CartDTO & { cartIsOpen: boolean; isCheckingOut: boolean };
 
 const initialState: InitialState = {
   groups: [],
@@ -24,8 +31,8 @@ const initialState: InitialState = {
   priceTotal: 0,
   numTotalItems: 0,
   farthestPurchase: undefined,
-  pickupPoints: [],
   cartIsOpen: false,
+  isCheckingOut: false,
 };
 
 const cartSlice = createSlice({
@@ -137,6 +144,8 @@ const cartSlice = createSlice({
       state,
       action: PayloadAction<{ deliveryAddress: AddressDTO }>
     ) {
+      if (state.groups.length <= 0 || !state.farthestPurchase) return;
+
       state.deliveryTotal = getTotalDeliveryPrice(
         current(state.groups),
         current(state.farthestPurchase),
@@ -173,10 +182,29 @@ const cartSlice = createSlice({
         typeof localCart?.farthestPurchase === "object"
           ? localCart.farthestPurchase
           : state.farthestPurchase;
-      state.pickupPoints = Array.isArray(localCart?.pickupPoints)
-        ? localCart.pickupPoints
-        : state.pickupPoints;
     },
+  },
+  extraReducers: (builder) => {
+    builder
+      .addCase(checkout.pending, (state) => {
+        state.isCheckingOut = true;
+      })
+      .addCase(checkout.fulfilled, (state, action) => {
+        state.groups = initialState.groups;
+        state.cartIsOpen = initialState.cartIsOpen;
+        state.deliveryTotal = initialState.deliveryTotal;
+        state.farthestPurchase = initialState.farthestPurchase;
+        state.isCheckingOut = initialState.isCheckingOut;
+        state.numTotalItems = initialState.numTotalItems;
+        state.priceTotal = initialState.priceTotal;
+
+        updateLocalStorage_CLIENT("local-cart", JSON.stringify(initialState));
+        console.log(action.payload);
+      })
+      .addCase(checkout.rejected, (state, action) => {
+        state.isCheckingOut = false;
+        alert(action.payload);
+      });
   },
 });
 
@@ -189,6 +217,51 @@ export const {
 } = cartSlice.actions;
 
 export const getCart = (state: { cart: InitialState }) => state.cart;
+
+export const checkout = createAsyncThunk<
+  Partial<OrderDTO>,
+  undefined,
+  { state: RootState }
+>(
+  "cart/checkout",
+  async (_, { getState }) => {
+    try {
+      const cart = getState().cart;
+
+      const { items, businesses } = cart.groups.reduce<
+        Pick<OrderDTO, "items" | "businesses">
+      >(
+        (acc, group) => {
+          group.items.forEach((i) => acc.items.push(i.id));
+          acc.businesses.push(group.id);
+          return acc;
+        },
+        { items: [], businesses: [] }
+      );
+
+      const order = { items, businesses };
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_BASE_URL}/api/order/`,
+        {
+          method: "POST",
+          body: JSON.stringify({ order }),
+          headers: { "Content-Type": "application/json" },
+        }
+      );
+
+      return await res.json();
+    } catch (error) {
+      const err = error as Error;
+      console.error(err);
+    }
+  },
+  {
+    condition: (_, { getState }) => {
+      const cart = getState().cart;
+      return !cart.isCheckingOut;
+    },
+  }
+);
 
 export const businessIsInCart =
   (businessId: BusinessDTO["id"]) => (state: { cart: CartDTO }) =>

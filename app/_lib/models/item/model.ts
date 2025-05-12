@@ -1,7 +1,6 @@
 import { Model, Schema, model, models } from "mongoose";
 import { cleanupModel } from "../../utils/helpers";
 import { ItemDTO } from "@/app/_interfaces/interfaces";
-import mongoose from "mongoose";
 
 const ItemSchema = new Schema(
   {
@@ -21,7 +20,7 @@ const ItemSchema = new Schema(
     price: { type: Number, min: [0, "Price is invalid."] },
     slug: String,
     businessData: {
-      type: mongoose.Schema.ObjectId,
+      type: Schema.ObjectId,
       ref: "Business",
       required: [true, "Unable to find a parent business for this item."],
     },

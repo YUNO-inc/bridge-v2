@@ -2,16 +2,35 @@ import GlassContainer from "../Glass/GlassContainer";
 import IconAndText from "./IconAndText";
 import LocalIcons from "@/app/_utils/LocalIcons";
 import { ArrowUpRight, MoneyWavy } from "@phosphor-icons/react";
-import { useAppSelector } from "@/app/_hooks/reduxHooks";
-import { getCart } from "./cartSlice";
+import { useAppDispatch, useAppSelector } from "@/app/_hooks/reduxHooks";
+import { checkout, getCart } from "./cartSlice";
+import CircleLoader from "../Loaders/CircleLoader";
 
 function CheckOutBtnBig() {
-  const { deliveryTotal, priceTotal } = useAppSelector(getCart);
+  const { deliveryTotal, priceTotal, isCheckingOut } = useAppSelector(getCart);
+  const dispatch = useAppDispatch();
+
+  function handleCheckout() {
+    dispatch(checkout());
+  }
 
   return (
-    <button className="relative flex flex-col mx-4 my-2 mb-6 text-phthaloGreen p-6">
-      <span className="top-[10px] left-[50%] -translate-x-[50%]  absolute w-full h-full bg-phthaloGreen/80 rounded-3xl"></span>
-      <GlassContainer className="h-[95%] w-[95%] absolute left-[50%] top-[50%] -translate-x-[50%] -translate-y-[50%]">
+    <button
+      className="relative flex flex-col mx-4 my-2 mb-6 text-phthaloGreen p-6"
+      onClick={handleCheckout}
+    >
+      <span
+        className={`top-[10px] left-[50%] -translate-x-[50%] absolute w-full h-full rounded-3xl transition-colors ${
+          !isCheckingOut ? "bg-phthaloGreen/80" : "bg-phthaloGreen/80"
+        }`}
+      ></span>
+      <GlassContainer
+        className={`h-[95%] w-[95%] absolute left-[50%] top-[50%] -translate-x-[50%] -translate-y-[50%] transition-all ${
+          !isCheckingOut
+            ? "shadow-sgc active:top-[58%] active:scale-[0.99]"
+            : ""
+        }`}
+      >
         <div className="w-full flex justify-between items-center px-2">
           <div className="py-3 flex items-center gap-3">
             <IconAndText
@@ -33,8 +52,23 @@ function CheckOutBtnBig() {
             />
           </div>
           <div className="flex items-center text-white text-opacity-[0.47]">
-            <span>Checkout</span>
-            <ArrowUpRight />
+            {!isCheckingOut ? (
+              <>
+                <span>Checkout</span>
+                <ArrowUpRight />
+              </>
+            ) : (
+              // <span className="text-black text-opacity-[0.47] animate-pulse pr-3">
+              //   Processing...
+              // </span>
+              <div className="flex items-center justify-center bg-phthaloGreen bg-opacity-[0.37] w-7 h-7 rounded-full animate-pulse">
+                <CircleLoader
+                  size={20}
+                  animationDuration="1.4s"
+                  color="rgb(18 53 36 / 1)"
+                />
+              </div>
+            )}
           </div>
         </div>
       </GlassContainer>

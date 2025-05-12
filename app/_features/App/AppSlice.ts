@@ -11,6 +11,7 @@ type InitialState = {
   searchStr: string;
   loading: { isLoading: boolean; page: ActivityType };
   businessTypes: BusinessDTO["businessTypes"];
+  placeholders: string[];
   selectedBusinessType: BusinessTypesDTO;
   businesses: BusinessDTO[];
   productResults: ItemDTO[];
@@ -20,6 +21,11 @@ const initialState: InitialState = {
   searchStr: "",
   loading: { isLoading: false, page: "default" },
   businessTypes: BUSINESS_TYPES,
+  placeholders: [
+    "What type of sharwarma?",
+    "What's the name of the meal?",
+    "What medicine or pharmaceiticals?",
+  ],
   selectedBusinessType: BUSINESS_TYPES[0],
   businesses: [],
   productResults: [],

@@ -57,7 +57,10 @@ function AddressPopup({
     [edit]
   );
 
-  const handleUsePoint = async function () {
+  const handleUsePoint = async function (
+    e: React.MouseEvent<HTMLButtonElement>
+  ) {
+    e.preventDefault();
     if (!address) return;
 
     try {
@@ -79,6 +82,8 @@ function AddressPopup({
         })
       );
       router.back();
+    } catch (err) {
+      console.log(err);
     } finally {
       setIsUpdatingAddress(false);
     }
