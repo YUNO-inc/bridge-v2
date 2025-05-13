@@ -242,14 +242,11 @@ export const checkout = createAsyncThunk<
       );
 
       const order = { items, businesses };
-      const res = await fetch(
-        `${process.env.NEXT_PUBLIC_BASE_URL}/api/order/`,
-        {
-          method: "POST",
-          body: JSON.stringify({ order }),
-          headers: { "Content-Type": "application/json" },
-        }
-      );
+      const res = await fetch(`${window.location.origin}/api/order/`, {
+        method: "POST",
+        body: JSON.stringify({ order }),
+        headers: { "Content-Type": "application/json" },
+      });
       const {
         success,
         errMsg,
