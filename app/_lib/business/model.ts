@@ -1,5 +1,5 @@
 import { Model, Schema, model, models } from "mongoose";
-import { cleanupModel } from "../../utils/helpers";
+import { cleanupModel } from "../utils/helpers";
 import {
   BUSINESS_TYPES,
   BusinessAddressDTO,

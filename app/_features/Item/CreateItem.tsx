@@ -1,7 +1,7 @@
 "use client";
 
-import { GetSingleBusinessAction } from "@/app/_lib/actions/business/actions";
-import { CreateItemsAction } from "@/app/_lib/actions/item/actions";
+import { GetSingleBusinessAction } from "@/app/_lib/business/actions";
+import { CreateItemsAction } from "@/app/_lib/item/actions";
 
 function CreateItem({ name = "", businessSlug = "" }) {
   async function createItem() {

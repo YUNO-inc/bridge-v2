@@ -1,6 +1,6 @@
 import { OrderDTO } from "@/app/_interfaces/interfaces";
-import { auth } from "../actions/auth/auth";
 import Order from "./model";
+import { auth } from "../auth/auth";
 
 export async function checkout(
   order: Pick<OrderDTO, "items" | "businesses">

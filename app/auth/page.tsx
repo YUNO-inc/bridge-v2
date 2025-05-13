@@ -1,9 +1,9 @@
 import { redirect } from "next/navigation";
 import Button from "@/app/_features/Auth/components/Button";
 import AuthSegmentedControl from "../_features/Auth/components/AuthSegmentedControl";
-import { SignInAction } from "../_lib/actions/auth/actions";
+import { SignInAction } from "../_lib/auth/actions";
 import OutLink from "../_features/Forms/OutLink";
-import { auth } from "../_lib/actions/auth/auth";
+import { auth } from "../_lib/auth/auth";
 
 interface PageProps {
   searchParams: Promise<{ [key: string]: string | undefined }>;

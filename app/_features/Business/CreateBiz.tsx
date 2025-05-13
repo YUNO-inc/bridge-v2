@@ -1,7 +1,7 @@
 "use client";
 
 // import { DEFAULT_COORDS } from "@/app/_interfaces/interfaces";
-import { CreateBusinessAction } from "@/app/_lib/actions/business/actions";
+import { CreateBusinessAction } from "@/app/_lib/business/actions";
 
 function CreateBiz({ name = "" }) {
   async function createBiz() {

@@ -1,5 +1,5 @@
 import { Model, Schema, model, models } from "mongoose";
-import { cleanupModel } from "../../utils/helpers";
+import { cleanupModel } from "../utils/helpers";
 import { ItemDTO } from "@/app/_interfaces/interfaces";
 
 const ItemSchema = new Schema(

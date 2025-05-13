@@ -1,6 +1,6 @@
 import NumberForm from "@/app/_features/Auth/components/NumberForm";
 import CheckAnimation from "@/app/_features/CheckAnimation/CheckAnimation";
-import { auth } from "@/app/_lib/actions/auth/auth";
+import { auth } from "@/app/_lib/auth/auth";
 import { redirect } from "next/navigation";
 
 async function Page() {

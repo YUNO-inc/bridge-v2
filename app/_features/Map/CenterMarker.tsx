@@ -1,5 +1,5 @@
 import { AddressDTO } from "@/app/_interfaces/interfaces";
-import { ReverseGeoCodeAction } from "@/app/_lib/actions/location/actions";
+import { ReverseGeoCodeAction } from "@/app/_lib/location/actions";
 import { Popup as LeafletPopup } from "leaflet";
 import Image from "next/image";
 import { useCallback, useEffect, useRef, useState } from "react";

@@ -1,8 +1,8 @@
 import { AddressDTO, BusinessDTO, ItemDTO } from "@/app/_interfaces/interfaces";
-import Item from "../../models/item/model";
+import Item from "./model";
 import { auth } from "../auth/auth";
-import { connect } from "../../db";
-import Business from "../../models/business/model";
+import { connect } from "../db";
+import Business from "../business/model";
 import slugify from "slugify";
 import Fuse from "fuse.js";
 import { sortItemsByCloseness } from "@/app/_utils/helpers";

@@ -3,7 +3,7 @@
 import { cleanObject } from "@/app/_utils/helpers";
 import { updateMe } from "./service";
 import { UserDTO } from "@/app/_interfaces/interfaces";
-import { serializeMongoDocument } from "../../utils/helpers";
+import { serializeMongoDocument } from "../utils/helpers";
 
 export async function UpdateMeAction(
   formdata?: FormData,

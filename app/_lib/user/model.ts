@@ -1,6 +1,6 @@
 import validator from "validator";
 import { Model, Schema, model, models } from "mongoose";
-import { cleanupModel } from "../../utils/helpers";
+import { cleanupModel } from "../utils/helpers";
 import {
   AddressDTO,
   DEFAULT_COORDS,

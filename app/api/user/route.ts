@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import User from "@/app/_lib/models/user/model";
+import User from "@/app/_lib/user/model";
 import { connect } from "@/app/_lib/db";
 
 export async function GET() {

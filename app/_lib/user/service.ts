@@ -1,6 +1,6 @@
 import { UserDTO } from "@/app/_interfaces/interfaces";
-import { connect } from "../../db";
-import User from "../../models/user/model";
+import { connect } from "../db";
+import User from "./model";
 import { auth } from "../auth/auth";
 
 export async function createUser(user: Omit<UserDTO, "createdAt">) {

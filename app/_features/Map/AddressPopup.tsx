@@ -5,7 +5,7 @@ import { RefObject, useEffect, useRef, useState } from "react";
 import { Popup as LeafletPopup, LatLng } from "leaflet";
 import { Popup } from "react-leaflet";
 import { BookmarkIcon, PencilIcon } from "@heroicons/react/24/outline";
-import { UpdateMeAction } from "@/app/_lib/actions/user/actions";
+import { UpdateMeAction } from "@/app/_lib/user/actions";
 import { useAppDispatch, useAppSelector } from "@/app/_hooks/reduxHooks";
 import { AddressDTO } from "@/app/_interfaces/interfaces";
 import LocalIcons from "@/app/_utils/LocalIcons";
@@ -83,7 +83,7 @@ function AddressPopup({
       );
       router.back();
     } catch (err) {
-      console.log(err);
+      console.error(err);
     } finally {
       setIsUpdatingAddress(false);
     }

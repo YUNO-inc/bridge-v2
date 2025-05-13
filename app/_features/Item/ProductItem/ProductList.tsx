@@ -1,4 +1,4 @@
-import { auth } from "@/app/_lib/actions/auth/auth";
+import { auth } from "@/app/_lib/auth/auth";
 import ProductItem from "./ProductItem";
 import { DEFAULT_COORDS, ItemDTO } from "@/app/_interfaces/interfaces";
 

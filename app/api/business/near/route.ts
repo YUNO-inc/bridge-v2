@@ -3,7 +3,7 @@ import {
   BusinessTypesDTO,
   DEFAULT_COORDS,
 } from "@/app/_interfaces/interfaces";
-import { getNearBusinesses } from "@/app/_lib/actions/business/service";
+import { getNearBusinesses } from "@/app/_lib/business/service";
 import { NextRequest, NextResponse } from "next/server";
 
 function isBusinessTypesDTO(type: string): type is BusinessTypesDTO {

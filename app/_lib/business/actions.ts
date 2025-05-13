@@ -7,7 +7,7 @@ import {
   getNearBusinesses,
   getSingleBusiness,
 } from "./service";
-import { serializeMongoDocument } from "../../utils/helpers";
+import { serializeMongoDocument } from "../utils/helpers";
 
 export async function CreateBusinessAction(
   business: Pick<BusinessDTO, "name" | "address" | "profileImg">

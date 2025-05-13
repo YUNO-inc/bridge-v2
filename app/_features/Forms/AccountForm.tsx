@@ -3,7 +3,7 @@
 import { useCallback, useState } from "react";
 import InputsClient from "./InputsClient";
 import Button from "./Button";
-import { UpdateMeAction } from "@/app/_lib/actions/user/actions";
+import { UpdateMeAction } from "@/app/_lib/user/actions";
 import { useAppDispatch, useAppSelector } from "@/app/_hooks/reduxHooks";
 import { getUser, setUser } from "../User/userSlice";
 

@@ -1,4 +1,4 @@
-import { getSingleBusiness } from "@/app/_lib/actions/business/service";
+import { getSingleBusiness } from "@/app/_lib/business/service";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(

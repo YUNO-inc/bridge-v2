@@ -2,7 +2,7 @@
 
 import { AddressDTO, BusinessDTO, ItemDTO } from "@/app/_interfaces/interfaces";
 import { createItems, getItems } from "./service";
-import { serializeMongoDocument } from "../../utils/helpers";
+import { serializeMongoDocument } from "../utils/helpers";
 
 export async function CreateItemsAction({
   items,

@@ -3,7 +3,7 @@ import {
   DEFAULT_COORDS,
   ItemDTO,
 } from "@/app/_interfaces/interfaces";
-import { auth } from "@/app/_lib/actions/auth/auth";
+import { auth } from "@/app/_lib/auth/auth";
 import ProductItem from "../Item/ProductItem/ProductItem";
 import Link from "next/link";
 

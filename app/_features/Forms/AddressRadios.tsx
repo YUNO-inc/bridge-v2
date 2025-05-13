@@ -10,7 +10,7 @@ import {
 import { AddressDTO } from "@/app/_interfaces/interfaces";
 import Radio from "./Radio";
 import { MapTrifold } from "@phosphor-icons/react";
-import { UpdateMeAction } from "@/app/_lib/actions/user/actions";
+import { UpdateMeAction } from "@/app/_lib/user/actions";
 import { startTransition, useOptimistic } from "react";
 import { updateTotalDeliveryPrice } from "../Cart/cartSlice";
 

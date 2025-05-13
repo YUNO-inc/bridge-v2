@@ -2,7 +2,7 @@
 
 import { ArrowRightStartOnRectangleIcon } from "@heroicons/react/24/outline";
 import MajorLinkClient from "./MajorLinkClient";
-import { SignOutAction } from "@/app/_lib/actions/auth/actions";
+import { SignOutAction } from "@/app/_lib/auth/actions";
 import { useState } from "react";
 
 function SignOutBtn() {

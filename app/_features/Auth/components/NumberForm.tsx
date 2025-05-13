@@ -1,6 +1,6 @@
 "use client";
 
-import { SignedInNumberSubmitAction } from "@/app/_lib/actions/auth/actions";
+import { SignedInNumberSubmitAction } from "@/app/_lib/auth/actions";
 import Button from "../../Forms/Button";
 import HelperText from "../../Forms/HelperText";
 import Inputs from "../../Forms/inputs";

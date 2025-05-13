@@ -1,4 +1,4 @@
-import { auth } from "@/app/_lib/actions/auth/auth";
+import { auth } from "@/app/_lib/auth/auth";
 import DefaultItem from "./DefaultItem";
 import { BusinessDTO, BusinessTypesDTO } from "@/app/_interfaces/interfaces";
 

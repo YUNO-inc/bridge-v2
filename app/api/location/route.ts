@@ -1,4 +1,4 @@
-import { QueryPlaceString } from "@/app/_lib/actions/location/service";
+import { QueryPlaceString } from "@/app/_lib/location/service";
 import { NextResponse } from "next/server";
 
 export async function GET(req: Request) {
