@@ -38,7 +38,7 @@ function CheckoutModal({
           return <CheckoutItem item={item} key={`${order.id}-${i}`} />;
         })}
       </div>
-      <p className="text-sm text-stone-800 text-opacity-[0.37]">
+      <p className="text-sm text-stone-800 text-opacity-[0.37] max-w-[80%] text-wrap">
         Thanks for using bridge. We would call you to confirm your order.
       </p>
     </ModalWrapper>
@@ -47,7 +47,7 @@ function CheckoutModal({
 
 function ModalWrapper({ children }: { children: React.ReactNode }) {
   return (
-    <div className="absolute top-[5%] left-[50%] -translate-x-[50%] flex flex-col bg-white rounded-[18px] px-3 max-w-[90%] shadow-sgc-light py-1">
+    <div className="absolute top-[5%] left-[50%] -translate-x-[50%] flex flex-col bg-white rounded-[18px] px-3 w-max max-w-[90%] shadow-sgc-light py-1">
       {children}
     </div>
   );
