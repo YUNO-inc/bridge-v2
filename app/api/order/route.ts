@@ -15,7 +15,7 @@ export async function POST(req: NextRequest) {
     const err = error as Error;
     console.error(err.message);
     return NextResponse.json(
-      { success: false, message: err.message },
+      { success: false, errMsg: err.message },
       { status: 401 }
     );
   }

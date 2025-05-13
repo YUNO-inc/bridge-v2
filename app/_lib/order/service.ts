@@ -18,7 +18,7 @@ export async function checkout(
     );
   if (!user.addresses?.length)
     throw new Error(
-      "We would not be able to find you yet. Please add or select an address"
+      "We would not be able to locate you. Please add or select an address"
     );
   const selectedAddress = user.addresses?.find?.((a) => a.isSelected);
   if (!selectedAddress)
@@ -27,7 +27,9 @@ export async function checkout(
     );
 
   const { items, businesses } = order;
-  const createdOrder = await Order.create({ user: user.id, items, businesses });
+  const createdOrder = new Order({ user: user.id, items, businesses });
+  await createdOrder.save();
+  await createdOrder.populate("items");
 
   return createdOrder;
 }

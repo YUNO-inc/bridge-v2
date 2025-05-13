@@ -1,24 +1,21 @@
 import {
   ActivityType,
+  AppModalDTO,
   BUSINESS_TYPES,
   BusinessDTO,
   BusinessTypesDTO,
-  ItemDTO,
 } from "@/app/_interfaces/interfaces";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 type InitialState = {
-  searchStr: string;
   loading: { isLoading: boolean; page: ActivityType };
   businessTypes: BusinessDTO["businessTypes"];
   placeholders: string[];
   selectedBusinessType: BusinessTypesDTO;
-  businesses: BusinessDTO[];
-  productResults: ItemDTO[];
+  appModal: AppModalDTO;
 };
 
 const initialState: InitialState = {
-  searchStr: "",
   loading: { isLoading: false, page: "default" },
   businessTypes: BUSINESS_TYPES,
   placeholders: [
@@ -27,8 +24,7 @@ const initialState: InitialState = {
     "What medicine or pharmaceiticals?",
   ],
   selectedBusinessType: BUSINESS_TYPES[0],
-  businesses: [],
-  productResults: [],
+  appModal: { isOpen: false, type: undefined, props: {} },
 };
 
 const AppSlice = createSlice({
@@ -45,10 +41,14 @@ const AppSlice = createSlice({
       state.loading.isLoading = action.payload.isLoading || false;
       state.loading.page = action.payload.page || "default";
     },
+    openModal(state, { payload }: PayloadAction<AppModalDTO>) {
+      state.appModal = payload;
+    },
   },
 });
 
-export const { changeSelectedBusinessType, setLoading } = AppSlice.actions;
+export const { changeSelectedBusinessType, setLoading, openModal } =
+  AppSlice.actions;
 
 export const getAppData = (state: { app: InitialState }) => state.app;
 

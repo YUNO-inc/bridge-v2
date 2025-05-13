@@ -70,9 +70,10 @@ export type CartDTO = {
 };
 
 export type OrderDTO = {
+  id?: string;
   user: UserDTO["id"];
-  items: ItemDTO["id"][];
-  businesses: BusinessDTO["id"][];
+  items: ItemDTO["id"][] | ItemDTO[];
+  businesses: BusinessDTO["id"][] | BusinessDTO[];
   farthestBusiness: BusinessDTO;
   createdAt: Date | number;
 };
@@ -89,6 +90,12 @@ export type InputsProps = {
   required: boolean;
   value: string;
   setValue: React.Dispatch<React.SetStateAction<string | undefined>>;
+};
+
+export type AppModalDTO = {
+  isOpen: boolean;
+  type: undefined | "checkout";
+  props: { checkout?: { order?: OrderDTO; errorMsg?: string } };
 };
 
 export type ActivityType = "search" | "default";

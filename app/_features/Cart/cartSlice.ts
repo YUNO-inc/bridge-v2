@@ -189,7 +189,7 @@ const cartSlice = createSlice({
       .addCase(checkout.pending, (state) => {
         state.isCheckingOut = true;
       })
-      .addCase(checkout.fulfilled, (state, action) => {
+      .addCase(checkout.fulfilled, (state) => {
         state.groups = initialState.groups;
         state.cartIsOpen = initialState.cartIsOpen;
         state.deliveryTotal = initialState.deliveryTotal;
@@ -199,11 +199,9 @@ const cartSlice = createSlice({
         state.priceTotal = initialState.priceTotal;
 
         updateLocalStorage_CLIENT("local-cart", JSON.stringify(initialState));
-        console.log(action.payload);
       })
-      .addCase(checkout.rejected, (state, action) => {
+      .addCase(checkout.rejected, (state) => {
         state.isCheckingOut = false;
-        alert(action.payload);
       });
   },
 });
@@ -219,7 +217,7 @@ export const {
 export const getCart = (state: { cart: InitialState }) => state.cart;
 
 export const checkout = createAsyncThunk<
-  Partial<OrderDTO>,
+  OrderDTO,
   undefined,
   { state: RootState }
 >(
@@ -232,8 +230,12 @@ export const checkout = createAsyncThunk<
         Pick<OrderDTO, "items" | "businesses">
       >(
         (acc, group) => {
-          group.items.forEach((i) => acc.items.push(i.id));
-          acc.businesses.push(group.id);
+          group.items.forEach((i) => {
+            if (acc.items.every((x) => typeof x === "string"))
+              acc.items.push(i.id);
+          });
+          if (acc.businesses.every((x) => typeof x === "string"))
+            acc.businesses.push(group.id);
           return acc;
         },
         { items: [], businesses: [] }
@@ -248,11 +250,23 @@ export const checkout = createAsyncThunk<
           headers: { "Content-Type": "application/json" },
         }
       );
+      const {
+        success,
+        errMsg,
+        order: newOrder,
+      }: {
+        success: boolean;
+        errMsg: string;
+        order: OrderDTO;
+      } = await res.json();
 
-      return await res.json();
+      if (!success) throw new Error(errMsg);
+
+      return newOrder;
     } catch (error) {
       const err = error as Error;
       console.error(err);
+      throw new Error(err.message);
     }
   },
   {

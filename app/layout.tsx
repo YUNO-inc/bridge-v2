@@ -4,6 +4,7 @@ import { nunito } from "./fonts";
 import { auth } from "./_lib/auth/auth";
 import { SessionProvider } from "next-auth/react";
 import StoreProvider from "./_store/StoreProvider";
+import AppModal from "./_features/Modals/AppModal";
 
 export const metadata: Metadata = {
   title: "Bridge",
@@ -25,7 +26,10 @@ export default async function RootLayout({
     <html lang="en">
       <SessionProvider>
         <StoreProvider user={session?.user}>
-          <body className={`${nunito.className}`}>{children}</body>
+          <body className={`${nunito.className}`}>
+            <AppModal />
+            <div>{children}</div>
+          </body>
         </StoreProvider>
       </SessionProvider>
     </html>

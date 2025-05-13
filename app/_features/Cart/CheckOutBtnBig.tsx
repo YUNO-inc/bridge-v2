@@ -5,13 +5,41 @@ import { ArrowUpRight, MoneyWavy } from "@phosphor-icons/react";
 import { useAppDispatch, useAppSelector } from "@/app/_hooks/reduxHooks";
 import { checkout, getCart } from "./cartSlice";
 import CircleLoader from "../Loaders/CircleLoader";
+import { openModal } from "../App/AppSlice";
 
 function CheckOutBtnBig() {
   const { deliveryTotal, priceTotal, isCheckingOut } = useAppSelector(getCart);
   const dispatch = useAppDispatch();
 
-  function handleCheckout() {
-    dispatch(checkout());
+  async function handleCheckout() {
+    try {
+      const order = await dispatch(checkout()).unwrap();
+      dispatch(
+        openModal({
+          isOpen: true,
+          type: "checkout",
+          props: {
+            checkout: {
+              order,
+            },
+          },
+        })
+      );
+    } catch (error) {
+      const err = error as Error;
+      dispatch(
+        openModal({
+          isOpen: true,
+          type: "checkout",
+          props: {
+            checkout: {
+              errorMsg:
+                err.message || "There was an error processing your order.",
+            },
+          },
+        })
+      );
+    }
   }
 
   return (
