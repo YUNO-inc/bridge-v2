@@ -32,5 +32,23 @@ export async function checkout(
   await createdOrder.save();
   await createdOrder.populate("items");
 
+  const numOfItems = createdOrder.items.length;
+  const numOfBusinesses = createdOrder.businesses.length;
+
+  await fetch("https://ntfy.sh/bridge-order-alert", {
+    method: "POST",
+    headers: {
+      Title: "New Order",
+      Priority: "urgent",
+      Tags: "fire,bike",
+      Click: "https://bridgeinc.ng",
+    },
+    body: `New order of ${numOfItems} ${
+      numOfItems < 2 ? "item" : "items"
+    } from ${numOfBusinesses} ${
+      numOfBusinesses < 2 ? "business" : "businesses"
+    }`,
+  });
+
   return createdOrder;
 }
