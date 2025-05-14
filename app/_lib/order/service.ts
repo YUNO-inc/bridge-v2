@@ -1,3 +1,4 @@
+import { connect } from "../db";
 import { OrderDTO } from "@/app/_interfaces/interfaces";
 import Order from "./model";
 import { auth } from "../auth/auth";
@@ -7,6 +8,8 @@ export async function checkout(
 ): Promise<OrderDTO> {
   const session = await auth();
   const user = session?.user;
+
+  await connect();
 
   if (!user?.id)
     throw new Error(
