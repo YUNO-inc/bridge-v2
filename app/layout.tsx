@@ -24,7 +24,7 @@ export default async function RootLayout({
 
   return (
     <html lang="en">
-      <SessionProvider>
+      <SessionProvider session={session}>
         <StoreProvider user={session?.user}>
           <body className={`${nunito.className}`}>
             <AppModal />

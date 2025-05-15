@@ -15,7 +15,7 @@ function ProfileImage() {
   const [showModal, setShowModal] = useState(searchParams.get("menu") === "");
 
   function handleClick() {
-    // if (!user) return router.push("/auth");
+    if (!user) return router.push("/auth");
 
     const params = new URLSearchParams(searchParams.toString());
 

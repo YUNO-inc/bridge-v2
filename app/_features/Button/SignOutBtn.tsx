@@ -7,6 +7,7 @@ import { useState } from "react";
 
 function SignOutBtn() {
   const [isLoading, setIsLoading] = useState(false);
+  // const dispat
   function handleSignOut() {
     if (confirm("Are you sure you want to sign out?")) {
       setIsLoading(true);

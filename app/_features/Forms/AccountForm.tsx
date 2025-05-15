@@ -1,14 +1,17 @@
 "use client";
 
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import InputsClient from "./InputsClient";
 import Button from "./Button";
 import { UpdateMeAction } from "@/app/_lib/user/actions";
 import { useAppDispatch, useAppSelector } from "@/app/_hooks/reduxHooks";
 import { getUser, setUser } from "../User/userSlice";
+import { useRouter } from "next/navigation";
 
 function AccountForm() {
+  const router = useRouter();
   const user = useAppSelector(getUser);
+  const userId = user?.id ? String(user.id) : undefined;
   const dispatch = useAppDispatch();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [name, setName] = useState(user?.name || undefined);
@@ -21,6 +24,10 @@ function AccountForm() {
     email === user?.email &&
     phoneNumber === user?.phoneNumber
   );
+
+  useEffect(() => {
+    if (!userId) router.push("/app");
+  }, [router, userId]);
 
   const handleAction = useCallback(
     async (formdata: FormData) => {

@@ -11,18 +11,23 @@ import { AddressDTO } from "@/app/_interfaces/interfaces";
 import Radio from "./Radio";
 import { MapTrifold } from "@phosphor-icons/react";
 import { UpdateMeAction } from "@/app/_lib/user/actions";
-import { startTransition, useOptimistic } from "react";
+import { startTransition, useEffect, useOptimistic } from "react";
 import { updateTotalDeliveryPrice } from "../Cart/cartSlice";
+import { useRouter } from "next/navigation";
 
 function AddressRadios() {
+  const router = useRouter();
   const user = useAppSelector(getUser);
+  const userId = user?.id ? String(user.id) : undefined;
   const selectedAddress = useAppSelector(getSelectedAddress);
-  if (!user) console.error("no user");
   const dispatch = useAppDispatch();
-
   const [optimisticAddresses, setOptimisticAddresses] = useOptimistic(
     user?.addresses || []
   );
+
+  useEffect(() => {
+    if (!userId) router.push("/app");
+  }, [router, userId]);
 
   async function handleChange(id: AddressDTO["id"]) {
     const newAddress = (address: AddressDTO) => ({

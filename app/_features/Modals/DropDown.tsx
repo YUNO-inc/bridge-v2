@@ -1,8 +1,18 @@
-import { MapPinIcon, UserIcon } from "@heroicons/react/24/outline";
-import MajorLink from "../Button/MajorLink";
 import { motion } from "motion/react";
+import {
+  BuildingLibraryIcon,
+  MapPinIcon,
+  UserIcon,
+} from "@heroicons/react/24/outline";
+import { useAppSelector } from "@/app/_hooks/reduxHooks";
+import MajorLink from "../Button/MajorLink";
+import { getUser } from "../User/userSlice";
 
 function DropDown({ showDropDown }: { showDropDown: boolean }) {
+  const user = useAppSelector(getUser);
+  const userId = user?.id;
+  const ADMIN_IDS = ["681b17864fa2b65eab3b30db", "6825d9a2e48ee73801e135c5"];
+
   if (!showDropDown) return null;
   return (
     <motion.div
@@ -21,6 +31,13 @@ function DropDown({ showDropDown }: { showDropDown: boolean }) {
         text="Addresses"
         href="/address"
       />
+      {userId?.length && ADMIN_IDS.includes(userId) ? (
+        <MajorLink
+          icon={<BuildingLibraryIcon className="stroke-current w-6 h-6" />}
+          text="Admin"
+          href="/admin"
+        />
+      ) : null}
     </motion.div>
   );
 }
