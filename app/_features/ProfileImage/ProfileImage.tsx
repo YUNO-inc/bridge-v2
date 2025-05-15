@@ -5,14 +5,18 @@ import { UserIcon } from "@heroicons/react/24/outline";
 import { useRouter, useSearchParams } from "next/navigation";
 import { getUser } from "../User/userSlice";
 import { ChevronDownIcon } from "@heroicons/react/16/solid";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import DropDown from "@/app/_features/Modals/DropDown";
+import { useOnClickOutside } from "@/app/_hooks/useOnClickOutside";
 
 function ProfileImage() {
   const router = useRouter();
   const searchParams = useSearchParams();
+  const modalRef = useRef<HTMLButtonElement>(null);
   const user = useAppSelector(getUser);
   const [showModal, setShowModal] = useState(searchParams.get("menu") === "");
+
+  useOnClickOutside(showModal, modalRef, handleClick);
 
   function handleClick() {
     if (!user) return router.push("/auth");
@@ -34,6 +38,7 @@ function ProfileImage() {
     <div className="absolute w-full top-0 left-0 flex justify-end px-3 sm:px-6 pt-3 text-white text-sm">
       <div className="relative w-min flex flex-col items-end gap-3 z-20">
         <button
+          ref={modalRef}
           onClick={handleClick}
           className="w-fit bg-phthaloGreen h-9 px-2 rounded-full flex gap-3 items-center justify-center"
         >
