@@ -11,7 +11,7 @@ import { getUser } from "../User/userSlice";
 function DropDown({ showDropDown }: { showDropDown: boolean }) {
   const user = useAppSelector(getUser);
   const userId = user?.id;
-  const ADMIN_IDS = ["681b17864fa2b65eab3b30db", "6825d9a2e48ee73801e135c5"];
+  const ADMIN_IDS = process.env.NEXT_PUBLIC_ADMIN_IDS?.split?.(",") ?? [];
 
   if (!showDropDown) return null;
   return (

@@ -4,14 +4,18 @@ import { ArrowRightStartOnRectangleIcon } from "@heroicons/react/24/outline";
 import MajorLinkClient from "./MajorLinkClient";
 import { SignOutAction } from "@/app/_lib/auth/actions";
 import { useState } from "react";
+import { useAppDispatch } from "@/app/_hooks/reduxHooks";
+import { setUser } from "../User/userSlice";
 
 function SignOutBtn() {
   const [isLoading, setIsLoading] = useState(false);
-  // const dispat
+  const dispatch = useAppDispatch();
+
   function handleSignOut() {
     if (confirm("Are you sure you want to sign out?")) {
       setIsLoading(true);
       SignOutAction();
+      dispatch(setUser(undefined));
     }
   }
 
