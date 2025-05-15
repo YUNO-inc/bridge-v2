@@ -12,9 +12,12 @@ import { useOnClickOutside } from "@/app/_hooks/useOnClickOutside";
 function ProfileImage() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const modalRef = useRef<HTMLButtonElement>(null);
+  const modalRef = useRef<HTMLDivElement>(null);
   const user = useAppSelector(getUser);
-  const [showModal, setShowModal] = useState(searchParams.get("menu") === "");
+  const openStr = "open";
+  const [showModal, setShowModal] = useState(
+    searchParams.get("menu") === openStr
+  );
 
   useOnClickOutside(showModal, modalRef, handleClick);
 
@@ -24,7 +27,7 @@ function ProfileImage() {
     const params = new URLSearchParams(searchParams.toString());
 
     if (!showModal) {
-      params.set("menu", "open");
+      params.set("menu", openStr);
       router.replace(`?${params.toString()}`);
       setShowModal(true);
     } else {
@@ -36,9 +39,11 @@ function ProfileImage() {
 
   return (
     <div className="absolute w-full top-0 left-0 flex justify-end px-3 sm:px-6 pt-3 text-white text-sm">
-      <div className="relative w-min flex flex-col items-end gap-3 z-20">
+      <div
+        ref={modalRef}
+        className="relative w-min flex flex-col items-end gap-3 z-20"
+      >
         <button
-          ref={modalRef}
           onClick={handleClick}
           className="w-fit bg-phthaloGreen h-9 px-2 rounded-full flex gap-3 items-center justify-center"
         >

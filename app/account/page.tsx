@@ -8,8 +8,6 @@ export const viewport: Viewport = {
 };
 
 async function Page() {
-  //   if (!user) redirect("/");
-
   return (
     <div className="flex flex-col min-h-[100svh] p-4 text-xl">
       <PageBackLink text="Account" className="mb-10" />

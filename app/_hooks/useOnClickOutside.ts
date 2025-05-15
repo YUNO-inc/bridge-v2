@@ -8,7 +8,7 @@ export function useOnClickOutside(
   useEffect(() => {
     const handleClickOutside = (event: Event) => {
       if (ref.current && !ref.current.contains(event.target as Node)) {
-        handler(); // Close the modal
+        handler();
       }
     };
 
