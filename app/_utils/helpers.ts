@@ -161,3 +161,27 @@ export function updateLocalStorage_CLIENT(item: "local-cart", update: string) {
     localStorage.setItem(item, update);
   }
 }
+
+export function getADMIN_IDS() {
+  const ADMIN_IDS = process.env.NEXT_PUBLIC_ADMIN_IDS?.split?.(",") ?? [];
+  return ADMIN_IDS;
+}
+
+export function getTotalDeliveryPrice(
+  addresses: BusinessDTO["address"][],
+  farthestPurchase: BusinessDTO["address"] | undefined,
+  deliveryAddress: AddressDTO | undefined
+) {
+  return addresses.reduce((acc, address) => {
+    const deliveryPoint = deliveryAddress?.coordinates || DEFAULT_COORDS;
+    const currItemPickup = address.coordinates;
+    const dp = calcDynamicDeliveryPrice({
+      farthestPickup: farthestPurchase?.coordinates,
+      deliveryPoint,
+      currItemPickup,
+      deliveryPrice: calcDeliveryPrice(deliveryPoint, currItemPickup),
+      isInCart: false,
+    });
+    return acc + dp;
+  }, 0);
+}

@@ -36,6 +36,30 @@ const OrderSchema = new Schema(
           "No business or pickup points was included in this order. At least business is required.",
       },
     },
+    farthestPurchase: {
+      type: Schema.ObjectId,
+      ref: "Business",
+      required: [true, "No farthest purchase was received."],
+    },
+    totalItemPrice: {
+      type: Number,
+      required: [
+        true,
+        "We were unable to calculate total item price for your order.",
+      ],
+    },
+    totalDeliveryPrice: {
+      type: Number,
+      required: [
+        true,
+        "We were unable to calculate total delivery price for your order.",
+      ],
+    },
+    status: {
+      type: String,
+      enum: ["active", "pending"],
+      default: "active",
+    },
     createdAt: {
       type: Date,
       default: Date.now,

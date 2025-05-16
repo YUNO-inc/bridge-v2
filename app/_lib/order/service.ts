@@ -2,6 +2,12 @@ import { OrderDTO } from "@/app/_interfaces/interfaces";
 import Order from "./model";
 import { auth } from "../auth/auth";
 import "@/app/_lib/item/model";
+import Item from "@/app/_lib/item/model";
+import Business from "../business/model";
+import {
+  getTotalDeliveryPrice,
+  sortByFarthestPoint,
+} from "@/app/_utils/helpers";
 
 export async function checkout(
   order: Pick<OrderDTO, "items" | "businesses">
@@ -27,8 +33,48 @@ export async function checkout(
       "Which address would we find you? Please select one of your addresses."
     );
 
-  const { items, businesses } = order;
-  const createdOrder = new Order({ user: user.id, items, businesses });
+  const { items: itemIds, businesses: businessIds } = order;
+  const items = await Item.find({ _id: itemIds });
+  const businesses = await Business.find({ _id: businessIds });
+  const foundItemIds = items.map((item) => item.id);
+  const foundBusinessIds = businesses.map((business) => business.id);
+
+  itemIds.forEach((id) => {
+    if (!foundItemIds.includes(id))
+      throw new Error(
+        `Could Not Find an item with this id in our database ${id}`
+      );
+  });
+  businessIds.forEach((id) => {
+    if (!foundBusinessIds.includes(id))
+      throw new Error(
+        `Could Not Find a business with this id in our database ${id}`
+      );
+  });
+
+  const farthestAddress = sortByFarthestPoint(
+    selectedAddress,
+    businesses.map((b) => b.address)
+  )[0];
+  const farthestPurchase = businesses.find(
+    (b) => b.address.id === farthestAddress.id
+  )?.id;
+
+  const totalItemPrice = items.reduce((acc, i) => acc + i.price, 0);
+  const totalDeliveryPrice = getTotalDeliveryPrice(
+    businesses.map((b) => b.address),
+    farthestAddress,
+    selectedAddress
+  );
+
+  const createdOrder = new Order({
+    user: user.id,
+    items,
+    businesses,
+    farthestPurchase,
+    totalItemPrice,
+    totalDeliveryPrice,
+  });
   await createdOrder.save();
   await createdOrder.populate("items");
 

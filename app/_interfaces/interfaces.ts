@@ -74,9 +74,17 @@ export type OrderDTO = {
   user: UserDTO["id"];
   items: ItemDTO["id"][] | ItemDTO[];
   businesses: BusinessDTO["id"][] | BusinessDTO[];
-  farthestBusiness: BusinessDTO;
+  farthestPurchase: BusinessDTO["id"];
+  totalItemPrice: ItemDTO["price"];
+  totalDeliveryPrice: BusinessDTO["deliveryPrice"];
+  status: "active" | "delivered";
   createdAt: Date | number;
 };
+
+export type StrictOrderDTO = Extract<
+  OrderDTO,
+  { items: ItemDTO; businesses: BusinessDTO }
+>;
 
 export type InputsProps = {
   type: "tel" | "select" | "text" | "email";
@@ -96,6 +104,15 @@ export type AppModalDTO = {
   isOpen: boolean;
   type: undefined | "checkout";
   props: { checkout?: { order?: OrderDTO; errorMsg?: string } };
+};
+
+export type AdminAggregatesDTO = {
+  activeOrders: OrderDTO[];
+  totalDeliveries: number;
+  totalOrderValue: number;
+  averageOrderValue: number;
+  grossRevenue: number;
+  grossDeliveryProfit: number;
 };
 
 export type ActivityType = "search" | "default";

@@ -3,8 +3,21 @@ import PageBackLink from "../_features/Button/PageBackLink";
 import { MapPin, MoneyWavy, Package } from "@phosphor-icons/react/dist/ssr";
 import IconAndText from "../_features/Cart/IconAndText";
 import LocalIcons from "../_utils/LocalIcons";
+import { BusinessDTO } from "../_interfaces/interfaces";
 
-function Page() {
+async function Page() {
+  let aggregates: BusinessDTO | null;
+  try {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/admin`);
+    aggregates = await res.json();
+  } catch {
+    aggregates = null;
+  }
+
+  console.log(aggregates);
+
+  if (!aggregates) return <div>Error While Loading Aggregates</div>;
+
   return (
     <div className="flex flex-col min-h-[100svh] py-4 text-xl">
       <PageBackLink text="Admin" className="mb-10" />
@@ -124,3 +137,13 @@ function OrderItem() {
 }
 
 export default Page;
+
+// Write a mongoDB / Mongoose aggreate query to a `Order` Model.
+// This aggragation should do the following values
+// 1. Get all the orders
+// 2.  Populate the `user` field (which is an objectID for documents in a users collection) on each document
+// 3. Populate the FPI field (which is an objectID for documents in a fpis collection)
+// 4. Store the length of the orders in a field `totalOrders`
+// 5. Store the length of the orders with a status of `delivered` in a field `totalDeliveries`
+// 6. Store the sum of the `price` fields of all documents with a status of `delivered` in a field `totalOrderValue`
+// 7. Store the average of the `totalOrderValue` in a field `averageOrderValue`

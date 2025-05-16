@@ -241,7 +241,11 @@ export const checkout = createAsyncThunk<
         { items: [], businesses: [] }
       );
 
-      const order = { items, businesses };
+      const order = {
+        items,
+        businesses,
+        farthestPurchase: cart.farthestPurchase?.id,
+      };
       const res = await fetch(`${window.location.origin}/api/order/`, {
         method: "POST",
         body: JSON.stringify({ order }),
