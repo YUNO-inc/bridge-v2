@@ -20,7 +20,7 @@ function OrderItem({ order }: { order: AdminAggregatesActiveOrderDTO }) {
 
   return (
     <Link
-      href={`/admin/${id}`}
+      href={`/admin/order/${id}`}
       className="border border-transparent border-opacity-[0.1] border-b-phthaloGreen last:border-b-transparent py-3"
     >
       <p>

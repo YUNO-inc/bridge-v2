@@ -87,7 +87,7 @@ export async function checkout(
       Title: "New Order",
       Priority: "urgent",
       Tags: "fire,bike",
-      Click: "https://bridgeinc.ng",
+      Click: `https://bridgeinc.ng/admin/order/${createdOrder.id}`,
     },
     body: `New order of ${numOfItems} ${
       numOfItems < 2 ? "item" : "items"
