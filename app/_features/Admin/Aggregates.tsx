@@ -48,7 +48,7 @@ async function Aggregates() {
           ) : (
             <div className="grow flex flex-col items-center justify-center">
               <LocalIcons name="empty-cart" />
-              <p className="text-sm font-bold text-stone-500">
+              <p className="text-sm font-bold text-center text-phthaloGreen text-opacity-[0.37]">
                 No Active Orders
               </p>
             </div>
