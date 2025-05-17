@@ -31,13 +31,13 @@ function OrderItem({ order }: { order: AdminAggregatesActiveOrderDTO }) {
       </p>
       <p className="flex gap-2 items-center font-bold">
         <span className="max-w-[50%] flex gap-1 items-center">
-          <Package className="w-5 h-5" />
+          <Package className="w-5 h-5 shrink-0" />
           <span className="max-w-[90%] overflow-hidden whitespace-nowrap text-ellipsis">
             {farthestPurchase.name}
           </span>
         </span>
         <span className="max-w-[50%] flex gap-1 items-center">
-          <MapPin className="w-5 h-5" />
+          <MapPin className="w-5 h-5 shrink-0" />
           <span className="max-w-[90%] overflow-hidden whitespace-nowrap text-ellipsis">
             {selectedAddress?.name}
           </span>

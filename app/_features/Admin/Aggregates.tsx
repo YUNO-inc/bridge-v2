@@ -34,7 +34,7 @@ async function Aggregates() {
             Active Orders {hasActiveOrders ? `x ${activeOrders.length}` : ""}
           </p>
           {hasActiveOrders ? (
-            <div className="text-sm text-stone-500 flex flex-col bg-white bg-opacity-[0.74] rounded-[18px] px-3">
+            <div className="max-h-[calc(100dvh-448px)] overflow-y-auto text-sm text-stone-500 flex flex-col bg-white bg-opacity-[0.74] rounded-[18px] px-3">
               {activeOrders.map((order) => (
                 <OrderItem key={order.id} order={order} />
               ))}
