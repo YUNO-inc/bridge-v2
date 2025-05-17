@@ -1,7 +1,7 @@
-// import Item from "../item/model";
-
 import { getADMIN_IDS } from "@/app/_utils/helpers";
 import { auth } from "../auth/auth";
+import Order from "../order/model";
+import { adminPipeline } from "./pipelines";
 
 export async function getAdminAggregates() {
   const session = await auth();
@@ -13,5 +13,7 @@ export async function getAdminAggregates() {
       throw new Error("Unathorised access");
   }
 
-  return { a: true };
+  const [adminAggregates] = await Order.aggregate(adminPipeline).exec();
+
+  return adminAggregates;
 }

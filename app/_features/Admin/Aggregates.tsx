@@ -1,0 +1,88 @@
+import { AdminAggregatesDTO } from "@/app/_interfaces/interfaces";
+import LocalIcons from "@/app/_utils/LocalIcons";
+import OrderItem from "./OrderItem";
+import ThreeTabs from "./ThreeTabs";
+
+async function Aggregates() {
+  let aggregates: AdminAggregatesDTO | null;
+  try {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/admin`);
+    aggregates = await res.json();
+  } catch (err) {
+    console.error(err);
+    aggregates = null;
+  }
+
+  if (!aggregates) return <div>Error While Loading Aggregates</div>;
+
+  const {
+    activeOrders,
+    totalOrders,
+    totalDeliveriesMade,
+    totalItemsDelivered,
+    averageDeliveredItemPrice,
+    totalDeliveryPrice,
+    totalDeliveredItemPrice,
+  } = aggregates;
+  const hasActiveOrders = activeOrders.length > 0;
+
+  return (
+    <div className="grow flex flex-col items-center">
+      <div className="grow flex flex-col gap-3 w-full max-w-screen-sm px-4 items-center justify-between">
+        <div className="grow flex flex-col  min-h-14 w-full bg-phthaloGreen/10 rounded-2xl p-3">
+          <p className="text-phthaloGreen text-xl font-extrabold">
+            Active Orders {hasActiveOrders ? `x ${activeOrders.length}` : ""}
+          </p>
+          {hasActiveOrders ? (
+            <div className="text-sm text-stone-500 flex flex-col bg-white bg-opacity-[0.74] rounded-[18px] px-3">
+              {activeOrders.map((order) => (
+                <OrderItem key={order.id} order={order} />
+              ))}
+            </div>
+          ) : (
+            <div className="grow flex flex-col items-center justify-center">
+              <LocalIcons name="empty-cart" />
+              <p className="text-sm font-bold text-stone-500">
+                No Active Orders
+              </p>
+            </div>
+          )}
+        </div>
+        <div className="w-full flex flex-col gap-3">
+          <ThreeTabs
+            tabs={[
+              {
+                title: "Total Deliveries Made",
+                text: `${totalDeliveriesMade}/${totalOrders}`,
+              },
+              {
+                title: "Total Items Delivered",
+                text: String(totalItemsDelivered),
+              },
+              {
+                title: "Average Item Price",
+                text: String(averageDeliveredItemPrice),
+              },
+            ]}
+          />
+          <div className="w-full flex flex-col bg-green-500 rounded-2xl p-3">
+            <p className="text-white text-xl font-extrabold">
+              Gross Delivery Profit
+            </p>
+            <div className="text-green-500  flex flex-col bg-white bg-opacity-[0.74] rounded-[18px] p-3">
+              <p className="text-base font-bold">₦{totalDeliveryPrice}</p>
+            </div>
+          </div>
+          <div className="w-full flex flex-col bg-teal-500 rounded-2xl p-3">
+            <p className="text-white text-xl font-extrabold">Gross Revenue</p>
+            <div className="text-teal-500 flex flex-col bg-white bg-opacity-[0.74] rounded-[18px] p-3">
+              <p className="text-base font-bold">₦{totalDeliveredItemPrice}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export default Aggregates;

@@ -81,10 +81,10 @@ export type OrderDTO = {
   createdAt: Date | number;
 };
 
-export type StrictOrderDTO = Extract<
-  OrderDTO,
-  { items: ItemDTO; businesses: BusinessDTO }
->;
+export type StrictOrderDTO = OrderDTO & {
+  items: ItemDTO[];
+  businesses: BusinessDTO[];
+};
 
 export type InputsProps = {
   type: "tel" | "select" | "text" | "email";
@@ -106,13 +106,19 @@ export type AppModalDTO = {
   props: { checkout?: { order?: OrderDTO; errorMsg?: string } };
 };
 
+export type AdminAggregatesActiveOrderDTO = OrderDTO & {
+  farthestPurchase: BusinessDTO;
+  user: UserDTO;
+};
+
 export type AdminAggregatesDTO = {
-  activeOrders: OrderDTO[];
-  totalDeliveries: number;
-  totalOrderValue: number;
-  averageOrderValue: number;
-  grossRevenue: number;
-  grossDeliveryProfit: number;
+  activeOrders: AdminAggregatesActiveOrderDTO[];
+  totalOrders: number;
+  totalDeliveriesMade: number;
+  totalItemsDelivered: number;
+  averageDeliveredItemPrice: number;
+  totalDeliveredItemPrice: number;
+  totalDeliveryPrice: number;
 };
 
 export type ActivityType = "search" | "default";
