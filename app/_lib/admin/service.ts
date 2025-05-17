@@ -8,10 +8,11 @@ export async function getAdminAggregates() {
   const user = session?.user;
   const ADMIN_IDS = getADMIN_IDS();
 
-  if (process.env.NODE_ENV !== "development") {
-    if (!user || !ADMIN_IDS.includes(user.id || ""))
-      throw new Error("Unathorised access");
-  }
+  console.log(user);
+  // if (process.env.NODE_ENV !== "development") {
+  if (!user || !ADMIN_IDS.includes(user.id || ""))
+    throw new Error("Unathorised access");
+  // }
 
   const [adminAggregates] = await Order.aggregate(adminPipeline).exec();
 
