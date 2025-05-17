@@ -36,15 +36,8 @@ export async function checkout(
   const { items: itemIds, businesses: businessIds } = order;
   const items = await Item.find({ _id: itemIds });
   const businesses = await Business.find({ _id: businessIds });
-  const foundItemIds = items.map((item) => item.id);
-  const foundBusinessIds = businesses.map((business) => business.id);
 
-  itemIds.forEach((id) => {
-    if (!foundItemIds.includes(id))
-      throw new Error(
-        `Could Not Find an item with this id in our database ${id}`
-      );
-  });
+  const foundBusinessIds = businesses.map((business) => business.id);
   businessIds.forEach((id) => {
     if (!foundBusinessIds.includes(id))
       throw new Error(
@@ -60,7 +53,15 @@ export async function checkout(
     (b) => b.address.id === farthestAddress.id
   )?.id;
 
-  const totalItemPrice = items.reduce((acc, i) => acc + i.price, 0);
+  const totalItemPrice = itemIds.reduce((acc, id) => {
+    const item = items.find((i) => i.id === id);
+    if (!item)
+      throw new Error(
+        `Could Not Find an item with this id in our database ${id}`
+      );
+    const itemPrice = item.price;
+    return acc + itemPrice;
+  }, 0);
   const totalDeliveryPrice = getTotalDeliveryPrice(
     businesses.map((b) => b.address),
     farthestAddress,
@@ -69,8 +70,8 @@ export async function checkout(
 
   const createdOrder = new Order({
     user: user.id,
-    items,
-    businesses,
+    items: itemIds,
+    businesses: businessIds,
     farthestPurchase,
     totalItemPrice,
     totalDeliveryPrice,
@@ -81,20 +82,21 @@ export async function checkout(
   const numOfItems = createdOrder.items.length;
   const numOfBusinesses = createdOrder.businesses.length;
 
-  await fetch("https://ntfy.sh/bridge-order-alert", {
-    method: "POST",
-    headers: {
-      Title: "New Order",
-      Priority: "urgent",
-      Tags: "fire,bike",
-      Click: `https://bridgeinc.ng/admin/order/${createdOrder.id}`,
-    },
-    body: `New order of ${numOfItems} ${
-      numOfItems < 2 ? "item" : "items"
-    } from ${numOfBusinesses} ${
-      numOfBusinesses < 2 ? "business" : "businesses"
-    }`,
-  });
+  if (process.env.NODE_ENV !== "development")
+    await fetch("https://ntfy.sh/bridge-order-alert", {
+      method: "POST",
+      headers: {
+        Title: "New Order",
+        Priority: "urgent",
+        Tags: "fire,bike",
+        Click: `https://bridgeinc.ng/admin/order/${createdOrder.id}`,
+      },
+      body: `New order of ${numOfItems} ${
+        numOfItems < 2 ? "item" : "items"
+      } from ${numOfBusinesses} ${
+        numOfBusinesses < 2 ? "business" : "businesses"
+      }`,
+    });
 
   return createdOrder;
 }
