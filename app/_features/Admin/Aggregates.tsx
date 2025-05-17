@@ -2,11 +2,17 @@ import { AdminAggregatesDTO } from "@/app/_interfaces/interfaces";
 import LocalIcons from "@/app/_utils/LocalIcons";
 import OrderItem from "./OrderItem";
 import ThreeTabs from "./ThreeTabs";
+import { headers } from "next/headers";
 
 async function Aggregates() {
+  const headerList = await headers();
+  const cookie = headerList.get("cookie") ?? "";
+
   let aggregates: AdminAggregatesDTO | null;
   try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/admin`);
+    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/admin`, {
+      headers: { cookie },
+    });
     aggregates = await res.json();
   } catch (err) {
     console.error(err);
