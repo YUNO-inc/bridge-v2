@@ -37,7 +37,7 @@ function OrderItem({ order }: { order: AdminAggregatesActiveOrderDTO }) {
           </span>
         </span>
         <span className="max-w-[50%] flex gap-1 items-center">
-          <MapPin className="w-5 h-5 shrink-0" />
+          <MapPin className="w-4 h-4 shrink-0" />
           <span className="max-w-[90%] overflow-hidden whitespace-nowrap text-ellipsis">
             {selectedAddress?.name}
           </span>

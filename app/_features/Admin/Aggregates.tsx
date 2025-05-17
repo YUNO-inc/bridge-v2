@@ -61,7 +61,7 @@ async function Aggregates() {
               },
               {
                 title: "Average Item Price",
-                text: String(averageDeliveredItemPrice),
+                text: `₦${Math.round(averageDeliveredItemPrice)}`,
               },
             ]}
           />
