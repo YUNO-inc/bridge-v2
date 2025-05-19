@@ -10,9 +10,9 @@ import { useAppDispatch, useAppSelector } from "@/app/_hooks/reduxHooks";
 import { AddressDTO } from "@/app/_interfaces/interfaces";
 import LocalIcons from "@/app/_utils/LocalIcons";
 import { nunito } from "@/app/fonts";
-import { getUser, setUser } from "../User/userSlice";
+import { getUser, setUser } from "../../User/userSlice";
 import PopupLoader from "./PopupLoader";
-import { updateTotalDeliveryPrice } from "../Cart/cartSlice";
+import { updateTotalDeliveryPrice } from "../../Cart/cartSlice";
 
 function AddressPopup({
   address: receivedAddress,

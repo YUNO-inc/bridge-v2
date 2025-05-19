@@ -1,5 +1,5 @@
 import PageBackLinkClient from "@/app/_features/Button/PageBackLinkClient";
-import Map from "@/app/_features/Map/AddressMap";
+import Map from "@/app/_features/Map/Address/AddressMap";
 import { Viewport } from "next";
 
 export const viewport: Viewport = {

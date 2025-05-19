@@ -2,11 +2,11 @@
 
 import dynamic from "next/dynamic";
 import { useEffect, useState } from "react";
-import NewAddressModal from "../Modals/NewAddressModal";
+import NewAddressModal from "../../Modals/NewAddressModal";
 import { AddressDTO } from "@/app/_interfaces/interfaces";
 import { useRouter } from "next/navigation";
 import { useAppSelector } from "@/app/_hooks/reduxHooks";
-import { getUser } from "../User/userSlice";
+import { getUser } from "../../User/userSlice";
 
 const Container = dynamic(() => import("./AddressMapContainer"), {
   ssr: false,

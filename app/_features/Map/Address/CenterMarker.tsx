@@ -6,7 +6,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { useMap } from "react-leaflet";
 import AddressPopup from "./AddressPopup";
 import { useAppSelector } from "@/app/_hooks/reduxHooks";
-import { getSelectedAddress } from "../User/userSlice";
+import { getSelectedAddress } from "../../User/userSlice";
 
 const WIDTH_OF_MARKER = 40;
 

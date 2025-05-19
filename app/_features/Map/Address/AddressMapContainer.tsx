@@ -10,10 +10,11 @@ import iconRetinaUrl from "leaflet/dist/images/marker-icon-2x.png";
 import shadowUrl from "leaflet/dist/images/marker-shadow.png";
 import { AddressDTO, DEFAULT_COORDS } from "@/app/_interfaces/interfaces";
 import { useAppSelector } from "@/app/_hooks/reduxHooks";
-import { getSelectedAddress } from "../User/userSlice";
+import { getSelectedAddress } from "../../User/userSlice";
 import CurrentCoordCircle from "./CurrentCoordCircle";
 import { ChangMapView, DetectClick } from "./Utils";
 import CenterMarker from "./CenterMarker";
+import { tiles } from "../config";
 
 function MapContainer({
   className,
@@ -35,13 +36,6 @@ function MapContainer({
   const [mapCenter, setMapCenter] = useState(
     selectedAddress ? selectedAddress.coordinates : DEFAULT_COORDS
   );
-
-  const tiles = {
-    roadmap: "http://mt0.google.com/vt/lyrs=m&hl=en&x={x}&y={y}&z={z} ",
-    stadiaDark:
-      "https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.png?api_key=59980a15-7d7c-4d12-93ea-f80b93d525e3",
-    cartoDark: "https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png",
-  };
 
   useEffect(
     function () {

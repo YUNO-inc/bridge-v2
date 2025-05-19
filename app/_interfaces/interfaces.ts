@@ -71,7 +71,7 @@ export type CartDTO = {
 
 export type OrderDTO = {
   id?: string;
-  user: UserDTO["id"];
+  user: UserDTO["id"] | UserDTO;
   items: ItemDTO["id"][] | ItemDTO[];
   businesses: BusinessDTO["id"][] | BusinessDTO[];
   farthestPurchase: BusinessDTO["id"];
@@ -81,9 +81,11 @@ export type OrderDTO = {
   createdAt: Date | number;
 };
 
-export type StrictOrderDTO = OrderDTO & {
+export type NarrowOrderDTO = OrderDTO & {
+  user: UserDTO;
   items: ItemDTO[];
   businesses: BusinessDTO[];
+  farthestPurchase: BusinessDTO;
 };
 
 export type InputsProps = {

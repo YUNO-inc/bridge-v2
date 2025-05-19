@@ -13,9 +13,7 @@ async function Layout({
   const { businessSlug } = await params;
   let business: BusinessDTO | null = null;
   try {
-    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_BASE_URL}/api/business/${businessSlug}`
-    );
+    const res = await fetch(`${businessSlug}`);
     business = await res.json();
   } catch {
     business = null;

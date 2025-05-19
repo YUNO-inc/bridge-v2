@@ -1,4 +1,4 @@
-import { OrderDTO } from "@/app/_interfaces/interfaces";
+import { NarrowOrderDTO, OrderDTO } from "@/app/_interfaces/interfaces";
 import Order from "./model";
 import { auth } from "../auth/auth";
 import "@/app/_lib/item/model";
@@ -99,4 +99,47 @@ export async function checkout(
     });
 
   return createdOrder;
+}
+
+export async function getOrder(
+  orderId: OrderDTO["id"]
+): Promise<NarrowOrderDTO> {
+  const order = await Order.findById(orderId)
+    .populate("user")
+    .populate("items")
+    .populate("businesses");
+
+  if (!order) throw new Error(`Unable to find order with anID of ${orderId}`);
+
+  const {
+    id,
+    user,
+    items,
+    businesses,
+    farthestPurchase,
+    totalItemPrice,
+    totalDeliveryPrice,
+    status,
+    createdAt,
+  } = order;
+
+  return {
+    id,
+    user: user as NarrowOrderDTO["user"],
+    items: items as NarrowOrderDTO["items"],
+    businesses: businesses as NarrowOrderDTO["businesses"],
+    farthestPurchase: farthestPurchase as NarrowOrderDTO["farthestPurchase"],
+    totalDeliveryPrice,
+    totalItemPrice,
+    status,
+    createdAt,
+  };
+}
+
+export async function updateOrderStatus(
+  id: OrderDTO["id"],
+  orderStatus: OrderDTO["status"]
+) {
+  if (!id) throw new Error("Unable to Identify Order");
+  await Order.findByIdAndUpdate(id, { status: orderStatus });
 }
