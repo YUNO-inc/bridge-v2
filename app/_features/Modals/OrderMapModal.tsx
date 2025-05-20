@@ -5,12 +5,14 @@ import {
   CartGroupDTO,
   ItemDTO,
   NarrowOrderDTO,
+  OrderDTO,
 } from "@/app/_interfaces/interfaces";
 import FlexibleModal from "./FlexibleModal";
 import { MapPin } from "@phosphor-icons/react";
 import OrderGroup from "../Admin/OrderGroup";
 import { sortByFarthestPoint } from "@/app/_utils/helpers";
 import DeliveredBtn from "./DeliveredBtn";
+import { useEffect, useState } from "react";
 
 function OrderMapModal({
   className,
@@ -27,7 +29,11 @@ function OrderMapModal({
     farthestPurchase: farthestPurchaseId,
     totalDeliveryPrice,
     totalItemPrice,
+    deliveredAt,
+    status,
+    createdAt,
   } = order;
+  const [isDelivered, setIsDelivered] = useState(status === "delivered");
   const hasMoreThanOneItem = items.length > 1;
   const hasMoreThanOneBusiness = businesses.length > 1;
   const selectedAddress = user?.addresses?.find?.((a) => a.isSelected);
@@ -68,14 +74,11 @@ function OrderMapModal({
   return (
     <FlexibleModal className={className}>
       <div className="flex flex-col justify-between w-full h-full px-5 max-h-full overflow-auto">
-        <div className="flex flex-col items-center gap-0.5 text-stone-500 py-5">
-          <p>Minutes since order</p>
-          <div className="bg-app-red-500 text-white font-bold flex items-center justify-center px-3 py-1 rounded-full">
-            <span className="relative top-[1px]">
-              12 <span className="relative -top-[1.5px]">:</span> 30
-            </span>
-          </div>
-        </div>
+        <ModalCountDownTimer
+          isDelivered={isDelivered}
+          createdAt={createdAt}
+          deliveredAt={deliveredAt}
+        />
         <div className="flex flex-col gap-3 py-4 text-white text-opacity-60">
           <p>
             <span className="font-bold">{user.name}</span>
@@ -104,10 +107,89 @@ function OrderMapModal({
             orderId={orderId}
             totalDeliveryPrice={totalDeliveryPrice}
             totalItemPrice={totalItemPrice}
+            isDelivered={isDelivered}
+            setIsDelivered={setIsDelivered}
           />
         </div>
       </div>
     </FlexibleModal>
+  );
+}
+
+function ModalCountDownTimer({
+  isDelivered,
+  createdAt,
+  deliveredAt,
+}: {
+  isDelivered: boolean;
+  createdAt: OrderDTO["createdAt"]; // Date or number
+  deliveredAt: OrderDTO["deliveredAt"]; // Date or number
+}) {
+  const [elapsed, setElapsed] = useState<number>(0);
+
+  useEffect(() => {
+    const compute = () => {
+      const end = isDelivered
+        ? new Date(deliveredAt || Date.now()).getTime()
+        : Date.now();
+      const start = new Date(createdAt).getTime();
+      setElapsed(Math.floor((end - start) / 1000));
+    };
+
+    compute();
+    if (isDelivered) return;
+    const id = setInterval(compute, 1000); // …and then every second
+    return () => clearInterval(id);
+  }, [isDelivered, createdAt, deliveredAt]);
+
+  const days = Math.floor(elapsed / 86400);
+  const hours = Math.floor((elapsed % 86400) / 3600);
+  const minutes = Math.floor((elapsed % 3600) / 60);
+  const seconds = elapsed % 60;
+
+  const segments: string[] = [];
+
+  if (days > 0) {
+    segments.push(`${days}d`);
+  }
+
+  if (hours > 0 || days > 0) {
+    segments.push(`${hours}h`);
+  }
+
+  const minuteStr = String(minutes).padStart(2, "0");
+  const secondStr = String(seconds).padStart(2, "0");
+  segments.push(minuteStr);
+  segments.push(secondStr);
+
+  return (
+    <div className="flex flex-col items-center gap-0.5 text-stone-500 py-5">
+      {isDelivered ? (
+        <p>Time taken for delivery</p>
+      ) : (
+        <p>Minutes since order</p>
+      )}
+      <div
+        className={` text-white font-bold flex items-center justify-center px-3 py-1 rounded-full ${
+          isDelivered ? "bg-green-400" : "bg-app-red-500"
+        }`}
+      >
+        <span className="relative top-[1px]">
+          {segments.map((t, i) => (
+            <span key={i}>
+              <span>{t} </span>
+              <span
+                className={`relative -top-[1.5px] ${
+                  i + 1 === segments.length ? "hidden" : "inline"
+                }`}
+              >
+                :{" "}
+              </span>
+            </span>
+          ))}
+        </span>
+      </div>
+    </div>
   );
 }
 

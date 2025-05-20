@@ -78,6 +78,7 @@ export type OrderDTO = {
   totalItemPrice: ItemDTO["price"];
   totalDeliveryPrice: BusinessDTO["deliveryPrice"];
   status: "active" | "delivered";
+  deliveredAt?: Date | number;
   createdAt: Date | number;
 };
 

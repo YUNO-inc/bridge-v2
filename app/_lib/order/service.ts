@@ -121,6 +121,7 @@ export async function getOrder(
     totalDeliveryPrice,
     status,
     createdAt,
+    deliveredAt,
   } = order;
 
   return {
@@ -133,6 +134,7 @@ export async function getOrder(
     totalItemPrice,
     status,
     createdAt,
+    deliveredAt
   };
 }
 
@@ -141,5 +143,12 @@ export async function updateOrderStatus(
   orderStatus: OrderDTO["status"]
 ) {
   if (!id) throw new Error("Unable to Identify Order");
-  await Order.findByIdAndUpdate(id, { status: orderStatus });
+  console.log(id, {
+    status: orderStatus,
+    deliveredAt: Date.now(),
+  });
+  await Order.findByIdAndUpdate(id, {
+    status: orderStatus,
+    deliveredAt: Date.now(),
+  });
 }

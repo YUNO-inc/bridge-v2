@@ -11,11 +11,15 @@ function DeliveredBtn({
   orderId,
   totalDeliveryPrice,
   totalItemPrice,
+  isDelivered,
+  setIsDelivered,
   className,
 }: {
   orderId: OrderDTO["id"];
   totalDeliveryPrice: OrderDTO["totalDeliveryPrice"];
   totalItemPrice: OrderDTO["totalItemPrice"];
+  isDelivered: boolean;
+  setIsDelivered: React.Dispatch<React.SetStateAction<boolean>>;
   className?: string;
 }) {
   const [isSettingDelivered, setIsSettingDelivered] = useState(false);
@@ -23,8 +27,8 @@ function DeliveredBtn({
   async function handleSetDelivered() {
     setIsSettingDelivered(true);
     try {
-      console.log(orderId, "delivered");
       await UpdateOrderStatusAction(orderId, "delivered");
+      setIsDelivered(true);
     } catch (error) {
       const err = error as Error;
       console.error(err);
@@ -37,9 +41,12 @@ function DeliveredBtn({
     <button
       className={`relative flex flex-col my-2 mb-6 text-phthaloGreen p-6 w-full ${className}`}
       onClick={handleSetDelivered}
+      disabled={isDelivered}
     >
       <span
-        className={`top-[10px] left-[50%] -translate-x-[50%] absolute w-full h-full rounded-3xl transition-colors bg-phthaloGreen/80`}
+        className={`top-[10px] left-[50%] -translate-x-[50%] absolute w-full h-full rounded-3xl transition-colors ${
+          !isDelivered ? "bg-phthaloGreen/80" : "bg-white bg-opacity-[0.37]"
+        }`}
       ></span>
       <GlassContainer
         className={`h-[95%] w-[95%] absolute left-[50%] top-[50%] -translate-x-[50%] -translate-y-[50%] transition-all ${
@@ -68,11 +75,21 @@ function DeliveredBtn({
               text={`₦${totalItemPrice}`}
             />
           </div>
-          <div className="flex items-center text-white text-opacity-[0.47]">
+          <div
+            className={`flex items-center ${
+              !isDelivered ? "text-white" : "text-phthaloGreen"
+            } text-opacity-[0.47]`}
+          >
             {!isSettingDelivered ? (
               <>
-                <span>Deliver</span>
-                <ArrowUpRight />
+                {!isDelivered ? (
+                  <>
+                    <span>Deliver</span>
+                    <ArrowUpRight />
+                  </>
+                ) : (
+                  <span>Delivered.</span>
+                )}
               </>
             ) : (
               <div className="flex items-center justify-center bg-phthaloGreen bg-opacity-[0.37] w-7 h-7 rounded-full animate-pulse">

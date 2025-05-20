@@ -8,7 +8,6 @@ async function Page({ params }: { params: Promise<{ orderId: string }> }) {
   let order: NarrowOrderDTO | undefined;
   try {
     order = await GetOrderAction(orderId);
-    console.log({ status: order?.status, id: order?.id || "No ID" });
   } catch (error) {
     console.error(error);
     order = undefined;

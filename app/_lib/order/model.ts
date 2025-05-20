@@ -60,6 +60,7 @@ const OrderSchema = new Schema(
       enum: ["active", "pending"],
       default: "active",
     },
+    deliveredAt: Date,
     createdAt: {
       type: Date,
       default: Date.now,
