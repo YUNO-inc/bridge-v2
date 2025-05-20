@@ -7,8 +7,7 @@ if (!MONGODB_URI) {
   throw new Error("Please define the MONGODB_URI environment variable");
 }
 
-MONGODB_URI = MONGODB_URI.replace("<ENVIRONMENT>", "production"); // process.env.NODE_ENV;
-
+MONGODB_URI = MONGODB_URI.replace("<ENVIRONMENT>", process.env.NODE_ENV);
 interface GlobalWithMongoose {
   mongoose: {
     conn: typeof mongoose | null;
