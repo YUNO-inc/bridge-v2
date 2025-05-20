@@ -16,13 +16,13 @@ async function Aggregates() {
   if (!aggregates) return <div>Error While Loading Aggregates</div>;
 
   const {
-    activeOrders,
-    totalOrders,
-    totalDeliveriesMade,
-    totalItemsDelivered,
-    averageDeliveredItemPrice,
-    totalDeliveryPrice,
-    totalDeliveredItemPrice,
+    activeOrders = [],
+    totalOrders = 0,
+    totalDeliveriesMade = 0,
+    totalItemsDelivered = 0,
+    averageDeliveredItemPrice = 0,
+    totalDeliveryPrice = 0,
+    totalDeliveredItemPrice = 0,
   } = aggregates;
   const hasActiveOrders = activeOrders.length > 0;
 
