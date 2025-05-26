@@ -24,3 +24,5 @@ async function Page({ params }: { params: Promise<{ orderId: string }> }) {
 }
 
 export default Page;
+
+// green hex: #0C513F

@@ -75,6 +75,7 @@ const BusinessSchema = new Schema(
     },
     profileImg: String,
     slug: { type: String, unique: true, required: true },
+    isOpen: { type: Boolean, default: true },
     recommendations: { type: [RecommendationSchema], default: [] },
     createdAt: {
       type: Date,
