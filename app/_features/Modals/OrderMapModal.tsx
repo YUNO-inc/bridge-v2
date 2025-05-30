@@ -81,7 +81,9 @@ function OrderMapModal({
         />
         <div className="flex flex-col gap-3 py-4 text-white text-opacity-60">
           <p>
-            <span className="font-bold">{user.name}</span>
+            <span className="font-bold">
+              {user.name} ({user.phoneNumber})
+            </span>
             <span> ordered </span>
             <span className="font-bold">{items.length}</span>{" "}
             <span>{hasMoreThanOneItem ? "items" : "item"}</span> {"from "}

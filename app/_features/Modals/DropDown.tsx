@@ -31,7 +31,8 @@ function DropDown({ showDropDown }: { showDropDown: boolean }) {
         text="Addresses"
         href="/address"
       />
-      {userId?.length && ADMIN_IDS.includes(userId) ? (
+      {(userId?.length && ADMIN_IDS.includes(userId)) ||
+      process.env.NODE_ENV === "development" ? (
         <MajorLink
           icon={<BuildingLibraryIcon className="stroke-current w-6 h-6" />}
           text="Admin"
