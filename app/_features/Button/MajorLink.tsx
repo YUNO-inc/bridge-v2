@@ -19,7 +19,7 @@ function MajorLink({
     >
       <span className="flex items-center gap-[14px]">
         {icon}
-        <span className="capitalize text-lg">{text}</span>
+        <span className="capitalize text-lg text-nowrap">{text}</span>
       </span>
       <ChevronRightIcon className="fill-current w-6 h-6 ml-3" />
     </Link>

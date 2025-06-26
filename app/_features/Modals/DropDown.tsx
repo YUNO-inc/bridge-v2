@@ -2,6 +2,7 @@ import { motion } from "motion/react";
 import {
   BuildingLibraryIcon,
   MapPinIcon,
+  SpeakerWaveIcon,
   UserIcon,
 } from "@heroicons/react/24/outline";
 import { useAppSelector } from "@/app/_hooks/reduxHooks";
@@ -30,6 +31,11 @@ function DropDown({ showDropDown }: { showDropDown: boolean }) {
         icon={<MapPinIcon className="stroke-current w-6 h-6" />}
         text="Addresses"
         href="/address"
+      />
+      <MajorLink
+        icon={<SpeakerWaveIcon className="stroke-current w-6 h-6" />}
+        text="Feedback / Bugs"
+        href="/feedback"
       />
       {(userId?.length && ADMIN_IDS.includes(userId)) ||
       process.env.NODE_ENV === "development" ? (

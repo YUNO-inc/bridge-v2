@@ -22,7 +22,8 @@ function ProfileImage() {
   useOnClickOutside(showModal, modalRef, handleClick);
 
   function handleClick() {
-    if (!user) return router.push("/auth");
+    if (process.env.NODE_ENV !== "development" && !user)
+      return router.push("/auth");
 
     const params = new URLSearchParams(searchParams.toString());
 

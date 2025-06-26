@@ -1,5 +1,6 @@
 import { getRGB } from "@/app/_utils/helpers";
 import CircleLoader from "../Loaders/CircleLoader";
+import { MouseEventHandler } from "react";
 
 type ButtonProps = {
   text: string;
@@ -7,6 +8,7 @@ type ButtonProps = {
   className?: string;
   type?: "button" | "submit" | "reset";
   isLoading?: boolean;
+  onClick?: MouseEventHandler<HTMLButtonElement>;
 };
 
 function Button({
@@ -15,6 +17,7 @@ function Button({
   className = "",
   type = "button",
   isLoading,
+  onClick = () => {},
 }: ButtonProps) {
   const rgb = getRGB(theme);
 
@@ -26,6 +29,7 @@ function Button({
         backgroundColor: `rgba(${rgb}, 0.37)`,
       }}
       type={type}
+      onClick={onClick}
     >
       {isLoading ? (
         <span className="flex justify-center">

@@ -82,6 +82,15 @@ export type OrderDTO = {
   createdAt: Date | number;
 };
 
+export type FeedbackDTO = {
+  id?: string;
+  name: UserDTO["name"];
+  phoneNumber: UserDTO["phoneNumber"];
+  message: string;
+  unseen: boolean;
+  createdAt: Date | number;
+};
+
 export type NarrowOrderDTO = OrderDTO & {
   user: UserDTO;
   items: ItemDTO[];
