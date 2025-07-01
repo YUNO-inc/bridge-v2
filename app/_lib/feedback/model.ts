@@ -10,10 +10,11 @@ const FeedbackSchema = new Schema(
       type: Schema.ObjectId,
       ref: "User",
     },
-    unseen: {
+    seen: {
       type: Boolean,
       default: false,
     },
+    message: String,
     createdAt: {
       type: Date,
       default: Date.now,
