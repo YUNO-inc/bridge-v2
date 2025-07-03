@@ -14,10 +14,7 @@ async function page() {
           <p className="self-start text-phthaloGreen text-xl font-extrabold">
             Business
           </p>
-          <ul
-            className="w-full flex flex-col px-1git add -A
-          git commit -m ''"
-          >
+          <ul className="w-full flex flex-col px-1">
             {businesses.map((business) => (
               <li
                 className="flex items-center justify-between border-b border-b-phthaloGreen border-opacity-10 py-3 text-base last:border-none"
