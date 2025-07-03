@@ -23,14 +23,14 @@ function ToggleControl({
 
   return (
     <button
-      className={`bg-phthaloGreen bg-opacity-10 p-1 w-14 h-8 rounded-full ${
+      className={`bg-phthaloGreen bg-opacity-10 p-1 w-12 h-7 rounded-full ${
         isOn ? "bg-opacity-90" : "bg-opacity-[0.37]"
       } transition-all`}
       onClick={handleChangeToggle}
     >
       <div
-        className={`w-6 h-6 rounded-full bg-white ${
-          isOn ? "translate-x-[100%] " : "translate-x-0 "
+        className={`w-[50%] h-[100%] rounded-full bg-white ${
+          isOn ? "translate-x-[100%]" : "translate-x-0 "
         } transition-all`}
       ></div>
     </button>
