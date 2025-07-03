@@ -2,7 +2,8 @@ import { getADMIN_IDS } from "@/app/_utils/helpers";
 import { auth } from "../auth/auth";
 import Order from "../order/model";
 import { adminPipeline } from "./pipelines";
-import { AdminAggregatesDTO } from "@/app/_interfaces/interfaces";
+import { AdminAggregatesDTO, BusinessDTO } from "@/app/_interfaces/interfaces";
+import Business from "../business/model";
 // import slugify from "slugify";
 // import Item from "../item/model";
 
@@ -19,6 +20,16 @@ export async function getAdminAggregates(): Promise<AdminAggregatesDTO> {
   const [adminAggregates] = await Order.aggregate(adminPipeline).exec();
 
   return adminAggregates;
+}
+
+export async function toggleBusinessOpenState({
+  id,
+  isOpen,
+}: {
+  id: BusinessDTO["id"];
+  isOpen: BusinessDTO["isOpen"];
+}) {
+  await Business.findByIdAndUpdate(id, { isOpen });
 }
 
 // function createMultipleItems(
