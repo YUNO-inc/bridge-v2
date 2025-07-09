@@ -115,7 +115,7 @@ function NewAddressModal({
             </>
           ) : (
             <>
-              <NavigationArrow weight="fill" className="rotateX-180 w-5 h-5" />
+              <NavigationArrow weight="fill" className="rotateX-90 w-5 h-5" />
               <span className="relative -bottom-0.5">
                 Go to your current location
               </span>

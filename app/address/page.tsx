@@ -28,7 +28,7 @@ function Page() {
         href={"/address/new?geoposition=true"}
         className="flex items-center gap-1 w-fit text-sm font-semibold text-blue-500  transition-all hover:underline"
       >
-        <NavigationArrow weight="fill" className="rotateX-180 w-5 h-5" />
+        <NavigationArrow weight="fill" className="rotateX-90 w-5 h-5" />
         <span className="relative -bottom-0.5">Use your current location</span>
       </Link>
     </div>

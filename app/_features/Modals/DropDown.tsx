@@ -4,6 +4,7 @@ import {
   MapPinIcon,
   SpeakerWaveIcon,
   UserIcon,
+  UserPlusIcon,
 } from "@heroicons/react/24/outline";
 import { useAppSelector } from "@/app/_hooks/reduxHooks";
 import MajorLink from "../Button/MajorLink";
@@ -36,6 +37,11 @@ function DropDown({ showDropDown }: { showDropDown: boolean }) {
         icon={<SpeakerWaveIcon className="stroke-current w-6 h-6" />}
         text="Feedback / Bugs"
         href="/feedback"
+      />
+      <MajorLink
+        icon={<UserPlusIcon className="stroke-current w-6 h-6" />}
+        text="Referral"
+        href="/referral"
       />
       {(userId?.length && ADMIN_IDS.includes(userId)) ||
       process.env.NODE_ENV === "development" ? (
