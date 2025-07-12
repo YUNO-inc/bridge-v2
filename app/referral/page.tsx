@@ -3,8 +3,17 @@ import Image from "next/image";
 import LocalIcons from "../_utils/LocalIcons";
 import { CaretDown, LinkSimple, QrCode } from "@phosphor-icons/react/dist/ssr";
 import AvailableBalance from "../_features/Referral/AvailableBalance";
+import { auth } from "../_lib/auth/auth";
+import { redirect } from "next/navigation";
 
-function Page() {
+async function Page() {
+  const session = await auth();
+  const user = session?.user;
+
+  console.log(user);
+
+  if (!user) redirect("/auth");
+
   return (
     <div className="flex flex-col justify-between min-h-[100svh] p-4">
       <PageBackLink text="Referral" className="mb-5" />
@@ -79,7 +88,7 @@ function Page() {
                 </button>
               </div>
               <p className="pt-1 relative -bottom-2 text-phthaloGreen text-opacity-[0.37]">
-                https://bridgeinc.ng/auth?ref=u-324345767fgfgf424354
+                {`https://bridgeinc.ng/auth?ref=${user.id}`}
               </p>
             </div>
           </div>
