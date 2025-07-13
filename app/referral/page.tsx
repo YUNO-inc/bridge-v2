@@ -5,14 +5,16 @@ import { CaretDown, LinkSimple, QrCode } from "@phosphor-icons/react/dist/ssr";
 import AvailableBalance from "../_features/Referral/AvailableBalance";
 import { auth } from "../_lib/auth/auth";
 import { redirect } from "next/navigation";
+import { GetMyRefData } from "../_lib/referral/actions";
 
 async function Page() {
   const session = await auth();
   const user = session?.user;
 
-  console.log(user);
-
   if (!user) redirect("/auth");
+
+  const myRefData = await GetMyRefData();
+  console.log(myRefData);
 
   return (
     <div className="flex flex-col justify-between min-h-[100svh] p-4">
