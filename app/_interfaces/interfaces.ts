@@ -6,12 +6,21 @@ export interface AddressDTO {
   isSelected: boolean;
 }
 
+export interface ReferrerDTO {
+  id?: string;
+  referrer: string | UserDTO;
+  prizeWithdrawn: boolean;
+  prizePrice: number;
+}
+
 export interface UserDTO {
   id?: Readonly<string>;
   name: string;
   email: string;
   phoneNumber?: string;
   addresses?: AddressDTO[];
+  referrer: null | (Partial<ReferrerDTO> & Pick<ReferrerDTO, "referrer">);
+  refPageVisits?: number;
   createdAt: Date | number;
 }
 

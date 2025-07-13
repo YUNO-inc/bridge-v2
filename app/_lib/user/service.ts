@@ -5,7 +5,11 @@ import { auth } from "../auth/auth";
 
 export async function createUser(user: Omit<UserDTO, "createdAt">) {
   await connect();
-  const newUser = await User.create({ name: user.name, email: user.email });
+  const newUser = await User.create({
+    name: user.name,
+    email: user.email,
+    referrer: user.referrer,
+  });
   return newUser;
 }
 

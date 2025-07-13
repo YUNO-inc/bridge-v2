@@ -1,6 +1,9 @@
+import { cookies } from "next/headers";
+import { ObjectId } from "mongodb";
 import NextAuth from "next-auth";
 import Google from "next-auth/providers/google";
 import { createUser, getUser } from "../user/service";
+import { ReferrerDTO } from "@/app/_interfaces/interfaces";
 
 export const {
   handlers: { GET, POST },
@@ -22,8 +25,27 @@ export const {
 
         const existingUser = await getUser({ email });
         if (!existingUser) {
-          await createUser({ email, name });
+          const cookieStore = await cookies();
+          const referrerId: string | null =
+            cookieStore.get("referrerId")?.value || null;
+          cookieStore.delete("referrerId");
+
+          const referrer: Pick<ReferrerDTO, "referrer"> | null =
+            referrerId &&
+            ObjectId.isValid(referrerId) &&
+            new ObjectId(referrerId).toString() === referrerId
+              ? {
+                  referrer: referrerId,
+                }
+              : null;
+
+          await createUser({
+            email,
+            name,
+            referrer,
+          });
         }
+
         return true;
       } catch (err) {
         console.error("SignIn error:", err);

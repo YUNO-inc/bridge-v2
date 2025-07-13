@@ -15,6 +15,7 @@ export default async function Page({ searchParams }: PageProps) {
 
   const availablePages = ["user", "business", "rider"];
   const page = (await searchParams)?.page || availablePages[0];
+  const referrerId = (await searchParams)?.ref;
 
   return (
     <>
@@ -29,6 +30,7 @@ export default async function Page({ searchParams }: PageProps) {
         </div>
         <div className="w-full py-3">
           <form className="flex flex-col items-center" action={SignInAction}>
+            <input type="hidden" name="referrerId" value={referrerId} />
             <Button type="google" />
           </form>
           <div className="flex justify-center">

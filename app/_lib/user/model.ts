@@ -5,6 +5,7 @@ import {
   AddressDTO,
   DEFAULT_COORDS,
   DEFAULT_GEOJSON,
+  ReferrerDTO,
   UserDTO,
 } from "@/app/_interfaces/interfaces";
 
@@ -23,6 +24,25 @@ const AddressSchema = new Schema<AddressDTO>(
 );
 
 AddressSchema.virtual("id").get(function () {
+  return this._id.toString();
+});
+
+const ReferrerSchema = new Schema<ReferrerDTO>(
+  {
+    referrer: {
+      type: Schema.ObjectId,
+      ref: "User",
+    },
+    prizeWithdrawn: { type: Boolean, default: false },
+    prizePrice: {
+      type: Number,
+      default: Number(process.env.REFERRAL_PRIZE_PRICE),
+    },
+  },
+  { toJSON: { virtuals: true }, toObject: { virtuals: true } }
+);
+
+ReferrerSchema.virtual("id").get(function () {
   return this._id.toString();
 });
 
@@ -51,6 +71,12 @@ const UserSchema = new Schema({
     },
   },
   addresses: { type: [AddressSchema], default: [] },
+  referrer: { type: ReferrerSchema, select: false, default: null },
+  refPageVisits: {
+    type: Number,
+    default: 0,
+    select: false,
+  },
   createdAt: {
     type: Date,
     default: Date.now,
