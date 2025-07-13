@@ -5,9 +5,10 @@ import QRCodeStyling from "qr-code-styling";
 
 type QRProps = {
   url: string;
+  className?: string;
 };
 
-export default function QRCodeComponent({ url }: QRProps) {
+export default function QRCodeComponent({ url, className }: QRProps) {
   const qrRef = useRef<HTMLDivElement>(null);
   const qrInstance = useRef<QRCodeStyling | null>(null);
 
@@ -20,7 +21,6 @@ export default function QRCodeComponent({ url }: QRProps) {
       data: url,
       type: "svg",
       image: "/images/first-logo.png", // optional
-      margin: 30,
       dotsOptions: {
         color: "#123524",
         type: "extra-rounded",
@@ -58,5 +58,5 @@ export default function QRCodeComponent({ url }: QRProps) {
     }
   }, [url]);
 
-  return <div ref={qrRef} />;
+  return <div ref={qrRef} className={`qr-wrapper ${className}`} />;
 }

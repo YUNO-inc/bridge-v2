@@ -1,17 +1,27 @@
+import { headers } from "next/headers";
+import { redirect } from "next/navigation";
 import PageBackLink from "../_features/Button/PageBackLink";
 import Image from "next/image";
 import LocalIcons from "../_utils/LocalIcons";
-import { CaretDown, LinkSimple, QrCode } from "@phosphor-icons/react/dist/ssr";
+import { CaretDown } from "@phosphor-icons/react/dist/ssr";
 import AvailableBalance from "../_features/Referral/AvailableBalance";
 import { auth } from "../_lib/auth/auth";
-import { redirect } from "next/navigation";
 import { GetMyRefData } from "../_lib/referral/actions";
+import ScanQRBtn from "../_features/Referral/ScanQRBtn";
+import ShareURLBtn from "../_features/Referral/ShareURLBtn";
 
 async function Page() {
   const session = await auth();
   const user = session?.user;
 
-  if (!user) redirect("/auth");
+  if (!user || !user.id) {
+    if (process.env.NODE_ENV !== "development") redirect("/auth");
+  }
+
+  const headersList = await headers();
+  const host = headersList.get("host");
+  const proto = headersList.get("x-forwarded-proto") || "http";
+  const origin = `${proto}://${host}/auth?ref=${user?.id}`;
 
   const { totalActivePrizePrice } = await GetMyRefData();
 
@@ -79,17 +89,11 @@ async function Page() {
             </div>
             <div className="w-full text-center text-xs font-bold">
               <div className="flex justify-around w-full">
-                <button className="flex gap-1 flex-col items-center bg-white b-opacity-[0.37] rounded-[16px] py-2 px-4 max-w-28 hover:bg-phthaloGreen hover:text-white active:bg-phthaloGreen active:text-phthaloGreen active:bg-opacity-10">
-                  <p>Tap to copy URL</p>
-                  <LinkSimple className="w-7 h-7" />
-                </button>
-                <button className="flex gap-1 flex-col items-center bg-white b-opacity-[0.37] rounded-[16px] py-2 px-4 max-w-28 hover:bg-phthaloGreen hover:text-white active:bg-phthaloGreen active:text-phthaloGreen active:bg-opacity-10">
-                  <p>Tap to scan QR code</p>
-                  <QrCode className="w-7 h-7" />
-                </button>
+                <ShareURLBtn origin={origin} />
+                <ScanQRBtn origin={origin} />
               </div>
               <p className="pt-1 relative -bottom-2 text-phthaloGreen text-opacity-[0.37]">
-                {`https://bridgeinc.ng/auth?ref=${user.id}`}
+                {origin}
               </p>
             </div>
           </div>

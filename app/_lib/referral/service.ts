@@ -5,14 +5,17 @@ import { UserDTO } from "@/app/_interfaces/interfaces";
 
 export async function getMyRefData(): Promise<{
   totalActivePrizePrice: number;
-  newRefs: Pick<UserDTO, "id" | "name" | "referrer">;
-  withdrawnRefs: Pick<UserDTO, "id" | "name" | "referrer">;
+  newRefs: Pick<UserDTO, "id" | "name" | "referrer">[];
+  withdrawnRefs: Pick<UserDTO, "id" | "name" | "referrer">[];
 }> {
   const session = await auth();
   const user = session?.user;
 
-  if (!user?.id)
+  if (!user?.id) {
+    if (process.env.NODE_ENV === "development")
+      return { totalActivePrizePrice: 2400, newRefs: [], withdrawnRefs: [] };
     throw new Error("Only logged in users can check their referral data.");
+  }
 
   const userId = new ObjectId(user.id);
 

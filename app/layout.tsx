@@ -5,6 +5,7 @@ import { auth } from "./_lib/auth/auth";
 import { SessionProvider } from "next-auth/react";
 import StoreProvider from "./_store/StoreProvider";
 import AppModal from "./_features/Modals/AppModal";
+import { Toaster } from "sonner";
 
 export const metadata: Metadata = {
   title: "Bridge",
@@ -28,6 +29,7 @@ export default async function RootLayout({
         <StoreProvider user={session?.user}>
           <body className={`${nunito.className}`}>
             <AppModal />
+            <Toaster richColors />
             <div>{children}</div>
           </body>
         </StoreProvider>

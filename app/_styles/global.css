@@ -34,3 +34,10 @@
 .bg-paper-custom {
   background: url("/images/bg/paper.png");
 }
+
+.qr-wrapper svg,
+.qr-wrapper canvas {
+  width: 100%;
+  height: auto;
+  max-width: 300px;
+}

@@ -123,8 +123,14 @@ export type InputsProps = {
 
 export type AppModalDTO = {
   isOpen: boolean;
-  type: undefined | "checkout";
-  props: { checkout?: { order?: OrderDTO; errorMsg?: string } };
+  type: undefined | "checkout" | "scan-qr-code";
+  props: {
+    checkout?: {
+      order?: OrderDTO;
+      errorMsg?: string;
+    };
+    scanQRCode?: { url: string };
+  };
 };
 
 export type AdminAggregatesActiveOrderDTO = OrderDTO & {
