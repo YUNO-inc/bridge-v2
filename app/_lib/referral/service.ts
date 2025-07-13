@@ -4,7 +4,7 @@ import User from "../user/model";
 import { UserDTO } from "@/app/_interfaces/interfaces";
 
 export async function getMyRefData(): Promise<{
-  totalActivePrice: number;
+  totalActivePrizePrice: number;
   newRefs: Pick<UserDTO, "id" | "name" | "referrer">;
   withdrawnRefs: Pick<UserDTO, "id" | "name" | "referrer">;
 }> {
@@ -36,7 +36,7 @@ export async function getMyRefData(): Promise<{
     },
     {
       $addFields: {
-        totalActivePrice: {
+        totalActivePrizePrice: {
           $sum: "$newRefs.referrer.prizePrice",
         },
       },

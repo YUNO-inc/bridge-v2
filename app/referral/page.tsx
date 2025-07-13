@@ -13,15 +13,14 @@ async function Page() {
 
   if (!user) redirect("/auth");
 
-  const myRefData = await GetMyRefData();
-  console.log(myRefData);
+  const { totalActivePrizePrice } = await GetMyRefData();
 
   return (
     <div className="flex flex-col justify-between min-h-[100svh] p-4">
       <PageBackLink text="Referral" className="mb-5" />
       <div className="grow flex flex-col items-center">
         <div className="grow flex flex-col gap-3 w-full max-w-screen-sm">
-          <AvailableBalance />
+          <AvailableBalance totalActivePrizePrice={totalActivePrizePrice} />
           <div className="bg-phthaloGreen bg-opacity-10 flex flex-col items-center p-4 rounded-[16px]">
             <div className="w-full flex justify-between text-center text-xs mb-6 text-phthaloGreen">
               <div className="relative flex flex-col items-center justify-between gap-2 basis-[30%] bg-white rounded-[8px] px-1 py-2">

@@ -1,9 +1,14 @@
 "use client";
 
+import { formatNumberToCurrency } from "@/app/_utils/helpers";
 import { EyeIcon, EyeSlashIcon } from "@heroicons/react/24/outline";
 import { useEffect, useState } from "react";
 
-function AvailableBalance() {
+function AvailableBalance({
+  totalActivePrizePrice,
+}: {
+  totalActivePrizePrice: number;
+}) {
   const refBalStateName: string | null = "referral-balance-is-visible";
   const [balanceIsVisible, setBalanceIsVisible] = useState(false);
 
@@ -31,7 +36,11 @@ function AvailableBalance() {
         )}
       </button>
       <div className="text-2xl font-bold pt-2 pb-4">
-        {balanceIsVisible ? <span>₦3,000.00</span> : <span>******</span>}
+        {balanceIsVisible ? (
+          <span>{formatNumberToCurrency(totalActivePrizePrice, "NGN")}</span>
+        ) : (
+          <span>******</span>
+        )}
       </div>
     </div>
   );

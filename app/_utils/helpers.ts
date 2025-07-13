@@ -185,3 +185,12 @@ export function getTotalDeliveryPrice(
     return acc + dp;
   }, 0);
 }
+
+export function formatNumberToCurrency(formatNumber: number, currency = "NGN") {
+  const currencyDigit = new Intl.NumberFormat("en-NG", {
+    style: "currency",
+    currency,
+    minimumFractionDigits: 2,
+  }).format(formatNumber);
+  return currencyDigit;
+}
