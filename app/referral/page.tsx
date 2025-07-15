@@ -3,16 +3,17 @@ import { redirect } from "next/navigation";
 import PageBackLink from "../_features/Button/PageBackLink";
 import Image from "next/image";
 import LocalIcons from "../_utils/LocalIcons";
-import { CaretDown } from "@phosphor-icons/react/dist/ssr";
 import AvailableBalance from "../_features/Referral/AvailableBalance";
 import { auth } from "../_lib/auth/auth";
 import { GetMyRefData } from "../_lib/referral/actions";
 import ScanQRBtn from "../_features/Referral/ScanQRBtn";
 import ShareURLBtn from "../_features/Referral/ShareURLBtn";
+import ReferralHistory from "../_features/Referral/ReferralHistory";
 
 async function Page() {
   const session = await auth();
   const user = session?.user;
+  const refPageVisits = user?.refPageVisits || "None";
 
   if (!user || !user.id) {
     if (process.env.NODE_ENV !== "development") redirect("/auth");
@@ -23,7 +24,14 @@ async function Page() {
   const proto = headersList.get("x-forwarded-proto") || "http";
   const origin = `${proto}://${host}/auth?ref=${user?.id}`;
 
-  const { totalActivePrizePrice } = await GetMyRefData();
+  const {
+    totalActivePrizePrice,
+    totalWithdrawnPrizePrice,
+    newRefs,
+    withdrawnRefs,
+  } = await GetMyRefData();
+  const totalEarnPrizePrice = totalActivePrizePrice + totalWithdrawnPrizePrice;
+  const allReferrals = [...newRefs, ...withdrawnRefs];
 
   return (
     <div className="flex flex-col justify-between min-h-[100svh] p-4">
@@ -97,10 +105,11 @@ async function Page() {
               </p>
             </div>
           </div>
-          <button className="flex items-center justify-between border bg-phthaloGreen bg-opacity-10 text-left font-semibold text-phthaloGreen p-4 text-sm rounded-[16px]">
-            <span>Referral history</span>
-            <CaretDown weight="bold" className="w-5" />
-          </button>
+          <ReferralHistory
+            totalEarnPrizePrice={totalEarnPrizePrice}
+            refPageVisits={refPageVisits}
+            allReferrals={allReferrals}
+          />
         </div>
       </div>
     </div>

@@ -194,3 +194,13 @@ export function formatNumberToCurrency(formatNumber: number, currency = "NGN") {
   }).format(formatNumber);
   return currencyDigit;
 }
+
+export function formatDate(date: Date) {
+  const short = date.toLocaleDateString("en-GB", {
+    weekday: "short",
+    day: "2-digit",
+    month: "short",
+    year: "numeric",
+  });
+  return short;
+}
