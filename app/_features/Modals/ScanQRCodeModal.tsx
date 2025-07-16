@@ -1,6 +1,7 @@
 import { LinkSimple, QrCode, X } from "@phosphor-icons/react";
 import QRCodeComponent from "../QRCode/QRCodeComponent";
 import ModalWrapper from "./ModalWrapper";
+import { copyToClipboard } from "@/app/_utils/copyToClipboard";
 
 function ScanQRCodeModal({
   url,
@@ -39,7 +40,10 @@ function ScanQRCodeModal({
           <span>Scan QR code</span>
           <QrCode className="w-6 h-6" />
         </div>
-        <button className="flex items-center gap-2 bg-phthaloGreen bg-opacity-[0.37] text-phthaloGreen rounded-full shadow-sgc text-sm py-2 px-3 mt-2 active:bg-opacity-10">
+        <button
+          className="flex items-center gap-2 bg-phthaloGreen bg-opacity-[0.37] text-phthaloGreen rounded-full shadow-sgc text-sm py-2 px-3 mt-2 active:bg-opacity-10"
+          onClick={() => copyToClipboard(url)}
+        >
           <span>Copy URL</span>
           <LinkSimple className="w-4 h-4" />
         </button>

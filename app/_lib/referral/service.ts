@@ -75,3 +75,7 @@ export async function getMyRefData(): Promise<{
 
   return result[0];
 }
+
+export async function addRefPageVisits(referrerId: string) {
+  await User.findByIdAndUpdate(referrerId, { $inc: { refPageVisits: 1 } });
+}

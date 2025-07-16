@@ -9,6 +9,7 @@ import { GetMyRefData } from "../_lib/referral/actions";
 import ScanQRBtn from "../_features/Referral/ScanQRBtn";
 import ShareURLBtn from "../_features/Referral/ShareURLBtn";
 import ReferralHistory from "../_features/Referral/ReferralHistory";
+import OnlyRefLink from "../_features/Referral/OnlyRefLink";
 
 async function Page() {
   const session = await auth();
@@ -100,9 +101,7 @@ async function Page() {
                 <ShareURLBtn origin={origin} />
                 <ScanQRBtn origin={origin} />
               </div>
-              <p className="pt-1 relative -bottom-2 text-phthaloGreen text-opacity-[0.37]">
-                {origin}
-              </p>
+              <OnlyRefLink url={origin} />
             </div>
           </div>
           <ReferralHistory

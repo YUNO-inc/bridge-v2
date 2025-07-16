@@ -75,7 +75,6 @@ const UserSchema = new Schema({
   refPageVisits: {
     type: Number,
     default: 0,
-    select: false,
   },
   createdAt: {
     type: Date,

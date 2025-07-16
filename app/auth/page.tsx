@@ -4,6 +4,7 @@ import AuthSegmentedControl from "../_features/Auth/components/AuthSegmentedCont
 import { SignInAction } from "../_lib/auth/actions";
 import OutLink from "../_features/Forms/OutLink";
 import { auth } from "../_lib/auth/auth";
+import { AddRefPageVisits } from "../_lib/referral/actions";
 
 interface PageProps {
   searchParams: Promise<{ [key: string]: string | undefined }>;
@@ -16,6 +17,8 @@ export default async function Page({ searchParams }: PageProps) {
   const availablePages = ["user", "business", "rider"];
   const page = (await searchParams)?.page || availablePages[0];
   const referrerId = (await searchParams)?.ref;
+
+  if (referrerId) await AddRefPageVisits(referrerId);
 
   return (
     <>
