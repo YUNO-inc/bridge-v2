@@ -2,8 +2,7 @@
 
 import { UserDTO } from "@/app/_interfaces/interfaces";
 import { formatDate, formatNumberToCurrency } from "@/app/_utils/helpers";
-import { CaretDown } from "@phosphor-icons/react";
-import { useState } from "react";
+import Accordion from "../Accordion/Accordion";
 
 function ReferralHistory({
   totalEarnPrizePrice,
@@ -14,54 +13,42 @@ function ReferralHistory({
   refPageVisits: number | string;
   allReferrals: Pick<UserDTO, "id" | "createdAt" | "referrer">[];
 }) {
-  const [isOpen, setIsOpen] = useState(false);
-
   return (
-    <div className="bg-phthaloGreen bg-opacity-10 text-left font-semibold text-phthaloGreen rounded-[16px] px-4 text-sm">
-      <button
-        className={`py-4 w-full flex items-center justify-between transition border border-b-phthaloGreen ${
-          isOpen ? "border-opacity-10" : "border-opacity-0"
-        }`}
-        onClick={() => setIsOpen((i) => !i)}
-      >
-        <span>Referral history</span>
-        <CaretDown
-          weight="bold"
-          className={`w-5 transition ${isOpen ? "rotate-180" : "rotate-0"}`}
-        />
-      </button>
-      <div
-        className={`flex flex-col gap-4 overflow-hidden transition-[max-height] duration-300 ease-in-out ${
-          isOpen ? "py-4 max-h-80" : "py-0 max-h-0"
-        }`}
-      >
-        <div className="flex bg-white p-4 rounded-[16px]">
-          <div className="basis-[50%] flex flex-col gap-2">
-            <p className="text-phthaloGreen text-opacity-[0.37]">
-              Total Earned
-            </p>
-            <p className="font-bold">
-              {formatNumberToCurrency(totalEarnPrizePrice)}
-            </p>
+    <Accordion
+      btnContent={<span>Referral history</span>}
+      expandContent={
+        <div className="flex flex-col gap-4 max-h-full">
+          <div className="flex bg-white p-4 rounded-[16px]">
+            <div className="basis-[50%] flex flex-col gap-2">
+              <p className="text-phthaloGreen text-opacity-[0.37]">
+                Total Earned
+              </p>
+              <p className="font-bold">
+                {formatNumberToCurrency(totalEarnPrizePrice)}
+              </p>
+            </div>
+            <div className="basis-[50%] flex flex-col gap-2">
+              <p className="text-phthaloGreen text-opacity-[0.37]">
+                Total Link Uses
+              </p>
+              <p className="font-bold">{refPageVisits}</p>
+            </div>
           </div>
-          <div className="basis-[50%] flex flex-col gap-2">
-            <p className="text-phthaloGreen text-opacity-[0.37]">
-              Total Link Uses
-            </p>
-            <p className="font-bold">{refPageVisits}</p>
-          </div>
+          {allReferrals.length > 0 ? (
+            <div className="flex flex-col bg-white p-4 rounded-[16px]">
+              {allReferrals.map((ref) => (
+                <ReferralHistoryItem ref={ref} key={ref.id} />
+              ))}
+            </div>
+          ) : (
+            ""
+          )}
         </div>
-        {allReferrals.length > 0 ? (
-          <div className="flex flex-col bg-white p-4 rounded-[16px]">
-            {allReferrals.map((ref) => (
-              <ReferralHistoryItem ref={ref} key={ref.id} />
-            ))}
-          </div>
-        ) : (
-          ""
-        )}
-      </div>
-    </div>
+      }
+      btnClassName="py-4 flex items-center justify-between"
+      contentActiveClassName="py-4 opacity-100"
+      contentInactiveClassName="py-0 opacity-0"
+    />
   );
 }
 

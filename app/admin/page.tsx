@@ -1,4 +1,5 @@
 import {
+  BellAlertIcon,
   BuildingStorefrontIcon,
   SpeakerWaveIcon,
 } from "@heroicons/react/24/outline";
@@ -34,6 +35,13 @@ async function Page() {
                 }
                 text="Businesses"
                 href="/admin/businesses"
+              />
+            </li>
+            <li className="py-3">
+              <MajorLink
+                icon={<BellAlertIcon className="stroke-current w-6 h-6" />}
+                text="Notifications"
+                href="/admin/notifications"
               />
             </li>
           </ul>
