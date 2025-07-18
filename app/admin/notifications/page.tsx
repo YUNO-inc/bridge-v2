@@ -1,39 +1,121 @@
-import FeedbackItem from "@/app/_features/Admin/FeedbackItem";
+import Accordion from "@/app/_features/Accordion/Accordion";
+import TwoDataTabs from "@/app/_features/Accordion/TwoDataTabs";
 import PageBackLink from "@/app/_features/Button/PageBackLink";
-import { getFeedbacks } from "@/app/_lib/feedback/service";
-import LocalIcons from "@/app/_utils/LocalIcons";
 
 async function Page() {
-  const feedbacks = await getFeedbacks();
-  const hasFeedbacks = feedbacks.length > 0;
+  const notifications = [
+    {
+      id: "144tegbsa3142625",
+      title: "New Feature: Track your orders",
+      body: "You can now track your deliveries in real time on bridge!, allowing you to better prepare and exoect your delivery. We impplemented this so you can watch as we process your delivery enhancing transparency.",
+      createdAt: new Date("04-04-2135").toISOString(),
+      deliveredTo: 0,
+      openedBy: 0,
+      appIsOpen: 1,
+      wasOnline: 1,
+    },
+    {
+      id: "144tegbsa31w4546325",
+      title: "📦 Package Out for Delivery!",
+      body: "Your order #84931 is on its way and will arrive today between 2:00 PM – 4:00 PM. Track your driver in real time.",
+      createdAt: new Date().toISOString(),
+      deliveredTo: 21,
+      openedBy: 4,
+      appIsOpen: 2,
+      wasOnline: 1,
+    },
+  ];
+
   return (
-    <div className="flex flex-col min-h-[100svh] py-4 text-xl">
+    <div className="flex flex-col min-h-[100svh] p-4">
       <PageBackLink href="/admin" text="Back To Admin" className="mb-10" />
       <div className="grow flex flex-col items-center">
         <div className="grow flex flex-col gap-3 w-full max-w-screen-sm px-4 items-center justify-between">
-          <div className="grow flex flex-col  min-h-14 w-full bg-phthaloGreen/10 rounded-2xl p-3">
-            <p className="text-phthaloGreen text-xl font-extrabold">
-              Feedbacks {hasFeedbacks ? `x ${feedbacks.length}` : ""}
-            </p>
-            {hasFeedbacks ? (
-              <div className="overflow-y-auto text-sm text-stone-500 flex flex-col bg-white bg-opacity-[0.74] rounded-[18px] px-3">
-                {feedbacks.map((feedback) => (
-                  <FeedbackItem key={feedback.id} feedback={feedback} />
-                ))}
-              </div>
-            ) : (
-              <div className="grow flex flex-col items-center justify-center">
-                <LocalIcons name="empty-chat" />
-                <p className="text-sm font-bold text-center text-phthaloGreen text-opacity-[0.37]">
-                  No Feedbacks
-                </p>
-              </div>
-            )}
+          <div className="flex flex-col gap-4 self-stretch">
+            {notifications.map((noti) => (
+              <Accordion
+                key={noti.id}
+                btnContent={
+                  <div className="space-y-1">
+                    <div className="flex justify-between">
+                      <h3 className="font-black">{noti.title}</h3>
+                      <span className="text-phthaloGreen text-opacity-[0.37]">
+                        {formatTime(noti.createdAt)}
+                      </span>
+                    </div>
+                    <p className="text-left text-phthaloGreen-300">
+                      {noti.body}
+                    </p>
+                  </div>
+                }
+                expandContent={
+                  <div className="flex flex-col gap-4 max-h-full">
+                    <TwoDataTabs
+                      tabs={[
+                        {
+                          title: "Delivered To",
+                          value: String(noti.deliveredTo),
+                        },
+                        {
+                          title: "Opened By",
+                          value: String(noti.openedBy),
+                        },
+                      ]}
+                    />
+                    <TwoDataTabs
+                      tabs={[
+                        {
+                          title: "App is Opened",
+                          value: String(noti.appIsOpen),
+                        },
+                        {
+                          title: "Was Online",
+                          value: String(noti.wasOnline),
+                        },
+                      ]}
+                    />
+                  </div>
+                }
+                startsOpen={true}
+                btnClassName="w-full py-4 flex items-center justify-between"
+                contentActiveClassName="py-4 opacity-100"
+                contentInactiveClassName="py-0 opacity-0"
+              />
+            ))}
           </div>
         </div>
       </div>
     </div>
   );
+}
+
+export function formatTime(dateInput: string | Date): string {
+  const date = new Date(dateInput);
+  const now = new Date();
+
+  const hours = date.getHours();
+  const minutes = date.getMinutes();
+  const isPM = hours >= 12;
+  const formattedHours = (((hours + 11) % 12) + 1).toString().padStart(2, "0");
+  const formattedMinutes = minutes.toString().padStart(2, "0");
+  const ampm = isPM ? "PM" : "AM";
+  const timeStr = `${formattedHours}:${formattedMinutes} ${ampm}`;
+
+  const isToday =
+    date.getDate() === now.getDate() &&
+    date.getMonth() === now.getMonth() &&
+    date.getFullYear() === now.getFullYear();
+
+  if (isToday) {
+    return timeStr;
+  }
+
+  const day = date.getDate();
+  const month = date.getMonth() + 1; // Month is 0-based
+  const year = date.getFullYear().toString().slice(-2); // last 2 digits
+  const dateStr = `${day}/${month}/${year}`;
+
+  return `${timeStr}, ${dateStr}`;
 }
 
 export default Page;

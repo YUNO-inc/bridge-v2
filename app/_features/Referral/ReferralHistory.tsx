@@ -3,6 +3,7 @@
 import { UserDTO } from "@/app/_interfaces/interfaces";
 import { formatDate, formatNumberToCurrency } from "@/app/_utils/helpers";
 import Accordion from "../Accordion/Accordion";
+import TwoDataTabs from "../Accordion/TwoDataTabs";
 
 function ReferralHistory({
   totalEarnPrizePrice,
@@ -18,22 +19,18 @@ function ReferralHistory({
       btnContent={<span>Referral history</span>}
       expandContent={
         <div className="flex flex-col gap-4 max-h-full">
-          <div className="flex bg-white p-4 rounded-[16px]">
-            <div className="basis-[50%] flex flex-col gap-2">
-              <p className="text-phthaloGreen text-opacity-[0.37]">
-                Total Earned
-              </p>
-              <p className="font-bold">
-                {formatNumberToCurrency(totalEarnPrizePrice)}
-              </p>
-            </div>
-            <div className="basis-[50%] flex flex-col gap-2">
-              <p className="text-phthaloGreen text-opacity-[0.37]">
-                Total Link Uses
-              </p>
-              <p className="font-bold">{refPageVisits}</p>
-            </div>
-          </div>
+          <TwoDataTabs
+            tabs={[
+              {
+                title: "Total Earned",
+                value: formatNumberToCurrency(totalEarnPrizePrice),
+              },
+              {
+                title: "Total Link Uses",
+                value: String(refPageVisits),
+              },
+            ]}
+          />
           {allReferrals.length > 0 ? (
             <div className="flex flex-col bg-white p-4 rounded-[16px]">
               {allReferrals.map((ref) => (

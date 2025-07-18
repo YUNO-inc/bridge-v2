@@ -6,7 +6,7 @@ import { useState } from "react";
 function Accordion({
   btnContent,
   expandContent,
-  startsClosed = true,
+  startsOpen = false,
   animateExpand = true,
   showCaret = true,
   btnClassName,
@@ -15,19 +15,23 @@ function Accordion({
 }: {
   btnContent: React.ReactNode;
   expandContent: React.ReactNode;
-  startsClosed?: boolean;
+  startsOpen?: boolean;
   animateExpand?: boolean;
   showCaret?: boolean;
   btnClassName?: React.HTMLAttributes<HTMLElement>["className"];
   contentActiveClassName: React.HTMLAttributes<HTMLElement>["className"];
   contentInactiveClassName: React.HTMLAttributes<HTMLElement>["className"];
 }) {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(startsOpen);
 
   return (
-    <div className="bg-phthaloGreen bg-opacity-10 text-left font-semibold text-phthaloGreen rounded-[16px] px-4 text-sm">
+    <div
+      className={`bg-phthaloGreen bg-opacity-10 text-left font-semibold text-phthaloGreen rounded-[16px] px-4 text-sm transition-all ${
+        isOpen ? "shadow-sgc" : "shadow-none"
+      }`}
+    >
       <button
-        className={`w-full border border-b-phthaloGreen ${btnClassName} ${
+        className={`w-full gap-2 border border-b-phthaloGreen ${btnClassName} ${
           isOpen ? "border-opacity-10" : "border-opacity-0"
         }`}
         onClick={() => setIsOpen((i) => !i)}
@@ -36,7 +40,9 @@ function Accordion({
         {showCaret ? (
           <CaretDown
             weight="bold"
-            className={`w-5 transition ${isOpen ? "rotate-180" : "rotate-0"}`}
+            className={`w-5 min-w-5 transition ${
+              isOpen ? "rotate-180" : "rotate-0"
+            }`}
           />
         ) : (
           ""
