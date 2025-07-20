@@ -5,7 +5,6 @@ import FeedBackForm from "../_features/Forms/FeedBackForm";
 import { Phone, WhatsappLogo } from "@phosphor-icons/react/dist/ssr";
 
 function Page() {
-  // const page
   return (
     <div className="flex flex-col justify-between min-h-[100svh] p-4">
       <div className="flex justify-between items-center">

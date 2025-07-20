@@ -1,6 +1,8 @@
 import Accordion from "@/app/_features/Accordion/Accordion";
 import TwoDataTabs from "@/app/_features/Accordion/TwoDataTabs";
+import MajorLinkClient from "@/app/_features/Button/MajorLinkClient";
 import PageBackLink from "@/app/_features/Button/PageBackLink";
+import { BellAlertIcon } from "@heroicons/react/24/outline";
 
 async function Page() {
   const notifications = [
@@ -28,7 +30,16 @@ async function Page() {
 
   return (
     <div className="flex flex-col min-h-[100svh] p-4">
-      <PageBackLink href="/admin" text="Back To Admin" className="mb-10" />
+      <div className="flex items-center justify-between mb-10">
+        <PageBackLink href="/admin" text="Back To Admin" />
+        <MajorLinkClient
+          text="Create Notification"
+          href="/admin/notifications/create"
+          isLink={false}
+          className="w-fit text-xs bg-blue-500 text-blue-50 hover:bg-blue-400"
+          icon={<BellAlertIcon className="stroke-current w-4 h-4" />}
+        />
+      </div>
       <div className="grow flex flex-col items-center">
         <div className="grow flex flex-col gap-3 w-full max-w-screen-sm px-4 items-center justify-between">
           <div className="flex flex-col gap-4 self-stretch">
