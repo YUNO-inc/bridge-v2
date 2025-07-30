@@ -204,3 +204,32 @@ export function formatDate(date: Date) {
   });
   return short;
 }
+
+export function formatTime(dateInput: string | Date): string {
+  const date = new Date(dateInput);
+  const now = new Date();
+
+  const hours = date.getHours();
+  const minutes = date.getMinutes();
+  const isPM = hours >= 12;
+  const formattedHours = (((hours + 11) % 12) + 1).toString().padStart(2, "0");
+  const formattedMinutes = minutes.toString().padStart(2, "0");
+  const ampm = isPM ? "PM" : "AM";
+  const timeStr = `${formattedHours}:${formattedMinutes} ${ampm}`;
+
+  const isToday =
+    date.getDate() === now.getDate() &&
+    date.getMonth() === now.getMonth() &&
+    date.getFullYear() === now.getFullYear();
+
+  if (isToday) {
+    return timeStr;
+  }
+
+  const day = date.getDate();
+  const month = date.getMonth() + 1; // Month is 0-based
+  const year = date.getFullYear().toString().slice(-2); // last 2 digits
+  const dateStr = `${day}/${month}/${year}`;
+
+  return `${timeStr}, ${dateStr}`;
+}
