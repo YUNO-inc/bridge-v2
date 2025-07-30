@@ -27,6 +27,7 @@ async function Page() {
       wasOnline: 1,
     },
   ];
+  console.log(notifications);
 
   return (
     <div className="flex flex-col min-h-[100svh] p-4">
